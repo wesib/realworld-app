@@ -11,5 +11,6 @@ Handlebars.registerPartial(
     </span>
   </div>
 </conduit-footer>
+{{>conduit-scripts}}
     `.trim(),
 );

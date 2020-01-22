@@ -1,5 +1,8 @@
 import { Feature } from '@wesib/wesib';
+import { LayoutSupport } from './layout';
 
-@Feature()
+@Feature({
+  needs: LayoutSupport,
+})
 export class ConduitFeature {
 }
