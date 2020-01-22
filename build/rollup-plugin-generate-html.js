@@ -1,5 +1,6 @@
 import handlebars from 'handlebars';
 import fs from 'fs-extra';
+import { renderSync } from 'sass';
 import '../src/template/index.ts';
 
 const pagePattern = /([^/\\]+)[/\\]([^/]+\.js)$/;
@@ -8,7 +9,7 @@ const dist = './dist';
 
 async function generateHtml(context, name) {
 
-  const [, page, module] = pagePattern.exec(name);
+  const [, page, file] = pagePattern.exec(name);
 
   if (page === 'js') {
     return; // Not page
@@ -19,18 +20,41 @@ async function generateHtml(context, name) {
   const output = isHome ? `${dist}/index.html` : `${dist}/${page}/index.html`;
   const template = handlebars.compile(await fs.readFile(input, 'utf8'));
   const html = template({
-    module,
+    module: `${page}/${file}`,
     rev,
     base: isHome ? '.' : '..',
+    style: 'css/style.css',
   });
 
   await fs.outputFile(output, html, { encoding: 'utf8' });
 }
 
+async function generateSass() {
+  const result = renderSync({
+    file: './src/pages/style.scss',
+    outFile: `css/style.css`,
+    outputStyle: 'compressed',
+    sourceMap: true,
+    sourceMapContents: true,
+    importer(url) {
+      if (url.startsWith('~')) {
+        return { file: require.resolve(url.substring(1)) };
+      }
+    },
+  });
+
+  await Promise.all([
+      fs.outputFile(`${dist}/css/style.css`, result.css, { encoding: 'utf8' }),
+      fs.outputFile(`${dist}/css/style.css.map`, result.map, { encoding: 'utf8' }),
+  ]);
+}
+
 export default {
   name: 'generate-page-html',
   generateBundle(_opts, bundle) {
-    return Promise.all(Object.entries(bundle)
-        .map(([name]) => generateHtml(this, name)));
+    return Promise.all([
+      generateSass(),
+      ...Object.keys(bundle).map(name => generateHtml(this, name)),
+    ]);
   },
 };
