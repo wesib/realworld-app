@@ -11,7 +11,10 @@
 *.launch
 .settings/
 
-
-#System Files
+# System Files
 .DS_Store
 Thumbs.db
+
+# Output
+/dist
+/target

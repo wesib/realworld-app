@@ -1,0 +1,62 @@
+{
+  "name": "realworld-app",
+  "version": "1.0.0",
+  "description": "Wesib: Real world example application",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wesib/realworld-app.git"
+  },
+  "license": "MIT",
+  "private": true,
+  "author": "Ruslan Lopatin <ruslan.lopatin@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/wesib/wesib/issues"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^11.0.1",
+    "@rollup/plugin-node-resolve": "^7.0.0",
+    "@surol/eslint-config": "^1.0.3",
+    "@types/node": "^12.12.25",
+    "@typescript-eslint/eslint-plugin": "^2.17.0",
+    "@typescript-eslint/parser": "^2.17.0",
+    "@wesib/generic": "^1.0.0-alpha.67",
+    "@wesib/wesib": "^1.0.0-alpha.67",
+    "a-iterable": "^2.4.5",
+    "bootstrap": "^4.4.1",
+    "call-thru": "^2.5.4",
+    "context-values": "^2.2.1",
+    "delta-set": "^1.1.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-jest": "^23.6.0",
+    "fs-extra": "^8.1.0",
+    "fun-events": "^7.0.3",
+    "gh-pages": "^2.2.0",
+    "glob": "^7.1.6",
+    "handlebars": "^4.7.2",
+    "http-server": "^0.12.1",
+    "input-aspects": "^2.0.1",
+    "namespace-aliaser": "^2.0.3",
+    "npm-run-all": "^4.1.5",
+    "render-scheduler": "^1.0.6",
+    "rollup": "^1.29.1",
+    "rollup-plugin-sourcemaps": "^0.5.0",
+    "rollup-plugin-terser": "^5.2.0",
+    "rollup-plugin-typescript2": "^0.25.3",
+    "sass": "^1.25.0",
+    "style-producer": "^3.5.0",
+    "ts-node": "^8.6.2",
+    "tslib": "^1.10.0",
+    "typescript": "^3.7.5"
+  },
+  "scripts": {
+    "all": "run-p build:all",
+    "build": "rollup --config ./rollup.config.js",
+    "build:all": "run-p rebuild lint",
+    "clean": "node ./build/clean",
+    "lint": "eslint . --ext .js,.ts",
+    "rebuild": "run-s clean build",
+    "site:gh-pages": "gh-pages --dist dist --dotfiles",
+    "site:publish": "run-s all \"site:gh-pages {@}\" --",
+    "start": "http-server ./dist -d false -p 4200"
+  }
+}
