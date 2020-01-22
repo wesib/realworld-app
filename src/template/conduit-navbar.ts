@@ -1,9 +1,9 @@
 import * as Handlebars from 'handlebars';
 
 Handlebars.registerPartial(
-    'conduit-nav',
+    'conduit-navbar',
     `
-<conduit-nav class="navbar navbar-light">
+<conduit-navbar class="navbar navbar-light bg-light navbar-expand">
   <div class="container">
     <a class="navbar-brand" href="">conduit</a>
     <ul class="nav navbar-nav pull-xs-right">
@@ -20,6 +20,6 @@ Handlebars.registerPartial(
       </li>
     </ul>
   </div>
-</conduit-nav>
+</conduit-navbar>
     `.trim(),
 );

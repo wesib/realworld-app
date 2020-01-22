@@ -5,8 +5,8 @@ import { Conduit__NS } from '../conduit.ns';
 
 const activeClass = 'active';
 
-@Component(['nav', Conduit__NS])
-export class NavComponent {
+@Component(['navbar', Conduit__NS])
+export class NavbarComponent {
 
   constructor(context: ComponentContext) {
 
