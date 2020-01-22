@@ -16,7 +16,7 @@ We've gone to great lengths to adhere to the **[Wesib]** community styleguides &
 
 For more information on how to this works with other frontends/backends, head over to the [RealWorld] repo.
 
-[Demo]: https://wesib.github.io/wesib
+[Demo]: https://wesib.github.io/realworld-app
 
 
 # How it works
