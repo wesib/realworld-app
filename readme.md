@@ -1,23 +1,30 @@
 # ![RealWorld Example App](logo.png)
 
-> ### [YOUR_FRAMEWORK] codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld) spec and API.
+> ### [Wesib] codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the
+> [RealWorld] spec and API.
+
+[Wesib]: https://github.com/wesib/wesib
+[RealWorld]: https://github.com/gothinkster/realworld
 
 
-### [Demo](https://github.com/gothinkster/realworld)&nbsp;&nbsp;&nbsp;&nbsp;[RealWorld](https://github.com/gothinkster/realworld)
+### [Demo]&nbsp;&nbsp;&nbsp;&nbsp;[RealWorld]
 
+This codebase was created to demonstrate a fully fledged fullstack application built with **[Wesib]** including 
+CRUD operations, authentication, routing, pagination, and more.
 
-This codebase was created to demonstrate a fully fledged fullstack application built with **[YOUR_FRAMEWORK]** including CRUD operations, authentication, routing, pagination, and more.
+We've gone to great lengths to adhere to the **[Wesib]** community styleguides & best practices.
 
-We've gone to great lengths to adhere to the **[YOUR_FRAMEWORK]** community styleguides & best practices.
+For more information on how to this works with other frontends/backends, head over to the [RealWorld] repo.
 
-For more information on how to this works with other frontends/backends, head over to the [RealWorld](https://github.com/gothinkster/realworld) repo.
+[Demo]: https://github.io/wesib/realworld-app
 
 
 # How it works
 
-> Describe the general architecture of your app here
+Components implemented as custom elements. Wesib serves as a glue to make them work together.
+
 
 # Getting started
 
-> npm install, npm start, etc.
-
+1. `yarn install`
+2. `yarn start -o`
