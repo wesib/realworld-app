@@ -17,13 +17,13 @@
               <a href="register/">Don't have an account?</a>
             </p>
 
-            <form>
-              <fieldset class="form-group">
-                <input class="form-control form-control-lg" type="text" placeholder="Email">
-              </fieldset>
-              <fieldset class="form-group">
-                <input class="form-control form-control-lg" type="password" placeholder="Password">
-              </fieldset>
+            <form novalidate>
+              <conduit-login-email>
+                <input class="form-control form-control-lg" type="text" placeholder="Email"/>
+              </conduit-login-email>
+              <conduit-login-password>
+                <input class="form-control form-control-lg" type="password" placeholder="Password"/>
+              </conduit-login-password>
               <button class="btn btn-lg btn-primary pull-xs-right">
                 Sign in
               </button>

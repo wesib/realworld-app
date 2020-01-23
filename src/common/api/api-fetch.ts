@@ -160,7 +160,13 @@ function handleApiResponse(responseOfFailure: ResponseOrFailure): OnEvent<[ApiRe
               sender.send({
                 ok: false,
                 response,
-                errors: body,
+                errors: body.errors || {
+                  http: [
+                      response.statusText
+                          ? `${response.status}: ${response.statusText}`
+                          : `ERROR ${response.status}`,
+                  ],
+                },
               });
             }
           },

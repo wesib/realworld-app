@@ -1,0 +1,81 @@
+import {
+  ComponentNode,
+  ComponentTreeSupport,
+  DefaultInAspects,
+  ElementNode,
+  ElementPickMode,
+  HierarchyContext,
+  inputFromControl,
+  InputFromControl,
+  InputFromNowhere,
+} from '@wesib/generic';
+import { ComponentContext, ComponentDef } from '@wesib/wesib';
+import { afterAll, afterThe, eventSupply, EventSupply } from 'fun-events';
+import { InControl, InGroup } from 'input-aspects';
+import { InConverter } from 'input-aspects/d.ts/converter';
+
+export function enableInGroupControl(
+    {
+      select = 'input',
+      pick = { deep: true, all: true },
+      name,
+      controlOf,
+    }: {
+      readonly select?: string;
+      readonly pick?: ElementPickMode;
+      readonly name: string | ((this: void, node: ElementNode) => string);
+      readonly controlOf: (
+          this: void,
+          opts: {
+            node: ElementNode;
+            context: ComponentContext;
+            aspects: InConverter.Aspect<any, any>;
+            supply: EventSupply;
+          },
+      ) => InControl<any>;
+    },
+): ComponentDef {
+  return {
+    feature: {
+      needs: ComponentTreeSupport,
+    },
+    define(defContext) {
+      defContext.whenComponent(context => {
+
+        const hierarchy = context.get(HierarchyContext);
+        const componentNode = context.get(ComponentNode);
+
+        context.whenOn(connectSupply => {
+          afterAll({
+            group: hierarchy.up.keep.dig_(
+                up => up ? up.get(InputFromControl) : afterThe<[InputFromNowhere]>({}),
+            ).keep.thru_(
+                ({ control }) => control && control.aspect(InGroup) as InGroup<any> | undefined,
+            ),
+            node: componentNode.select(select, pick).first,
+            aspects: context.get(DefaultInAspects),
+          }).consume(
+              ({
+                group: [group],
+                node: [node],
+                aspects: [aspects],
+              }) => {
+                if (!group || !node) {
+                  return;
+                }
+
+                const controlName = typeof name === 'function' ? name(node) : name;
+                const supply = eventSupply(() => group.controls.remove(controlName));
+                const control = controlOf({ node, context, supply, aspects });
+
+                inputFromControl(context, control).needs(supply);
+                group.controls.set(controlName, control);
+
+                return supply;
+              },
+          ).needs(connectSupply);
+        });
+      });
+    },
+  };
+}

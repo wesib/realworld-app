@@ -1,3 +1,14 @@
+@import "~bootstrap/scss/_functions.scss";
+@import "~bootstrap/scss/_variables.scss";
+@import "~bootstrap/scss/_mixins.scss";
+@import "~bootstrap/scss/_reboot.scss";
+@import "~bootstrap/scss/_forms.scss";
+
 conduit-login {
   display: block;
+}
+conduit-login-email, conduit-login-password {
+  display: block;
+  @extend fieldset;
+  @extend .form-group;
 }
