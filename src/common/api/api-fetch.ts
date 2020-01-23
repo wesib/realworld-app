@@ -3,12 +3,33 @@ import { BootstrapContext, bootstrapDefault } from '@wesib/wesib';
 import { FnContextKey, FnContextRef } from 'context-values';
 import { AfterEvent, afterThe, EventNotifier, OnEvent, onEventBy } from 'fun-events';
 import { AuthService } from '../auth';
-import { ApiURL } from './api-url';
+import { ApiRootURL } from './api-root-url';
 
+/**
+ * Request to some API endpoint.
+ */
 export interface ApiRequest {
+
+  /**
+   * API endpoint path __relative__ to {@link ApiRootURL API root URL}.
+   *
+   * Do not start it with `/` as this would make it absolute.
+   */
   readonly path: string;
+
+  /**
+   * Additional HTTP request options.
+   */
   readonly init?: RequestInit;
-  readonly noAuth?: boolean;
+
+  /**
+   * Whether to send authentication token.
+   *
+   * - `true` to always send it,
+   * - `false` to never send it,
+   * - `undefined` (the default) - to send it only if {@link AuthService.user current user} is authenticated.
+   */
+  readonly auth?: boolean;
 }
 
 export type ApiResponse<T = any> =
@@ -55,15 +76,15 @@ type ResponseOrFailure =
 function newApiFetch(context: BootstrapContext): ApiFetch {
 
   const httpFetch = context.get(HttpFetch);
-  const apiURL = context.get(ApiURL);
+  const apiRootURL = context.get(ApiRootURL);
 
-  return ({ path, init, noAuth }) => apiURL.thru_(
+  return ({ path, init, auth }) => apiRootURL.thru_(
       baseURL => new URL(path, baseURL),
       url => buildApiRequest(url, init),
   ).dig_(
-      request => noAuth
+      request => auth === false
           ? afterThe<[RequestOrFailure]>({ request })
-          : authenticateApiRequest(context, request),
+          : authenticateApiRequest(context, request, auth),
   ).dig_(
       requestOrFailure => requestOrFailure.request
           ? httpFetch(requestOrFailure.request).thru_(response => ({ response }))
@@ -86,11 +107,18 @@ function buildApiRequest(url: URL, init: RequestInit = {}): Request {
   return request;
 }
 
-function authenticateApiRequest(context: BootstrapContext, request: Request): AfterEvent<[RequestOrFailure]> {
+function authenticateApiRequest(
+    context: BootstrapContext,
+    request: Request,
+    auth?: true,
+): AfterEvent<[RequestOrFailure]> {
   return context.get(AuthService).user.keep.thru_(
       (user?, failure?) => {
         if (user) {
           request.headers.set('Authorization', `Token ${user.token}`);
+          return { request };
+        }
+        if (!auth) {
           return { request };
         }
         if (!failure) {

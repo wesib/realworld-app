@@ -1,2 +1,2 @@
-export * from './api-url';
+export * from './api-root-url';
 export * from './api-fetch';

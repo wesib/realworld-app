@@ -52,7 +52,7 @@ export class AuthService extends AuthService_ {
                 Authorization: `Token ${token}`,
               },
             },
-            noAuth: true,
+            auth: false,
           }).thru_(
               (response: ApiResponse<AuthUser>) => {
                 if (response.ok) {
@@ -76,7 +76,7 @@ export class AuthService extends AuthService_ {
         method: 'POST',
         body: JSON.stringify(request),
       },
-      noAuth: true,
+      auth: false,
     }).thru_(
         response => {
           if (response.ok) {
