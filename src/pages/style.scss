@@ -176,10 +176,11 @@ conduit-footer {
 }
 
 // Import all of our SCSS files
-@import 'home/home';
 @import 'article/article';
-@import 'profile/profile';
 @import 'editor/editor';
+@import 'home/home';
+@import 'login/login';
+@import 'profile/profile';
 @import 'register/register';
 @import 'settings/settings';
 
