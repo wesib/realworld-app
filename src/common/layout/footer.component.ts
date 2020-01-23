@@ -3,8 +3,8 @@ import { Conduit__NS } from '../conduit.ns';
 import { enableNavigationLinks } from '../navigation';
 
 @Component(
-    ['navbar', Conduit__NS],
-    enableNavigationLinks({ active: 'active' }),
+    ['footer', Conduit__NS],
+    enableNavigationLinks(),
 )
-export class NavbarComponent {
+export class FooterComponent {
 }
