@@ -1,6 +1,6 @@
 import { BootstrapContext, BootstrapWindow } from '@wesib/wesib';
 import { nextArgs, valuesProvider } from 'call-thru';
-import { AfterEvent, afterSupplied, afterThe, OnEvent, trackValue, ValueTracker } from 'fun-events';
+import { AfterEvent, afterEventBy, afterThe, eventSupply, OnEvent, trackValue, ValueTracker } from 'fun-events';
 import { ApiFetch, ApiResponse } from '../api';
 import { AuthService as AuthService_, AuthUserOrFailure, SignInRequest } from './auth-service';
 import { AuthUser } from './auth-user';
@@ -44,23 +44,30 @@ export class AuthService extends AuthService_ {
 
       const apiFetch: ApiFetch<AuthUser> = _context.get(ApiFetch);
 
-      return afterSupplied<AuthUserOrFailure>(
-          apiFetch({
-            path: 'user',
-            init: {
-              headers: {
-                Authorization: `Token ${token}`,
+      return afterEventBy<AuthUserOrFailure>(
+          receiver => {
+            apiFetch({
+              path: 'user',
+              init: {
+                headers: {
+                  Authorization: `Token ${token}`,
+                },
               },
-            },
-            auth: false,
-          }).thru_(
-              (response: ApiResponse<AuthUser>) => {
-                if (response.ok) {
-                  return nextArgs<AuthUserOrFailure, unknown>(response.body);
-                }
-                return nextArgs<AuthUserOrFailure, unknown>(undefined, response);
+              auth: false,
+            }).thru_(
+                (response: ApiResponse<AuthUser>) => {
+                  if (response.ok) {
+                    return nextArgs<AuthUserOrFailure, unknown>(response.body);
+                  }
+                  return nextArgs<AuthUserOrFailure, unknown>(undefined, response);
+                },
+            )({
+              supply: eventSupply().needs(receiver.supply), // Do not abort after user received
+              receive(ctx, ...event) {
+                receiver.receive(ctx, ...event);
               },
-          ),
+            });
+          },
           valuesProvider(),
       );
     }
