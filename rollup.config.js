@@ -14,6 +14,7 @@ const pages = [
   'article',
   'editor',
   'home',
+  'login',
   'profile',
   'register',
   'settings',

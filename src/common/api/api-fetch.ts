@@ -2,7 +2,7 @@ import { HttpFetch } from '@wesib/generic';
 import { BootstrapContext, bootstrapDefault } from '@wesib/wesib';
 import { FnContextKey, FnContextRef } from 'context-values';
 import { AfterEvent, afterThe, EventNotifier, OnEvent, onEventBy } from 'fun-events';
-import { AuthService } from '../auth';
+import { AuthService__key } from '../auth/auth-service.key.impl';
 import { ApiRootURL } from './api-root-url';
 
 /**
@@ -112,7 +112,8 @@ function authenticateApiRequest(
     request: Request,
     auth?: true,
 ): AfterEvent<[RequestOrFailure]> {
-  return context.get(AuthService).user.keep.thru_(
+  // Access by key to avoid circular dependencies during the build
+  return context.get(AuthService__key).user.keep.thru_(
       (user?, failure?) => {
         if (user) {
           request.headers.set('Authorization', `Token ${user.token}`);
