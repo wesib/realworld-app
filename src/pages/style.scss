@@ -185,3 +185,16 @@ conduit-footer {
 @import 'settings/settings';
 
 @import '~bootstrap/scss/bootstrap.scss';
+
+// Authentication status
+.authenticated\@conduit {
+  .unless-authenticated\@conduit {
+    @extend .d-none;
+  }
+}
+
+:not(.authenticated\@conduit) {
+  .if-authenticated\@conduit {
+    @extend .d-none;
+  }
+}
