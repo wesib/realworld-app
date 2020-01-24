@@ -1,4 +1,4 @@
-import { inputFromControl } from '@wesib/generic';
+import { inputFromControl } from '@wesib/generic/input';
 import { Component, ComponentContext } from '@wesib/wesib';
 import { inGroup } from 'input-aspects';
 import { Conduit__NS, enableNavigationLinks, SignInRequest } from '../../common';

@@ -1,6 +1,7 @@
 import { ComponentNode, ComponentTreeSupport, ElementNode, ElementPickMode, Navigation } from '@wesib/generic';
 import { BootstrapWindow, ComponentDef, DefaultNamespaceAliaser } from '@wesib/wesib';
-import { afterAll, DomEventDispatcher, EventSupply } from 'fun-events';
+import { afterAll, EventSupply } from 'fun-events';
+import { DomEventDispatcher } from 'fun-events/dom';
 import { css__naming, QualifiedName } from 'namespace-aliaser';
 
 export function enableNavigationLinks(

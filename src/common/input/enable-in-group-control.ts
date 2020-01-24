@@ -1,18 +1,8 @@
-import {
-  ComponentNode,
-  ComponentTreeSupport,
-  DefaultInAspects,
-  ElementNode,
-  ElementPickMode,
-  HierarchyContext,
-  inputFromControl,
-  InputFromControl,
-  InputFromNowhere,
-} from '@wesib/generic';
+import { ComponentNode, ComponentTreeSupport, ElementNode, ElementPickMode, HierarchyContext } from '@wesib/generic';
+import { DefaultInAspects, inputFromControl, InputFromControl, InputFromNowhere } from '@wesib/generic/input';
 import { ComponentContext, ComponentDef } from '@wesib/wesib';
 import { afterAll, afterThe, eventSupply, EventSupply } from 'fun-events';
-import { InControl, InGroup } from 'input-aspects';
-import { InConverter } from 'input-aspects/d.ts/converter';
+import { InControl, InConverter, InGroup } from 'input-aspects';
 
 export function enableInGroupControl(
     {
