@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-  <title>Conduit: Article</title>
+  <title>Conduit: Sign In</title>
   <meta name="wesib-app-rev" content="1dvb8th30">
   <base href=".."/>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic"></head>
 <body>
-<conduit-container>
+<conduit-login>
   <conduit-navbar class="navbar navbar-light bg-light navbar-expand">
     <div class="container">
       <a class="navbar-brand" href="">conduit</a>
@@ -32,37 +32,34 @@
       </ul>
     </div>
   </conduit-navbar>  <conduit-main>
-    <conduit-editor>
+    <conduit-register>
       <div class="container page">
         <div class="row">
 
-          <div class="col-md-10 col-md-offset-1 col-xs-12">
-            <form>
-              <fieldset class="form-group">
-                <input class="form-control form-control-lg" type="text" placeholder="Post Title">
-              </fieldset>
-              <fieldset class="form-group">
-                <textarea class="form-control" rows="8" placeholder="Write your post (in markdown)"></textarea>
-              </fieldset>
-              <fieldset class="form-group">
-                <input class="form-control" type="text" placeholder="Enter tags">
-                <div class="tag-list">
-                  <span class="label label-pill label-default"><i class="ion-close-round"></i> programming</span>
-                  <span class="label label-pill label-default"><i class="ion-close-round"></i> javascript</span>
-                  <span class="label label-pill label-default"><i class="ion-close-round"></i> webdev</span>
-                </div>
-              </fieldset>
+          <div class="col-md-6 col-md-offset-3 col-xs-12">
+            <h1 class="text-xs-center">Sign in</h1>
+            <p class="text-xs-center">
+              <a href="register/">Don't have an account?</a>
+            </p>
+
+            <form novalidate>
+              <conduit-login-email>
+                <input class="form-control form-control-lg" type="text" placeholder="Email"/>
+              </conduit-login-email>
+              <conduit-login-password>
+                <input class="form-control form-control-lg" type="password" placeholder="Password"/>
+              </conduit-login-password>
               <button class="btn btn-lg btn-primary pull-xs-right">
-                Create Post
+                Sign in
               </button>
             </form>
           </div>
 
         </div>
       </div>
-    </conduit-editor>
+    </conduit-register>
   </conduit-main>
-</conduit-container>
+</conduit-login>
 <conduit-footer>
   <div class="container">
     <a href="" class="logo-font">conduit</a>
@@ -71,5 +68,5 @@
     </span>
   </div>
 </conduit-footer>
-<script src="editor/main.346c12ec.js" type="module"></script></body>
+<script src="login/main.3ca4abc3.js" type="module"></script></body>
 </html>

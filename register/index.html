@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-  <title>Wesib Examples</title>
-  <meta name="wesib-app-rev" content="1dv70ord9">
+  <title>Conduit: Sign Up</title>
+  <meta name="wesib-app-rev" content="1dvb8th30">
   <base href=".."/>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -15,15 +15,18 @@
     <div class="container">
       <a class="navbar-brand" href="">conduit</a>
       <ul class="nav navbar-nav pull-xs-right">
-        <li class="nav-item">
+        <li class="nav-item if-authenticated@conduit">
           <a class="nav-link" href="editor/">
             <i class="ion-compose"></i>&nbsp;New Post
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item unless-authenticated@conduit">
+          <a class="nav-link" href="login/">Sign in</a>
+        </li>
+        <li class="nav-item unless-authenticated@conduit">
           <a class="nav-link" href="register/">Sign up</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item if-authenticated@conduit">
           <a class="nav-link" href="settings/">Settings</a>
         </li>
       </ul>
@@ -36,7 +39,7 @@
           <div class="col-md-6 col-md-offset-3 col-xs-12">
             <h1 class="text-xs-center">Sign up</h1>
             <p class="text-xs-center">
-              <a href="#">Have an account?</a>
+              <a href="login/">Have an account?</a>
             </p>
 
             <!--         <ul class="error-messages">
@@ -72,5 +75,5 @@
     </span>
   </div>
 </conduit-footer>
-<script src="register/main.5471b536.js" type="module"></script></body>
+<script src="register/main.e36ebc8e.js" type="module"></script></body>
 </html>
