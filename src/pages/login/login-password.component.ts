@@ -1,10 +1,9 @@
 import { Component } from '@wesib/wesib';
 import { InCssClasses, inCssError, inCssInfo, inText, InValidation, requirePresent } from 'input-aspects';
-import { Conduit__NS, EnableInGroupControl } from '../../common';
+import { Conduit__NS, InputControl, InputName } from '../../common';
 
 @Component(['login-password', Conduit__NS])
-@EnableInGroupControl({
-  name: 'email',
+@InputControl({
   controlOf: ({
     node,
     aspects,
@@ -17,5 +16,6 @@ import { Conduit__NS, EnableInGroupControl } from '../../common';
         classes.add(inCssError({ mark: 'is-invalid' })).needs(supply);
       }),
 })
+@InputName('password')
 export class LoginPasswordComponent {
 }

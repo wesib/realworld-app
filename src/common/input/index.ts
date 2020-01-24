@@ -1,1 +1,2 @@
-export * from './enable-in-group-control.decorator';
+export * from './input-control.decorator';
+export * from './input-name.decorator';
