@@ -64,6 +64,7 @@ export default {
     format: module ? 'esm' : 'system',
     dir: './dist',
     sourcemap: true,
+    compact: true,
     entryFileNames: `[name]/main.[hash].js`,
     chunkFileNames: `js/[name].[hash].js`,
   },
