@@ -1,10 +1,10 @@
 import { ComponentNode, ComponentTreeSupport, ElementNode, ElementPickMode, Navigation } from '@wesib/generic';
-import { BootstrapWindow, ComponentDef, DefaultNamespaceAliaser } from '@wesib/wesib';
+import { BootstrapWindow, Component, ComponentClass, ComponentDecorator, DefaultNamespaceAliaser } from '@wesib/wesib';
 import { afterAll, EventSupply } from 'fun-events';
 import { DomEventDispatcher } from 'fun-events/dom';
 import { css__naming, QualifiedName } from 'namespace-aliaser';
 
-export function enableNavigationLinks(
+export function EnableNavigationLinks<T extends ComponentClass = any>(
     {
       select = 'a',
       pick = { all: true, deep: true },
@@ -14,8 +14,8 @@ export function enableNavigationLinks(
       pick?: ElementPickMode;
       active?: QualifiedName;
     } = {},
-): ComponentDef {
-  return {
+): ComponentDecorator<T> {
+  return Component({
     feature: {
       needs: ComponentTreeSupport,
     },
@@ -110,7 +110,7 @@ export function enableNavigationLinks(
         });
       });
     },
-  };
+  });
 }
 
 function dirName(url: URL): string {

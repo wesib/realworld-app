@@ -1,1 +1,1 @@
-export * from './enable-in-group-control';
+export * from './enable-in-group-control.decorator';

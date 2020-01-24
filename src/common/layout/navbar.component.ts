@@ -1,10 +1,8 @@
 import { Component } from '@wesib/wesib';
 import { Conduit__NS } from '../conduit.ns';
-import { enableNavigationLinks } from '../navigation';
+import { EnableNavigationLinks } from '../navigation';
 
-@Component(
-    ['navbar', Conduit__NS],
-    enableNavigationLinks({ active: 'active' }),
-)
+@Component(['navbar', Conduit__NS])
+@EnableNavigationLinks({ active: 'active' })
 export class NavbarComponent {
 }

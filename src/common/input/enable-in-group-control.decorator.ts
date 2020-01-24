@@ -1,10 +1,10 @@
 import { ComponentNode, ComponentTreeSupport, ElementNode, ElementPickMode, HierarchyContext } from '@wesib/generic';
 import { DefaultInAspects, inputFromControl, InputFromControl, InputFromNowhere } from '@wesib/generic/input';
-import { ComponentContext, ComponentDef } from '@wesib/wesib';
+import { Component, ComponentClass, ComponentContext, ComponentDecorator } from '@wesib/wesib';
 import { afterAll, afterThe, eventSupply, EventSupply } from 'fun-events';
 import { InControl, InConverter, InGroup } from 'input-aspects';
 
-export function enableInGroupControl(
+export function EnableInGroupControl<T extends ComponentClass = any>(
     {
       select = 'input',
       pick = { deep: true, all: true },
@@ -24,8 +24,8 @@ export function enableInGroupControl(
           },
       ) => InControl<any>;
     },
-): ComponentDef {
-  return {
+): ComponentDecorator<T> {
+  return Component({
     feature: {
       needs: ComponentTreeSupport,
     },
@@ -67,5 +67,5 @@ export function enableInGroupControl(
         });
       });
     },
-  };
+  });
 }

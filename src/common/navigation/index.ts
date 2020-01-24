@@ -1,1 +1,1 @@
-export * from './enable-navigation-links';
+export * from './enable-navigation-links.decorator';
