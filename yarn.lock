@@ -132,17 +132,17 @@
     semver "^6.3.0"
     tsutils "^3.17.1"
 
-"@wesib/generic@^1.0.0-alpha.69":
-  version "1.0.0-alpha.69"
-  resolved "https://registry.yarnpkg.com/@wesib/generic/-/generic-1.0.0-alpha.69.tgz#be3d42ed45b93315bd79c0f1cfa86e6a2460841a"
-  integrity sha512-GuCQkwvYddkTzwkX/dJNKV69Pu5dyqJ+z8jPQyu7H7OepVHv1oNwY0FioT7E8JB49wl9DBl0PZwSoQu3k6BgkA==
+"@wesib/generic@^1.0.0-alpha.70":
+  version "1.0.0-alpha.70"
+  resolved "https://registry.yarnpkg.com/@wesib/generic/-/generic-1.0.0-alpha.70.tgz#430591f170e5a871071cf30434ab64ada3dc6a48"
+  integrity sha512-0ORknm8D4MnvJxhLZvaFSX6fCRz0ByQBFkb23Kr2UEMR93GAx9aPHsqBizLGZBO/Ngtp6lBHdJq0BfQwTw4rCA==
   dependencies:
     http-header-value "^2.0.2"
 
-"@wesib/wesib@^1.0.0-alpha.69":
-  version "1.0.0-alpha.69"
-  resolved "https://registry.yarnpkg.com/@wesib/wesib/-/wesib-1.0.0-alpha.69.tgz#633a4a07468d7cb17403816a4164a2d7991983f3"
-  integrity sha512-wB95fOiHVNpnqdNMMfIcAYLVgJm2NkF9VJgOkgi8Pv4/0CiXsa7QAW16HXO3pkfJeQRvLLW7c+AGHak/RrFqVg==
+"@wesib/wesib@^1.0.0-alpha.70":
+  version "1.0.0-alpha.70"
+  resolved "https://registry.yarnpkg.com/@wesib/wesib/-/wesib-1.0.0-alpha.70.tgz#8206c8d15c81bff8445976ff457d20cd99abfb99"
+  integrity sha512-Zpy7xEWi9pZeD2QvPjyK1p68cclAzmRVODszrhCM+uOGU+nQCbbOvUjbmkh4EDSpoUANOfOFWB7MexoxAEj81Q==
 
 a-iterable@^2.4.5:
   version "2.4.5"
