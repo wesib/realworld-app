@@ -1,7 +1,10 @@
+import { HandleNavLinks } from '@wesib/generic';
 import { Component } from '@wesib/wesib';
-import { Conduit__NS, EnableNavigationLinks } from '../../common';
+import { Conduit__NS } from '../../common';
 
-@Component(['register', Conduit__NS])
-@EnableNavigationLinks()
+@Component(
+    ['register', Conduit__NS],
+    HandleNavLinks(),
+)
 export class RegisterComponent {
 }
