@@ -67,5 +67,6 @@ export default {
     compact: true,
     entryFileNames: `[name]/main.[hash].js`,
     chunkFileNames: `js/[name].[hash].js`,
+    hoistTransitiveImports: false,
   },
 };
