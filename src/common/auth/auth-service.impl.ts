@@ -2,7 +2,7 @@ import { BootstrapContext, BootstrapWindow } from '@wesib/wesib';
 import { nextArgs, valuesProvider } from 'call-thru';
 import { AfterEvent, afterEventBy, afterThe, eventSupply, OnEvent, trackValue, ValueTracker } from 'fun-events';
 import { ApiFetch, ApiResponse } from '../api';
-import { AuthService as AuthService_, AuthUserOrFailure, SignInRequest } from './auth-service';
+import { AuthService as AuthService_, AuthUserOrFailure, LoginRequest } from './auth-service';
 import { AuthUser } from './auth-user';
 
 const authTokenKey = 'wesib-conduit:auth';
@@ -73,7 +73,7 @@ export class AuthService extends AuthService_ {
     }
   }
 
-  signIn(request: SignInRequest): OnEvent<[ApiResponse<AuthUser>]> {
+  login(request: LoginRequest): OnEvent<[ApiResponse<AuthUser>]> {
 
     const apiFetch: ApiFetch<AuthUser> = this._context.get(ApiFetch);
 
@@ -82,6 +82,10 @@ export class AuthService extends AuthService_ {
       init: {
         method: 'POST',
         body: JSON.stringify(request),
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
       },
       auth: false,
     }).thru_(
@@ -96,7 +100,7 @@ export class AuthService extends AuthService_ {
     );
   }
 
-  signOut(): void {
+  logout(): void {
     this._auth.it = null;
   }
 

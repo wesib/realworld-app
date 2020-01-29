@@ -6,7 +6,7 @@ import { AuthUser } from './auth-user';
 
 export type AuthUserOrFailure = [] | [AuthUser] | [undefined, ApiResponse.Failure];
 
-export interface SignInRequest {
+export interface LoginRequest {
   readonly email: string;
   readonly password: string;
 }
@@ -19,8 +19,8 @@ export abstract class AuthService {
 
   abstract readonly user: AfterEvent<AuthUserOrFailure>;
 
-  abstract signIn(request: SignInRequest): OnEvent<[ApiResponse<AuthUser>]>;
+  abstract login(request: LoginRequest): OnEvent<[ApiResponse<AuthUser>]>;
 
-  abstract signOut(): void;
+  abstract logout(): void;
 
 }
