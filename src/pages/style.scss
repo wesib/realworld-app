@@ -205,9 +205,6 @@ conduit-in-error {
   @extend .text-danger;
   @extend .d-none;
   &.is-invalid{
-    &:not(.has-focus\@inasp),
-    &:not([code ~= "missing"]):not([code ~= "incomplete"]) {
-      @extend .d-block;
-    }
+    @extend .d-block;
   }
 }

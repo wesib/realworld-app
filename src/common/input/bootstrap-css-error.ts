@@ -1,5 +1,5 @@
-import { afterThe } from 'fun-events';
-import { InCssClasses, inCssError, InStatus } from 'input-aspects';
+import { afterAll, afterThe } from 'fun-events';
+import { InCssClasses, inCssError, InStatus, InValidation } from 'input-aspects';
 
 export function bootstrapCssError(
     {
@@ -13,12 +13,22 @@ export function bootstrapCssError(
   return control => {
 
     const cssClasses = control.aspect(InCssClasses);
-    const status = control.aspect(InStatus);
 
-    return status.read.keep.dig(
-        ({ touched }) => touched
-            ? cssClasses.specs(inCssError({ mark, when }))
-            : afterThe<InCssClasses.Spec[]>(),
+    return afterAll({
+      status: control.aspect(InStatus),
+      validity: control.aspect(InValidation),
+    }).keep.dig(
+        ({
+          status: [{ touched, hasFocus }],
+          validity: [validity],
+        }) => {
+
+          const incomplete = validity.has('incomplete') || validity.has('missing');
+
+          return touched && !(hasFocus && incomplete)
+              ? cssClasses.specs(inCssError({ mark, when }))
+              : afterThe<InCssClasses.Spec[]>();
+        },
     );
   };
 }
