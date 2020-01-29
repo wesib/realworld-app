@@ -30,6 +30,7 @@ export interface ApiRequest {
    * - `undefined` (the default) - to send it only if {@link AuthService.user current user} is authenticated.
    */
   readonly auth?: boolean;
+
 }
 
 export type ApiResponse<T = any> =
@@ -50,9 +51,9 @@ export namespace ApiResponse {
     readonly errors: Errors;
   }
 
-  export interface Errors {
-    readonly [field: string]: readonly string[];
-  }
+  export type Errors = {
+    readonly [field in string]: readonly string[];
+  };
 
 }
 
