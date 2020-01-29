@@ -198,3 +198,16 @@ conduit-footer {
     @extend .d-none;
   }
 }
+
+// Validation status
+conduit-in-error {
+  @extend .form-text;
+  @extend .text-danger;
+  @extend .d-none;
+  &.is-invalid{
+    &:not(.has-focus\@inasp),
+    &:not([code ~= "missing"]):not([code ~= "incomplete"]) {
+      @extend .d-block;
+    }
+  }
+}

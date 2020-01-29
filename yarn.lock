@@ -73,14 +73,14 @@
   integrity sha512-8+KAKzEvSUdeo+kmqnKrqgeE+LcA0tjYWFY7RPProVYwnqDjukzO+3b6dLD56rYX5TdWejnEOLJYOIeh4CXKuA==
 
 "@types/node@*":
-  version "13.5.0"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.5.0.tgz#4e498dbf355795a611a87ae5ef811a8660d42662"
-  integrity sha512-Onhn+z72D2O2Pb2ql2xukJ55rglumsVo1H6Fmyi8mlU9SvKdBk/pUSUAiBY/d9bAOF7VVWajX3sths/+g6ZiAQ==
+  version "13.5.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.5.1.tgz#6fae50892d1841f4b38b298e2f78fb68c5960cb9"
+  integrity sha512-Jj2W7VWQ2uM83f8Ls5ON9adxN98MvyJsMSASYFuSvrov8RMRY64Ayay7KV35ph1TSGIJ2gG9ZVDdEq3c3zaydA==
 
 "@types/node@^12.12.25":
-  version "12.12.25"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.25.tgz#792c0afb798f1dd681dce9c4b4c431f7245a0a42"
-  integrity sha512-nf1LMGZvgFX186geVZR1xMZKKblJiRfiASTHw85zED2kI1yDKHDwTKMdkaCbTlXoRKlGKaDfYywt+V0As30q3w==
+  version "12.12.26"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.26.tgz#213e153babac0ed169d44a6d919501e68f59dea9"
+  integrity sha512-UmUm94/QZvU5xLcUlNR8hA7Ac+fGpO1EG/a8bcWVz0P0LqtxFmun9Y2bbtuckwGboWJIT70DoWq1r3hb56n3DA==
 
 "@types/resolve@0.0.8":
   version "0.0.8"
@@ -132,10 +132,10 @@
     semver "^6.3.0"
     tsutils "^3.17.1"
 
-"@wesib/generic@^1.0.0-alpha.71":
-  version "1.0.0-alpha.71"
-  resolved "https://registry.yarnpkg.com/@wesib/generic/-/generic-1.0.0-alpha.71.tgz#1865924807e37d0f17cf380b6f57a5c8f7ec258f"
-  integrity sha512-r11uya8gltl8614PR6gC5V2qpozGkWhOoQ7dHn6spH7t8dX7E6vRfUkFhw2E2E7ccgcJPKUFP+shg51Qiq7BMg==
+"@wesib/generic@^1.0.0-alpha.72":
+  version "1.0.0-alpha.72"
+  resolved "https://registry.yarnpkg.com/@wesib/generic/-/generic-1.0.0-alpha.72.tgz#f5ee6a3cf9ce7cb4369667fa32aaeca42a437b52"
+  integrity sha512-MVu75N8dcLBDvdgXiwjdvVhXvPdFm4RB6UhqE5CIpJ3wsxtsbsNbQzD9EpHiZlKgHCg/eUPcUOrGqPW6nrwPLQ==
   dependencies:
     http-header-value "^2.0.2"
 

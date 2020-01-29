@@ -20,9 +20,11 @@
             <form novalidate>
               <conduit-login-email>
                 <input class="form-control form-control-lg" type="text" placeholder="Email"/>
+                <conduit-in-error code="missing">Email is required</conduit-in-error>
               </conduit-login-email>
               <conduit-login-password>
                 <input class="form-control form-control-lg" type="password" placeholder="Password"/>
+                <conduit-in-error code="missing">Password is required</conduit-in-error>
               </conduit-login-password>
               <button class="btn btn-lg btn-primary pull-xs-right">
                 Sign in
