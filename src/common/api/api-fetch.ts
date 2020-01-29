@@ -79,20 +79,30 @@ function newApiFetch(context: BootstrapContext): ApiFetch {
   const httpFetch = context.get(HttpFetch);
   const apiRootURL = context.get(ApiRootURL);
 
-  return ({ path, init, auth }) => apiRootURL.thru_(
-      baseURL => new URL(path, baseURL),
-      url => buildApiRequest(url, init),
-  ).dig_(
-      request => auth === false
-          ? afterThe<[RequestOrFailure]>({ request })
-          : authenticateApiRequest(context, request, auth),
-  ).dig_(
-      requestOrFailure => requestOrFailure.request
-          ? httpFetch(requestOrFailure.request).thru_(response => ({ response }))
-          : afterThe<[ResponseOrFailure]>({ failure: requestOrFailure.failure }),
-  ).dig_(
-      handleApiResponse,
-  );
+  return ({ path, init, auth }) => {
+
+    const onResponse = apiRootURL.thru_(
+        baseURL => new URL(path, baseURL),
+        url => buildApiRequest(url, init),
+    ).dig_(
+        request => auth === false
+            ? afterThe<[RequestOrFailure]>({ request })
+            : authenticateApiRequest(context, request, auth),
+    ).dig_(
+        requestOrFailure => requestOrFailure.request
+            ? httpFetch(requestOrFailure.request).thru_(response => ({ response }))
+            : afterThe<[ResponseOrFailure]>({ failure: requestOrFailure.failure }),
+    );
+
+    return onEventBy<[ApiResponse]>(receiver => {
+
+      const sender = new EventNotifier<[ApiResponse]>();
+
+      sender.on(receiver);
+
+      onResponse(response => handleApiResponse(response, sender));
+    });
+  };
 }
 
 function buildApiRequest(url: URL, init: RequestInit = {}): Request {
@@ -101,9 +111,6 @@ function buildApiRequest(url: URL, init: RequestInit = {}): Request {
   const { headers } = request;
 
   headers.set('X-Requested-With', 'XMLHttpRequest');
-  if (request.body != null && !headers.has('Content-Type')) {
-    headers.set('Content-Type', 'application/json');
-  }
 
   return request;
 }
@@ -136,54 +143,51 @@ function authenticateApiRequest(
   );
 }
 
-function handleApiResponse(responseOfFailure: ResponseOrFailure): OnEvent<[ApiResponse]> {
-  return onEventBy<[ApiResponse]>(receiver => {
+function handleApiResponse(
+    responseOfFailure: ResponseOrFailure,
+    sender: EventNotifier<[ApiResponse]>,
+): void {
+  if (!responseOfFailure.response) {
+    sender.send(responseOfFailure.failure);
+    sender.done();
+  } else {
 
-    const sender = new EventNotifier<[ApiResponse]>();
+    const { response } = responseOfFailure;
 
-    sender.on(receiver);
-
-    if (!responseOfFailure.response) {
-      sender.send(responseOfFailure.failure);
-    } else {
-
-      const { response } = responseOfFailure;
-
-      response.json().then(
-          body => {
-            if (response.ok) {
-              sender.send({
-                ok: true,
-                response,
-                body,
-              });
-            } else {
-              sender.send({
-                ok: false,
-                response,
-                errors: body.errors || {
-                  http: [
-                      response.statusText
-                          ? `${response.status}: ${response.statusText}`
-                          : `ERROR ${response.status}`,
-                  ],
-                },
-              });
-            }
-          },
-      ).catch(
-          error => {
+    response.json().then(
+        body => {
+          if (response.ok) {
+            sender.send({
+              ok: true,
+              response,
+              body,
+            });
+          } else {
             sender.send({
               ok: false,
               response,
-              errors: {
-                api: [`Failed to parse response: ${error}`],
+              errors: body.errors || {
+                http: [
+                  response.statusText
+                      ? `${response.status}: ${response.statusText}`
+                      : `ERROR ${response.status}`,
+                ],
               },
             });
-          },
-      );
-    }
-
-    sender.done();
-  });
+          }
+          sender.done();
+        },
+    ).catch(
+        error => {
+          sender.send({
+            ok: false,
+            response,
+            errors: {
+              api: [`Failed to parse response: ${error}`],
+            },
+          });
+          sender.done();
+        },
+    );
+  }
 }
