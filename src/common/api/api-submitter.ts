@@ -1,5 +1,5 @@
 import { BootstrapContext, bootstrapDefault } from '@wesib/wesib';
-import { FnContextKey, FnContextRef } from 'context-values';
+import { FnContextKey, FnContextRef } from 'context-values/updatable';
 import { OnEvent } from 'fun-events';
 import { InSubmit, InSubmitError } from 'input-aspects';
 import { ApiFetch, ApiRequest, ApiResponse } from './api-fetch';

@@ -1,7 +1,8 @@
 import { HttpFetch } from '@wesib/generic';
 import { BootstrapContext, bootstrapDefault } from '@wesib/wesib';
-import { FnContextKey, FnContextRef } from 'context-values';
-import { AfterEvent, afterThe, EventNotifier, OnEvent, onEventBy } from 'fun-events';
+import { nextArgs, NextCall } from 'call-thru';
+import { FnContextKey, FnContextRef } from 'context-values/updatable';
+import { AfterEvent, EventNotifier, nextOnEvent, OnEvent, onEventBy, OnEventCallChain } from 'fun-events';
 import { AuthService__key } from '../auth/auth-service.key.impl';
 import { ApiRootURL } from './api-root-url';
 
@@ -81,17 +82,16 @@ function newApiFetch(context: BootstrapContext): ApiFetch {
 
   return ({ path, init, auth }) => {
 
-    const onResponse = apiRootURL.thru_(
+    const onResponse: OnEvent<[ResponseOrFailure]> = apiRootURL.thru_(
         baseURL => new URL(path, baseURL),
         url => buildApiRequest(url, init),
-    ).dig_(
-        request => auth === false
-            ? afterThe<[RequestOrFailure]>({ request })
-            : authenticateApiRequest(context, request, auth),
-    ).dig_(
-        requestOrFailure => requestOrFailure.request
-            ? httpFetch(requestOrFailure.request).thru_(response => ({ response }))
-            : afterThe<[ResponseOrFailure]>({ failure: requestOrFailure.failure }),
+    ).thru_(
+        (request: Request): NextCall<OnEventCallChain, [RequestOrFailure]> => auth === false
+            ? nextArgs({ request })
+            : nextOnEvent(authenticateApiRequest(context, request, auth)),
+        (requestOrFailure): NextCall<OnEventCallChain, [ResponseOrFailure]> => requestOrFailure.request
+            ? nextOnEvent(httpFetch(requestOrFailure.request).thru_(response => ({ response })))
+            : nextArgs({ failure: requestOrFailure.failure }),
     );
 
     return onEventBy<[ApiResponse]>(receiver => {

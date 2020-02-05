@@ -1,6 +1,15 @@
 import { BootstrapContext, BootstrapWindow } from '@wesib/wesib';
-import { nextArgs, valuesProvider } from 'call-thru';
-import { AfterEvent, afterEventBy, afterThe, eventSupply, OnEvent, trackValue, ValueTracker } from 'fun-events';
+import { nextArgs, NextCall, valuesProvider } from 'call-thru';
+import {
+  AfterEvent,
+  afterEventBy,
+  eventSupply,
+  nextOnEvent,
+  OnEvent,
+  OnEventCallChain,
+  trackValue,
+  ValueTracker,
+} from 'fun-events';
 import { ApiFetch, ApiResponse } from '../api';
 import { AuthService as AuthService_, AuthUserOrFailure, LoginRequest } from './auth-service';
 import { AuthUser } from './auth-user';
@@ -20,7 +29,7 @@ export class AuthService extends AuthService_ {
 
     this._auth = trackValue(storage.getItem(authTokenKey));
     this._auth.on(updateAuthToken);
-    this.user = this._auth.read.keep.dig(authUser);
+    this.user = this._auth.read.keep.thru(authUser);
 
     function updateAuthToken(newAuth: Authentication): void {
       if (!newAuth) {
@@ -30,14 +39,14 @@ export class AuthService extends AuthService_ {
       }
     }
 
-    function authUser(auth: Authentication): AfterEvent<AuthUserOrFailure> {
+    function authUser(auth: Authentication): NextCall<OnEventCallChain, AuthUserOrFailure> {
       if (!auth) {
-        return afterThe();
+        return nextArgs();
       }
       if (typeof auth === 'string') {
-        return fetchCurrentUser(auth);
+        return nextOnEvent(fetchCurrentUser(auth));
       }
-      return afterThe(auth);
+      return nextArgs(auth);
     }
 
     function fetchCurrentUser(token: string): AfterEvent<AuthUserOrFailure> {
@@ -55,11 +64,11 @@ export class AuthService extends AuthService_ {
               },
               auth: false,
             }).thru_(
-                (response: ApiResponse<AuthUser>) => {
+                (response: ApiResponse<AuthUser>): NextCall<OnEventCallChain, AuthUserOrFailure> => {
                   if (response.ok) {
-                    return nextArgs<AuthUserOrFailure, unknown>(response.body);
+                    return nextArgs(response.body);
                   }
-                  return nextArgs<AuthUserOrFailure, unknown>(undefined, response);
+                  return nextArgs(undefined, response);
                 },
             )({
               supply: eventSupply().needs(receiver.supply), // Do not abort after user received

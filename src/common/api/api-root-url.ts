@@ -1,4 +1,4 @@
-import { SingleContextUpKey, SingleContextUpRef } from 'context-values';
+import { SingleContextUpKey, SingleContextUpRef } from 'context-values/updatable';
 
 export type ApiRootURL = URL;
 
