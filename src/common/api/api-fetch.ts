@@ -2,7 +2,7 @@ import { HttpFetch } from '@wesib/generic';
 import { BootstrapContext, bootstrapDefault } from '@wesib/wesib';
 import { nextArgs, NextCall } from 'call-thru';
 import { FnContextKey, FnContextRef } from 'context-values/updatable';
-import { AfterEvent, EventNotifier, nextOnEvent, OnEvent, onEventBy, OnEventCallChain } from 'fun-events';
+import { AfterEvent, nextOnEvent, onAsync, OnEvent, OnEventCallChain } from 'fun-events';
 import { AuthService__key } from '../auth/auth-service.key.impl';
 import { ApiRootURL } from './api-root-url';
 
@@ -74,6 +74,9 @@ type RequestOrFailure =
 type ResponseOrFailure =
     | { response: Response }
     | { response?: undefined; failure: ApiResponse.Failure };
+type ResponseBodyOrFailure =
+    | [{ response: Response }, any]
+    | [{ response?: undefined; failure: ApiResponse.Failure }];
 
 function newApiFetch(context: BootstrapContext): ApiFetch {
 
@@ -94,14 +97,8 @@ function newApiFetch(context: BootstrapContext): ApiFetch {
             : nextArgs({ failure: requestOrFailure.failure }),
     );
 
-    return onEventBy<[ApiResponse]>(receiver => {
-
-      const sender = new EventNotifier<[ApiResponse]>();
-
-      sender.on(receiver);
-
-      onResponse(response => handleApiResponse(response, sender));
-    });
+    return onAsync(onResponse.thru_(parseApiResponse))
+        .thru_(([responseOrFailure, json]) => handleApiResponse(responseOrFailure, json));
   };
 }
 
@@ -143,51 +140,50 @@ function authenticateApiRequest(
   );
 }
 
+function parseApiResponse(
+    responseOfFailure: ResponseOrFailure,
+): ResponseBodyOrFailure | Promise<ResponseBodyOrFailure> {
+  return responseOfFailure.response
+      ? Promise.all([responseOfFailure, responseOfFailure.response.json()])
+          .catch(error => [{
+            failure: {
+              ok: false,
+              response: responseOfFailure.response,
+              errors: {
+                api: [`Failed to parse response: ${error}`],
+              },
+            },
+          }])
+      : [responseOfFailure];
+}
+
 function handleApiResponse(
     responseOfFailure: ResponseOrFailure,
-    sender: EventNotifier<[ApiResponse]>,
-): void {
+    body?: any,
+): ApiResponse {
   if (!responseOfFailure.response) {
-    sender.send(responseOfFailure.failure);
-    sender.done();
-  } else {
-
-    const { response } = responseOfFailure;
-
-    response.json().then(
-        body => {
-          if (response.ok) {
-            sender.send({
-              ok: true,
-              response,
-              body,
-            });
-          } else {
-            sender.send({
-              ok: false,
-              response,
-              errors: body.errors || {
-                http: [
-                  response.statusText
-                      ? `${response.status}: ${response.statusText}`
-                      : `ERROR ${response.status}`,
-                ],
-              },
-            });
-          }
-          sender.done();
-        },
-    ).catch(
-        error => {
-          sender.send({
-            ok: false,
-            response,
-            errors: {
-              api: [`Failed to parse response: ${error}`],
-            },
-          });
-          sender.done();
-        },
-    );
+    return responseOfFailure.failure;
   }
+
+  const { response } = responseOfFailure;
+
+  if (response.ok) {
+    return {
+      ok: true,
+      response,
+      body,
+    };
+  }
+
+  return {
+    ok: false,
+    response,
+    errors: body.errors || {
+      http: [
+        response.statusText
+            ? `${response.status}: ${response.statusText}`
+            : `ERROR ${response.status}`,
+      ],
+    },
+  };
 }
