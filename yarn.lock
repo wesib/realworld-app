@@ -933,10 +933,10 @@ inherits@2:
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"
   integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
 
-input-aspects@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/input-aspects/-/input-aspects-2.2.1.tgz#ab4b6d8f4dd09252713e0ff0f430a3923cfe0056"
-  integrity sha512-JehyKEUCISyWr9nA1OIamEYYt8PMnUzdSuAmWe7csZxO/zUPuTSNY0T8nIO8K1sBZf6WpU33vwhRQfDYG4snzA==
+input-aspects@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/input-aspects/-/input-aspects-2.3.0.tgz#dd59b3b6bd0d5202f0f5710263e8b6689ed56dde"
+  integrity sha512-KHayfmnQ7ExZsoKUSQpQIQ9/ca7GJYTh1XFOiVKcOeHKigLnBxd/dvmbYZV/aY9JdI+nUDBZOVQZaQ+386cLkg==
   dependencies:
     delta-set "^1.1.0"
 
@@ -1533,9 +1533,9 @@ resolve@1.12.0:
     path-parse "^1.0.6"
 
 resolve@^1.10.0, resolve@^1.11.0, resolve@^1.14.2:
-  version "1.15.0"
-  resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.15.0.tgz#1b7ca96073ebb52e741ffd799f6b39ea462c67f5"
-  integrity sha512-+hTmAldEGE80U2wJJDC1lebb5jWqvTYAfm3YZ1ckk1gBr0MnCqUKlwK1e+anaFljIl+F5tR5IoZcm4ZDA1zMQw==
+  version "1.15.1"
+  resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.15.1.tgz#27bdcdeffeaf2d6244b95bb0f9f4b4653451f3e8"
+  integrity sha512-84oo6ZTtoTUpjgNEr5SJyzQhzL72gaRodsSfyxC/AXRvwu0Yse9H8eF9IpGo7b8YetZhlI6v7ZQ6bKBFV/6S7w==
   dependencies:
     path-parse "^1.0.6"
 
