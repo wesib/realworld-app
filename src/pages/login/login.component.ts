@@ -58,17 +58,35 @@ export class LoginComponent {
             const group: InGroup<LoginRequest> = inGroup<LoginRequest>({
               email: '',
               password: '',
-            }).setup(InSupply, s => s.needs(formSupply));
-            group.aspect(InValidation);
+            })
+                .setup(InSupply, s => s.needs(formSupply))
+                .setup(
+                    InMode,
+                    (mode, group) => {
+                      // Prevent submitting of invalid form
+                      mode.derive(group.aspect(InValidation).read.keep.thru_(
+                          result => result.ok || result.messages('submit').length === result.messages().length
+                              ? 'on'
+                              : '-on',
+                      ));
+                    },
+                );
 
-            const formControl = group.convert(InStyledElement.to(form.element), aspects);
-            const submit = formControl.aspect(InSubmit);
+            const submit = group.aspect(InSubmit);
 
-            formControl.setup(InCssClasses, classes => classes.add(inCssInfo()));
+            group.convert(InStyledElement.to(form.element), aspects)
+                .setup(InCssClasses, classes => classes.add(inCssInfo()));
 
             if (button) {
-              inText(button.element).convert(aspects)
-                  .setup(InMode, mode => mode.derive(formControl.aspect(InMode)));
+              inText(button.element)
+                  .convert(aspects)
+                  .setup(InMode, mode => {
+                    mode.derive(group.aspect(InMode));
+                    // Disable submit while submitting or not ready
+                    mode.derive(submit.read.keep.thru_(
+                        ({ ready, busy }) => !ready || busy ? 'off' : 'on',
+                    ));
+                  });
             }
 
             new DomEventDispatcher(form.element).on('submit').instead(() => {
