@@ -1,7 +1,7 @@
 import { ComponentNode, HandleNavLinks } from '@wesib/generic';
 import { DefaultInAspects, inputFromControl } from '@wesib/generic/input';
 import { Component, ComponentContext } from '@wesib/wesib';
-import { afterAll, eventSupply } from 'fun-events';
+import { afterAll, eventSupply, eventSupplyOf } from 'fun-events';
 import { DomEventDispatcher } from 'fun-events/dom';
 import {
   InCssClasses,
@@ -9,11 +9,11 @@ import {
   InGroup,
   inGroup,
   InMode,
-  InStyledElement,
-  InSubmit, InSubmitError,
-  InSupply,
+  inModeByForm,
+  inModeByValidity,
+  InSubmit,
+  InSubmitError,
   inText,
-  InValidation,
 } from 'input-aspects';
 import { apiSubmit, AuthService, Conduit__NS, LoginRequest } from '../../common';
 import { LoginEmailComponent } from './login-email.component';
@@ -59,38 +59,29 @@ export class LoginComponent {
               email: '',
               password: '',
             })
-                .setup(InSupply, s => s.needs(formSupply))
-                .setup(
-                    InMode,
-                    (mode, group) => {
-                      // Prevent submitting of invalid form
-                      mode.derive(group.aspect(InValidation).read.keep.thru_(
-                          result => result.ok || result.messages('submit').length === result.messages().length
-                              ? 'on'
-                              : '-on',
-                      ));
-                    },
-                );
+                .setup(control => eventSupplyOf(control).needs(formSupply))
+                .setup(InCssClasses, classes => classes.add(inCssInfo()))
+                .setup(InMode, mode => mode.derive(inModeByValidity()));
 
-            const submit = group.aspect(InSubmit);
-
-            group.convert(InStyledElement.to(form.element), aspects)
-                .setup(InCssClasses, classes => classes.add(inCssInfo()));
+            inText(form.element)
+                .setup(control => eventSupplyOf(control).needs(group))
+                .convert(aspects)
+                .setup(InCssClasses, classes => classes.add(group.aspect(InCssClasses)))
+                .setup(InMode, mode => mode.derive(inModeByForm(group)));
 
             if (button) {
               inText(button.element)
+                  .setup(control => eventSupplyOf(control).needs(group))
                   .convert(aspects)
-                  .setup(InMode, mode => {
-                    mode.derive(group.aspect(InMode));
-                    // Disable submit while submitting or not ready
-                    mode.derive(submit.read.keep.thru_(
-                        ({ ready, busy }) => !ready || busy ? 'off' : 'on',
-                    ));
-                  });
+                  .setup(InMode, mode => mode.derive(inModeByForm(group, { busy: 'off', invalid: 'off' })));
             }
 
-            new DomEventDispatcher(form.element).on('submit').instead(() => {
-              submit.submit(request => apiSubmit(authService.login(request)))
+            const submitDispatcher = new DomEventDispatcher(form.element);
+
+            eventSupplyOf(submitDispatcher).needs(group);
+            submitDispatcher.on('submit').instead(() => {
+              group.aspect(InSubmit)
+                  .submit(request => apiSubmit(authService.login(request)))
                   .catch(e => {
                     if (e instanceof InSubmitError) {
                       console.log('Failed to login', ...e.errors);

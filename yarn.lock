@@ -132,17 +132,17 @@
     semver "^6.3.0"
     tsutils "^3.17.1"
 
-"@wesib/generic@^1.0.0-alpha.77":
-  version "1.0.0-alpha.77"
-  resolved "https://registry.yarnpkg.com/@wesib/generic/-/generic-1.0.0-alpha.77.tgz#fe2353d3f8851806b6b7fd6fd511885d20ea69f6"
-  integrity sha512-pqD4vVXZMrNRiCFQFwwiH8oGUFD713ENkHAUkzjTRYCH6Yqh4H1ubVIt4QUw1oU6gEFMjN7WwYZUQtrZOZJwpA==
+"@wesib/generic@^1.0.0-alpha.78":
+  version "1.0.0-alpha.78"
+  resolved "https://registry.yarnpkg.com/@wesib/generic/-/generic-1.0.0-alpha.78.tgz#2ea2c7b58a7839278c20aa0cce81534fa520c966"
+  integrity sha512-2GFdfNiBq3lusC8IItNJKmP+/JMzF4/v65nf6uH2wnuCX0XZBadxV0dFWBoLfNF1FLiiOr7syc+feOpNUAXqxA==
   dependencies:
     http-header-value "^2.0.2"
 
-"@wesib/wesib@^1.0.0-alpha.75":
-  version "1.0.0-alpha.75"
-  resolved "https://registry.yarnpkg.com/@wesib/wesib/-/wesib-1.0.0-alpha.75.tgz#4d1406b72601419a06fc1bf3e73bb1d86fb2159b"
-  integrity sha512-Pyp23ljW80NcJoCV2cabvCYyL9/fHY+if03KNt0OoOjlPbGtJPwuJVjeZPtSUkiAI0OtyrCwMROBvRUf4GrvfQ==
+"@wesib/wesib@^1.0.0-alpha.78":
+  version "1.0.0-alpha.78"
+  resolved "https://registry.yarnpkg.com/@wesib/wesib/-/wesib-1.0.0-alpha.78.tgz#19ae8c2f10c5c3b3a2147941ee14e1e7396b560f"
+  integrity sha512-gRc42BKuHHC/9uoO3QIs2G34wIn88aluhqM9Wu5usR0rZ/8vqF+VQy2oaxP7+6vI6VPHLXp17VieqMqbcKNTxA==
 
 a-iterable@^2.5.0:
   version "2.5.0"
@@ -750,10 +750,10 @@ fsevents@~2.1.2:
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.1.2.tgz#4c0a1fb34bc68e543b4b82a9ec392bfbda840805"
   integrity sha512-R4wDiBwZ0KzpgOWetKDug1FZcYhqYnUYKtfZYt4mD5SBz76q0KR4Q9o7GIPamsVPGmW3EYPPJ0dOOjvx32ldZA==
 
-fun-events@^7.3.1:
-  version "7.3.1"
-  resolved "https://registry.yarnpkg.com/fun-events/-/fun-events-7.3.1.tgz#c84c64c4eaaafa4b4aea7c40a162793c15e9ff66"
-  integrity sha512-HSdMKfr77L+VI3KajR4R6FFYawc95dQkClkb4cwsv0q0gu3y3eHy8v9GKYfzcY8DoUFonoX0cJMSOCXddaeD9Q==
+fun-events@^7.4.2:
+  version "7.4.2"
+  resolved "https://registry.yarnpkg.com/fun-events/-/fun-events-7.4.2.tgz#b9e91d0dd83b0f137371223b6ffdd444cbf6afb2"
+  integrity sha512-mD08wkzlNFQHMLnV88L0EafrQkfMMPy97o02DbyssldvyMBdAzyfQRACLTXvqRy8P94+SwF1xW5offy0+p49lg==
 
 function-bind@^1.1.1:
   version "1.1.1"
@@ -933,10 +933,10 @@ inherits@2:
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"
   integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
 
-input-aspects@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/input-aspects/-/input-aspects-2.3.0.tgz#dd59b3b6bd0d5202f0f5710263e8b6689ed56dde"
-  integrity sha512-KHayfmnQ7ExZsoKUSQpQIQ9/ca7GJYTh1XFOiVKcOeHKigLnBxd/dvmbYZV/aY9JdI+nUDBZOVQZaQ+386cLkg==
+input-aspects@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/input-aspects/-/input-aspects-2.4.0.tgz#9ca28fc6608977b9bd0e8f3cdd3ea1dbb7be54d2"
+  integrity sha512-eA8HLDd0pZnxZLxAPz4IiJcbxRpWEQZiRqHcYbY9VHv0j1GtVaXVyrFs9mbH8gJ+NFPLq1cDPniinMx5XrYyfA==
   dependencies:
     delta-set "^1.1.0"
 
