@@ -10,7 +10,7 @@ import {
   inGroup,
   InMode,
   inModeByForm,
-  inModeByValidity,
+  inModeByValidity, InStatus,
   InSubmit,
   InSubmitError,
   inText,
@@ -80,6 +80,7 @@ export class LoginComponent {
 
             eventSupplyOf(submitDispatcher).needs(group);
             submitDispatcher.on('submit').instead(() => {
+              group.aspect(InStatus).markEdited();
               group.aspect(InSubmit)
                   .submit(request => apiSubmit(authService.login(request)))
                   .catch(e => {
