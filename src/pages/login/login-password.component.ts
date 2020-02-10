@@ -7,8 +7,7 @@ import { bootstrapCssError, Conduit__NS } from '../../common';
     ['login-password', Conduit__NS],
     UseInputElement({
       makeControl({ node, aspects }) {
-        return inText(node.element)
-            .convert(aspects)
+        return inText(node.element, { aspects })
             .setup(InValidation, validation => validation.by(requirePresent()))
             .setup(InCssClasses, classes => {
               classes.add(inCssInfo());

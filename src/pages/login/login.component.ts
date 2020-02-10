@@ -6,14 +6,15 @@ import { DomEventDispatcher } from 'fun-events/dom';
 import {
   InCssClasses,
   inCssInfo,
+  inFormElement,
   InGroup,
   inGroup,
   InMode,
-  inModeByForm,
-  inModeByValidity, InStatus,
+  inModeByValidity,
+  InStatus,
   InSubmit,
+  inSubmitButton,
   InSubmitError,
-  inText,
 } from 'input-aspects';
 import { apiSubmit, AuthService, Conduit__NS, LoginRequest } from '../../common';
 import { LoginEmailComponent } from './login-email.component';
@@ -63,17 +64,11 @@ export class LoginComponent {
                 .setup(InCssClasses, classes => classes.add(inCssInfo()))
                 .setup(InMode, mode => mode.derive(inModeByValidity()));
 
-            inText(form.element)
-                .setup(control => eventSupplyOf(control).needs(group))
-                .convert(aspects)
-                .setup(InCssClasses, classes => classes.add(group.aspect(InCssClasses)))
-                .setup(InMode, mode => mode.derive(inModeByForm(group)));
+            inFormElement(form.element, { form: group, aspects })
+                .setup(InCssClasses, classes => classes.add(group.aspect(InCssClasses)));
 
             if (button) {
-              inText(button.element)
-                  .setup(control => eventSupplyOf(control).needs(group))
-                  .convert(aspects)
-                  .setup(InMode, mode => mode.derive(inModeByForm(group, { busy: 'off', invalid: 'off' })));
+              inSubmitButton(button.element, { form: group, aspects });
             }
 
             const submitDispatcher = new DomEventDispatcher(form.element);
