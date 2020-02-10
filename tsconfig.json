@@ -14,7 +14,7 @@
     "noEmitHelpers": true,
     "lib": [
       "dom",
-      "es2015"
+      "es2017"
     ],
     "outDir": "target/js",
     "sourceMap": true,
