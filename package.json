@@ -4,13 +4,13 @@
   "description": "Wesib: RealWorld example application",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wesib/realworld-app.git"
+    "url": "ssh://git@github.com:wesib/realworld-app.git"
   },
   "license": "MIT",
   "private": true,
   "author": "Ruslan Lopatin <ruslan.lopatin@gmail.com>",
   "bugs": {
-    "url": "https://github.com/wesib/wesib/issues"
+    "url": "https://github.com/wesib/realworld-app/issues"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.2",
