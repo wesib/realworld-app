@@ -1,1 +1,1 @@
-export * from './layout-support.feature';
+export * from './conduit-layout-support.feature';

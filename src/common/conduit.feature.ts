@@ -1,13 +1,13 @@
 import { Feature } from '@wesib/wesib';
 import { AuthSupport } from './auth';
 import { ConduitInputSupport } from './input';
-import { LayoutSupport } from './layout';
+import { ConduitLayoutSupport } from './layout';
 
 @Feature({
   needs: [
     AuthSupport,
     ConduitInputSupport,
-    LayoutSupport,
+    ConduitLayoutSupport,
   ],
 })
 export class ConduitFeature {

@@ -8,5 +8,5 @@ import { FooterComponent } from './footer.component';
     FooterComponent,
   ],
 })
-export class LayoutSupport {
+export class ConduitLayoutSupport {
 }
