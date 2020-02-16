@@ -1,17 +1,14 @@
 import { ComponentNode, ComponentTreeSupport, ElementPickMode, HierarchyContext } from '@wesib/generic';
 import { DefaultInAspects, InputToForm } from '@wesib/generic/input';
-import { Component, ComponentClass, ComponentDecorator } from '@wesib/wesib';
+import { Class, Component, ComponentClass, ComponentDecorator } from '@wesib/wesib';
 import { afterAll } from 'fun-events';
 import { inSubmitButton } from 'input-aspects';
 
-export function HandleSubmitButton<T extends ComponentClass>(
+export function HandleSubmitButton<T extends ComponentClass = Class>(
     {
       select = 'button',
       pick = { deep: true, all: true },
-    }: {
-      select?: string;
-      pick?: ElementPickMode;
-    } = {},
+    }: HandleSubmitButtonDef = {},
 ): ComponentDecorator<T> {
   return Component({
     feature: {
@@ -28,11 +25,20 @@ export function HandleSubmitButton<T extends ComponentClass>(
             form: hierarchy.get(InputToForm),
             button: componentNode.select(select, pick).first,
             aspects: context.get(DefaultInAspects),
-          }).tillOff(supply).consume(({ form: [{ control: form }], button: [button], aspects: [aspects] }) => form
-              && button
-              && inSubmitButton(button.element, { form, aspects }));
+          }).tillOff(supply).consume(
+              ({
+                form: [{ control: form }],
+                button: [button],
+                aspects: [aspects],
+              }) => form && button && inSubmitButton(button.element, { form, aspects }),
+          );
         });
       });
     },
   });
+}
+
+export interface HandleSubmitButtonDef {
+  readonly select?: string;
+  readonly pick?: ElementPickMode;
 }

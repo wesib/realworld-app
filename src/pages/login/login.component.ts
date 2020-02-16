@@ -1,19 +1,8 @@
 import { HandleNavLinks } from '@wesib/generic';
-import { FillInputForm, InputToForm, OnSubmit } from '@wesib/generic/input';
+import { InputToForm, OnSubmit } from '@wesib/generic/input';
 import { Component, ComponentContext } from '@wesib/wesib';
-import {
-  InCssClasses,
-  inCssInfo,
-  inFormElement,
-  InGroup,
-  inGroup,
-  InMode,
-  inModeByValidity,
-  InStatus,
-  InSubmit,
-  InSubmitError,
-} from 'input-aspects';
-import { apiSubmit, AuthService, Conduit__NS, HandleSubmitButton, LoginRequest } from '../../common';
+import { InStatus, InSubmit, InSubmitError } from 'input-aspects';
+import { apiSubmit, AuthService, Conduit__NS, HandleForm, LoginRequest } from '../../common';
 import { LoginEmailComponent } from './login-email.component';
 import { LoginPasswordComponent } from './login-password.component';
 
@@ -27,23 +16,13 @@ import { LoginPasswordComponent } from './login-password.component';
         ],
       },
     },
-    FillInputForm({
-      makeForm({ node, aspects }) {
-
-        const group: InGroup<LoginRequest> = inGroup<LoginRequest>({
-          email: '',
-          password: '',
-        })
-            .setup(InCssClasses, classes => classes.add(inCssInfo()))
-            .setup(InMode, mode => mode.derive(inModeByValidity()));
-        const form = inFormElement(node.element, { form: group, aspects })
-            .setup(InCssClasses, classes => classes.add(group.aspect(InCssClasses)));
-
-        return [group, form];
+    HandleForm<LoginRequest>({
+      emptyModel: {
+        email: '',
+        password: '',
       },
     }),
     HandleNavLinks(),
-    HandleSubmitButton(),
 )
 export class LoginComponent {
 
