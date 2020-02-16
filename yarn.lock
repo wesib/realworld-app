@@ -132,10 +132,10 @@
     semver "^6.3.0"
     tsutils "^3.17.1"
 
-"@wesib/generic@^1.0.0-alpha.80":
-  version "1.0.0-alpha.80"
-  resolved "https://registry.yarnpkg.com/@wesib/generic/-/generic-1.0.0-alpha.80.tgz#9b37fa540ef7d7dd0064626adf81e6cf51bdef98"
-  integrity sha512-tE5/cDsh+3S0tWnMdasIXZs1HkpYQgdMIeOZzGUaZl3yZ/BiGNpZw9ZihhnwqNVuuAC3OyawS9SjmuCZ1fyoHw==
+"@wesib/generic@^1.0.0-alpha.82":
+  version "1.0.0-alpha.82"
+  resolved "https://registry.yarnpkg.com/@wesib/generic/-/generic-1.0.0-alpha.82.tgz#32d5908bdf8b5337401c91976cf0cb939f61a594"
+  integrity sha512-hPnm8Uk65ax/hvhORxTiEk/aq0SWQfxzDMlJepVCro3xliqGbTZrd/XGGXywjJv8Tt5VAZVJdxJh4xS1UXa6tA==
   dependencies:
     http-header-value "^2.0.2"
 
@@ -749,10 +749,10 @@ fsevents@~2.1.2:
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.1.2.tgz#4c0a1fb34bc68e543b4b82a9ec392bfbda840805"
   integrity sha512-R4wDiBwZ0KzpgOWetKDug1FZcYhqYnUYKtfZYt4mD5SBz76q0KR4Q9o7GIPamsVPGmW3EYPPJ0dOOjvx32ldZA==
 
-fun-events@^7.4.2:
-  version "7.4.2"
-  resolved "https://registry.yarnpkg.com/fun-events/-/fun-events-7.4.2.tgz#b9e91d0dd83b0f137371223b6ffdd444cbf6afb2"
-  integrity sha512-mD08wkzlNFQHMLnV88L0EafrQkfMMPy97o02DbyssldvyMBdAzyfQRACLTXvqRy8P94+SwF1xW5offy0+p49lg==
+fun-events@^7.4.3:
+  version "7.4.3"
+  resolved "https://registry.yarnpkg.com/fun-events/-/fun-events-7.4.3.tgz#24b7c9fa5adf109b7e530c836dc0259373b769c7"
+  integrity sha512-ygrUmeiPCBCoSqFRj0lGOTDWjKMHZuVJEGvT2fZEQgfIF9o3jvXfDZjsetSSqs3cjgBAtYWIwAi23udt5YAjzQ==
 
 function-bind@^1.1.1:
   version "1.1.1"
