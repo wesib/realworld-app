@@ -32,7 +32,6 @@ export default {
     ts({
       typescript,
       cacheRoot: 'target/.rts2_cache',
-      objectHashIgnoreUnknownHack: true,
     }),
     cleanup(`./dist/**/*.{js,js.map}`),
     commonjs(),
