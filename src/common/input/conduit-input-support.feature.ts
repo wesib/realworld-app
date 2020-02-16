@@ -4,5 +4,5 @@ import { InErrorComponent } from './in-error.component';
 @Feature({
   needs: InErrorComponent,
 })
-export class InputSupport {
+export class ConduitInputSupport {
 }

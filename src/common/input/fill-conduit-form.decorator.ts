@@ -1,9 +1,9 @@
 import { FillInputForm, FillInputFormDef } from '@wesib/generic/input';
 import { Class, Component, ComponentClass, ComponentDecorator } from '@wesib/wesib';
 import { InCssClasses, inCssInfo, inFormElement, inGroup, InGroup, InMode, inModeByValidity } from 'input-aspects';
-import { HandleSubmitButton, HandleSubmitButtonDef } from './handle-submit-button.decorator';
+import { HandleConduitSubmitButton, HandleConduitSubmitButtonDef } from './handle-conduit-submit-button.decorator';
 
-export function HandleForm<Model extends object = any, T extends ComponentClass = Class>(
+export function FillConduitForm<Model extends object = any, T extends ComponentClass = Class>(
     {
         emptyModel = {} as Model,
         form = {
@@ -19,16 +19,16 @@ export function HandleForm<Model extends object = any, T extends ComponentClass 
           },
         },
         button,
-    }: HandleFormDef<Model> = {},
+    }: FillConduitFormDef<Model> = {},
 ): ComponentDecorator<T> {
   return Component(
       FillInputForm(form),
-      HandleSubmitButton(button),
+      HandleConduitSubmitButton(button),
   );
 }
 
-export interface HandleFormDef<Model extends object> {
+export interface FillConduitFormDef<Model extends object> {
   readonly emptyModel?: Model;
   readonly form?: FillInputFormDef;
-  readonly button?: HandleSubmitButtonDef;
+  readonly button?: HandleConduitSubmitButtonDef;
 }

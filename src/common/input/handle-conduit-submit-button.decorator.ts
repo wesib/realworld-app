@@ -4,11 +4,11 @@ import { Class, Component, ComponentClass, ComponentDecorator } from '@wesib/wes
 import { afterAll } from 'fun-events';
 import { inSubmitButton } from 'input-aspects';
 
-export function HandleSubmitButton<T extends ComponentClass = Class>(
+export function HandleConduitSubmitButton<T extends ComponentClass = Class>(
     {
       select = 'button',
       pick = { deep: true, all: true },
-    }: HandleSubmitButtonDef = {},
+    }: HandleConduitSubmitButtonDef = {},
 ): ComponentDecorator<T> {
   return Component({
     feature: {
@@ -38,7 +38,7 @@ export function HandleSubmitButton<T extends ComponentClass = Class>(
   });
 }
 
-export interface HandleSubmitButtonDef {
+export interface HandleConduitSubmitButtonDef {
   readonly select?: string;
   readonly pick?: ElementPickMode;
 }

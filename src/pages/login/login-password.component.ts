@@ -1,18 +1,14 @@
-import { SetInputName, UseInputElement } from '@wesib/generic/input';
+import { SetInputName } from '@wesib/generic/input';
 import { Component } from '@wesib/wesib';
-import { InCssClasses, inCssInfo, inText, InValidation, requirePresent } from 'input-aspects';
-import { bootstrapCssError, Conduit__NS } from '../../common';
+import { inText, InValidation, requirePresent } from 'input-aspects';
+import { Conduit__NS, UseConduitInput } from '../../common';
 
 @Component(
     ['login-password', Conduit__NS],
-    UseInputElement({
+    UseConduitInput({
       makeControl({ node, aspects }) {
         return inText(node.element, { aspects })
-            .setup(InValidation, validation => validation.by(requirePresent()))
-            .setup(InCssClasses, classes => {
-              classes.add(inCssInfo());
-              classes.add(bootstrapCssError());
-            });
+            .setup(InValidation, validation => validation.by(requirePresent()));
       },
     }),
     SetInputName('password'),

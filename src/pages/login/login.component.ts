@@ -2,7 +2,7 @@ import { HandleNavLinks } from '@wesib/generic';
 import { InputToForm, OnSubmit } from '@wesib/generic/input';
 import { Component, ComponentContext } from '@wesib/wesib';
 import { InStatus, InSubmit, InSubmitError } from 'input-aspects';
-import { apiSubmit, AuthService, Conduit__NS, HandleForm, LoginRequest } from '../../common';
+import { apiSubmit, AuthService, Conduit__NS, FillConduitForm, LoginRequest } from '../../common';
 import { LoginEmailComponent } from './login-email.component';
 import { LoginPasswordComponent } from './login-password.component';
 
@@ -16,7 +16,7 @@ import { LoginPasswordComponent } from './login-password.component';
         ],
       },
     },
-    HandleForm<LoginRequest>({
+    FillConduitForm<LoginRequest>({
       emptyModel: {
         email: '',
         password: '',

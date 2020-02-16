@@ -1,12 +1,12 @@
 import { Feature } from '@wesib/wesib';
 import { AuthSupport } from './auth';
-import { InputSupport } from './input';
+import { ConduitInputSupport } from './input';
 import { LayoutSupport } from './layout';
 
 @Feature({
   needs: [
     AuthSupport,
-    InputSupport,
+    ConduitInputSupport,
     LayoutSupport,
   ],
 })
