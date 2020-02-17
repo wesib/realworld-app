@@ -21,10 +21,6 @@ conduit-home {
     }
   }
 
-  .feed-toggle {
-    margin-bottom:-1px;
-  }
-
   .sidebar {
     padding:5px 10px 10px 10px;
     background:#f3f3f3;
@@ -37,3 +33,7 @@ conduit-home {
 
 }
 
+conduit-feed-toggle {
+  display: block;
+  margin-bottom:-1px;
+}
