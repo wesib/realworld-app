@@ -1,4 +1,4 @@
-import { HandleNavLinks } from '@wesib/generic';
+import { HandleNavLinks, Navigation } from '@wesib/generic';
 import { InputToForm, OnSubmit } from '@wesib/generic/input';
 import { Component, ComponentContext } from '@wesib/wesib';
 import { InStatus, InSubmit, InSubmitError } from 'input-aspects';
@@ -27,9 +27,11 @@ import { LoginPasswordComponent } from './login-password.component';
 export class LoginComponent {
 
   private readonly _authService: AuthService;
+  private readonly _navigation: Navigation;
 
   constructor(context: ComponentContext) {
     this._authService = context.get(AuthService);
+    this._navigation = context.get(Navigation);
   }
 
   @OnSubmit()
@@ -37,6 +39,7 @@ export class LoginComponent {
     control.aspect(InStatus).markEdited();
     control.aspect(InSubmit)
         .submit(request => apiSubmit(this._authService.login(request)))
+        .then(() => this._navigation.open('.'))
         .catch(e => {
           if (e instanceof InSubmitError) {
             console.log('Failed to login', ...e.errors);

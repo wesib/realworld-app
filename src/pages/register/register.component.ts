@@ -1,4 +1,4 @@
-import { HandleNavLinks } from '@wesib/generic';
+import { HandleNavLinks, Navigation } from '@wesib/generic';
 import { InputToForm, OnSubmit } from '@wesib/generic/input';
 import { Component, ComponentContext } from '@wesib/wesib';
 import { InStatus, InSubmit, InSubmitError } from 'input-aspects';
@@ -29,9 +29,11 @@ import { RegisterUsernameComponent } from './register-username.component';
 export class RegisterComponent {
 
   private readonly _authService: AuthService;
+  private readonly _navigation: Navigation;
 
   constructor(context: ComponentContext) {
     this._authService = context.get(AuthService);
+    this._navigation = context.get(Navigation);
   }
 
   @OnSubmit()
@@ -39,6 +41,7 @@ export class RegisterComponent {
     control.aspect(InStatus).markEdited();
     control.aspect(InSubmit)
         .submit(request => apiSubmit(this._authService.register(request)))
+        .then(() => this._navigation.open('.'))
         .catch(e => {
           if (e instanceof InSubmitError) {
             console.log('Failed to register', ...e.errors);
