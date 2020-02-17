@@ -11,6 +11,12 @@ export interface FeedRequest {
   readonly offset?: number;
 }
 
+const feedRequestKeys: readonly (keyof FeedRequest)[] = ['tag', 'author', 'favorited', 'limit', 'offset'];
+
+export function feedRequestsEqual(first: FeedRequest, second: FeedRequest): boolean {
+  return feedRequestKeys.every(key => first[key] === second[key]);
+}
+
 export interface ArticleList {
   readonly articleCount: number;
   readonly articles: readonly Article[];

@@ -3,6 +3,7 @@ import { Component, ComponentContext } from '@wesib/wesib';
 import { noop } from 'call-thru';
 import { afterAll } from 'fun-events';
 import { AuthService, Conduit__NS } from '../../common';
+import { hashURL, setHashURL } from '../../common/layout';
 
 @Component(
     ['feed-toggle', Conduit__NS],
@@ -26,17 +27,15 @@ export class FeedToggleComponent {
             page: [{ url }],
           }) => {
 
-            const feed = url.searchParams.get('feed');
+            const hash = hashURL(url);
+            const feed = hash.pathname.substring(1);
 
             if (!feed) {
               return;
             }
             if (feed !== 'personal' || !user) {
-
-              const newURL = new URL(url.href);
-
-              newURL.searchParams.delete('feed');
-              navigation.replace(newURL).catch(noop);
+              hash.pathname = '';
+              navigation.replace(setHashURL(url, hash)).catch(noop);
             }
           },
       );

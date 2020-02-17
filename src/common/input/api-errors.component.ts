@@ -1,12 +1,12 @@
 import { HierarchyContext } from '@wesib/generic';
 import { InputToForm } from '@wesib/generic/input';
-import { BootstrapWindow, Component, ComponentContext, ElementRender, Render } from '@wesib/wesib';
-import { itsEach, overEntries } from 'a-iterable';
+import { Component, ComponentContext, ElementRender, Render } from '@wesib/wesib';
 import { nextArgs, NextCall } from 'call-thru';
 import { nextAfterEvent, OnEventCallChain } from 'fun-events';
 import { InValidation } from 'input-aspects';
 import { ApiResponse } from '../api';
 import { Conduit__NS } from '../conduit.ns';
+import { ApiErrorGenerator } from './api-error-generator';
 
 const noApiErrors: ApiResponse.Errors = {};
 
@@ -50,40 +50,21 @@ export class ApiErrorsComponent {
       return;
     }
     this._errors = value;
-    this._context.updateState('errors', old, value);
+    this._context.updateState('errors', value, old);
   }
 
   @Render()
   render(): ElementRender {
 
     const { contentRoot } = this._context;
-    const document = this._context.get(BootstrapWindow).document;
-    let list: HTMLUListElement | undefined;
+    let list: Element | undefined;
 
     return () => {
       if (list) {
         list.remove();
         list = undefined;
       }
-      itsEach(
-          overEntries(this.errors),
-          ([key, messages]) => {
-            if (!list) {
-              list = document.createElement('ul');
-              list.classList.add('error-messages');
-            }
-
-            const ul = list;
-
-            messages.forEach(message => {
-
-              const li = document.createElement('li');
-
-              li.innerText = `${key} ${message}`;
-              ul.appendChild(li);
-            });
-          },
-      );
+      list = this._context.get(ApiErrorGenerator)(this.errors);
       if (list) {
         contentRoot.append(list);
       }
