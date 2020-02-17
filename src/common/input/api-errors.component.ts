@@ -79,7 +79,7 @@ export class ApiErrorsComponent {
 
               const li = document.createElement('li');
 
-              li.innerText = `${key}: ${message}`;
+              li.innerText = `${key} ${message}`;
               ul.appendChild(li);
             });
           },
