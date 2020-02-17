@@ -12,6 +12,7 @@
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
     "noEmitHelpers": true,
+    "allowSyntheticDefaultImports": true,
     "lib": [
       "dom",
       "es2017"

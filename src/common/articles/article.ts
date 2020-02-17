@@ -1,7 +1,7 @@
 import { nextSkip } from 'call-thru';
 import { EventSender, OnEvent, OnEvent__symbol, onEventBy, trackValue } from 'fun-events';
 import { UserProfile } from '../users';
-import * as marked from 'marked';
+import marked from 'marked';
 
 export class Article implements EventSender<[string]> {
 
