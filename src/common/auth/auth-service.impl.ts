@@ -87,22 +87,22 @@ export class AuthService$ extends AuthService {
   }
 
   login(request: LoginRequest): OnEvent<[ApiResponse<AuthUser>]> {
-    return this._request(request);
+    return this._request('users/login', request);
   }
 
   register(request: RegisterRequest): OnEvent<[ApiResponse<AuthUser>]> {
-    return this._request(request);
+    return this._request('users', request);
   }
 
   logout(): void {
     this._auth.it = null;
   }
 
-  private _request(request: LoginRequest | RegisterRequest): OnEvent<[ApiResponse<AuthUser>]> {
+  private _request(path: string, request: LoginRequest | RegisterRequest): OnEvent<[ApiResponse<AuthUser>]> {
 
     const apiFetch: ApiFetch = this._context.get(ApiFetch);
     const apiRequest: ApiRequest<AuthUser> = {
-      path: 'users',
+      path,
       init: {
         method: 'POST',
         body: JSON.stringify({ user: request }),
