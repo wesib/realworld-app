@@ -1,32 +1,34 @@
 import { BootstrapContext, bootstrapDefault } from '@wesib/wesib';
-import { FnContextKey, FnContextRef } from 'context-values/updatable';
+import { ContextUpRef, FnContextKey } from 'context-values/updatable';
 import { OnEvent } from 'fun-events';
 import { InSubmit, InSubmitError } from 'input-aspects';
 import { ApiFetch, ApiRequest, ApiResponse } from './api-fetch';
 
-export type ApiSubmitter<Value = any, Result = any> =
-    (this: void, request: ApiRequest) => InSubmit.Submitter<Value, Result>;
+export type ApiSubmitter =
+    <Value = any, Result = any>(this: void, request: ApiRequest<Result>) => InSubmit.Submitter<Value, Result>;
 
-export const ApiSubmitter: FnContextRef<[ApiRequest], InSubmit.Submitter<any, any>> = (
-    new FnContextKey<[ApiRequest], InSubmit.Submitter<any, any>>(
+export const ApiSubmitter: ContextUpRef<ApiSubmitter, ApiSubmitter> = (
+    new FnContextKey<[ApiRequest<any>], InSubmit.Submitter<any, any>>(
         'api-submitter',
         {
           byDefault: bootstrapDefault(newApiSubmitter),
         },
     ));
 
-function newApiSubmitter<Value, Result>(context: BootstrapContext): ApiSubmitter<Value, Result> {
+function newApiSubmitter(
+    context: BootstrapContext,
+): <Value, Result>(this: void, request: ApiRequest<Result>) => InSubmit.Submitter<Value, Result> {
 
-  const apiFetch: ApiFetch<Result> = context.get(ApiFetch);
+  const apiFetch: ApiFetch = context.get(ApiFetch);
 
-  return request => {
+  return <Value, Result>(request: ApiRequest<Result>) => {
 
     const { init = {} } = request;
     const { method = 'POST', headers = {} } = init;
 
     return (body: Value) => {
 
-      const apiRequest: ApiRequest = {
+      const apiRequest: ApiRequest<Result> = {
         ...request,
         init: {
           ...init,
@@ -48,7 +50,7 @@ function newApiSubmitter<Value, Result>(context: BootstrapContext): ApiSubmitter
 export function apiSubmit<Result>(onFetch: OnEvent<[ApiResponse<Result>]>): Promise<Result> {
   return new Promise((resolve, reject) => {
     onFetch.once(
-        (response: ApiResponse) => {
+        (response: ApiResponse<Result>) => {
           if (response.ok) {
             resolve(response.body);
           } else {

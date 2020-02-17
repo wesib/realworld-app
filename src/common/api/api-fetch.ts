@@ -1,15 +1,17 @@
 import { HttpFetch } from '@wesib/generic';
 import { BootstrapContext, bootstrapDefault } from '@wesib/wesib';
 import { nextArgs, NextCall } from 'call-thru';
-import { FnContextKey, FnContextRef } from 'context-values/updatable';
+import { ContextUpRef, FnContextKey } from 'context-values/updatable';
 import { AfterEvent, nextOnEvent, onAsync, OnEvent, OnEventCallChain } from 'fun-events';
 import { AuthService__key } from '../auth/auth-service.key.impl';
 import { ApiRootURL } from './api-root-url';
 
 /**
  * Request to some API endpoint.
+ *
+ * @typeparam T  Response type.
  */
-export interface ApiRequest {
+export interface ApiRequest<T> {
 
   /**
    * API endpoint path __relative__ to {@link ApiRootURL API root URL}.
@@ -19,9 +21,9 @@ export interface ApiRequest {
   readonly path: string;
 
   /**
-   * Wrapper field containing response object.
+   * Wrapper field containing response object, or a function extracting it.
    */
-  readonly respondIn: string;
+  readonly respondAs: string | ((this: void, json: any) => T);
 
   /**
    * Additional HTTP request options.
@@ -39,7 +41,7 @@ export interface ApiRequest {
 
 }
 
-export type ApiResponse<T = any> =
+export type ApiResponse<T> =
     | ApiResponse.Ok<T>
     | ApiResponse.Failure;
 
@@ -63,10 +65,10 @@ export namespace ApiResponse {
 
 }
 
-export type ApiFetch<T = any> = (this: void, request: ApiRequest) => OnEvent<[ApiResponse<T>]>;
+export type ApiFetch = <T>(this: void, request: ApiRequest<T>) => OnEvent<[ApiResponse<T>]>;
 
-export const ApiFetch: FnContextRef<[ApiRequest], OnEvent<[ApiResponse]>> = (
-    new FnContextKey<[ApiRequest], OnEvent<[ApiResponse]>>(
+export const ApiFetch: ContextUpRef<ApiFetch, ApiFetch> = (
+    new FnContextKey<[ApiRequest<any>], OnEvent<[ApiResponse<any>]>>(
         'api-fetch',
         {
           byDefault: bootstrapDefault(newApiFetch),
@@ -164,11 +166,11 @@ function parseApiResponse(
       : [responseOfFailure];
 }
 
-function handleApiResponse(
-    { respondIn }: ApiRequest,
+function handleApiResponse<T>(
+    { respondAs }: ApiRequest<T>,
     responseOfFailure: ResponseOrFailure,
     json?: any,
-): ApiResponse {
+): ApiResponse<T> {
   if (!responseOfFailure.response) {
     return responseOfFailure.failure;
   }
@@ -179,7 +181,7 @@ function handleApiResponse(
     return {
       ok: true,
       response,
-      body: json[respondIn],
+      body: typeof respondAs === 'function' ? respondAs(json) : json[respondAs],
     };
   }
 

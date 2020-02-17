@@ -10,14 +10,14 @@ import {
   trackValue,
   ValueTracker,
 } from 'fun-events';
-import { ApiFetch, ApiResponse } from '../api';
-import { AuthService as AuthService_, AuthUserOrFailure, LoginRequest, RegisterRequest } from './auth-service';
+import { ApiFetch, ApiRequest, ApiResponse } from '../api';
+import { AuthService, AuthUserOrFailure, LoginRequest, RegisterRequest } from './auth-service';
 import { AuthUser } from './auth-user';
 
 const authTokenKey = 'wesib-conduit:auth';
 type Authentication = AuthUser | string | null;
 
-export class AuthService extends AuthService_ {
+export class AuthService$ extends AuthService {
 
   readonly user: AfterEvent<AuthUserOrFailure>;
   private readonly _auth: ValueTracker<Authentication>;
@@ -51,20 +51,23 @@ export class AuthService extends AuthService_ {
 
     function fetchCurrentUser(token: string): AfterEvent<AuthUserOrFailure> {
 
-      const apiFetch: ApiFetch<AuthUser> = _context.get(ApiFetch);
+      const apiFetch: ApiFetch = _context.get(ApiFetch);
+      const apiRequest: ApiRequest<AuthUser> = {
+        path: 'user',
+        init: {
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Token ${token}`,
+          },
+        },
+        respondAs: 'user',
+        auth: false,
+      };
 
       return afterEventBy<AuthUserOrFailure>(
           receiver => {
-            apiFetch({
-              path: 'user',
-              init: {
-                headers: {
-                  Authorization: `Token ${token}`,
-                },
-              },
-              respondIn: 'user',
-              auth: false,
-            }).thru_(
+            apiFetch(apiRequest).thru_(
                 (response: ApiResponse<AuthUser>): NextCall<OnEventCallChain, AuthUserOrFailure> => {
                   if (response.ok) {
                     return nextArgs(response.body);
@@ -97,9 +100,8 @@ export class AuthService extends AuthService_ {
 
   private _request(request: LoginRequest | RegisterRequest): OnEvent<[ApiResponse<AuthUser>]> {
 
-    const apiFetch: ApiFetch<AuthUser> = this._context.get(ApiFetch);
-
-    return apiFetch({
+    const apiFetch: ApiFetch = this._context.get(ApiFetch);
+    const apiRequest: ApiRequest<AuthUser> = {
       path: 'users',
       init: {
         method: 'POST',
@@ -109,9 +111,11 @@ export class AuthService extends AuthService_ {
           'Content-Type': 'application/json',
         },
       },
-      respondIn: 'user',
+      respondAs: 'user',
       auth: false,
-    }).thru_(
+    };
+
+    return apiFetch(apiRequest).thru_(
         response => {
           if (response.ok) {
             this._auth.it = response.body;
