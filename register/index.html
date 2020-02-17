@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
   <title>Conduit: Sign Up</title>
-  <meta name="wesib-app-rev" content="1e171gn9r">
+  <meta name="wesib-app-rev" content="1e195j4mr">
   <base href=".."/>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -36,27 +36,28 @@
       <div class="container page">
         <div class="row">
 
-          <div class="col-md-6 col-md-offset-3 col-xs-12">
-            <h1 class="text-xs-center">Sign up</h1>
-            <p class="text-xs-center">
+          <div class="col-md-6 offset-md-3 col-12">
+            <h1 class="text-center">Sign up</h1>
+            <p class="text-center">
               <a href="login/">Have an account?</a>
             </p>
 
-            <!--         <ul class="error-messages">
-                      <li>That email is already taken</li>
-                    </ul> -->
+            <conduit-api-errors></conduit-api-errors>
 
             <form>
-              <fieldset class="form-group">
+              <conduit-register-username>
                 <input class="form-control form-control-lg" type="text" placeholder="Your Name">
-              </fieldset>
-              <fieldset class="form-group">
+                <conduit-in-error code="missing">Your name is required</conduit-in-error>
+              </conduit-register-username>
+              <conduit-login-email>
                 <input class="form-control form-control-lg" type="text" placeholder="Email">
-              </fieldset>
-              <fieldset class="form-group">
+                <conduit-in-error code="missing">Email is required</conduit-in-error>
+              </conduit-login-email>
+              <conduit-login-password>
                 <input class="form-control form-control-lg" type="password" placeholder="Password">
-              </fieldset>
-              <button class="btn btn-lg btn-primary pull-xs-right">
+                <conduit-in-error code="missing">Password is required</conduit-in-error>
+              </conduit-login-password>
+              <button class="btn btn-lg btn-primary float-right">
                 Sign up
               </button>
             </form>
@@ -75,5 +76,5 @@
     </span>
   </div>
 </conduit-footer>
-<script src="register/main.8cd8ec43.js" type="module"></script></body>
+<script src="register/main.e3cb60ac.js" type="module"></script></body>
 </html>
