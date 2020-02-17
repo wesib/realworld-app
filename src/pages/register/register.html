@@ -17,20 +17,21 @@
               <a href="login/">Have an account?</a>
             </p>
 
-            <!--         <ul class="error-messages">
-                      <li>That email is already taken</li>
-                    </ul> -->
+            <conduit-api-errors></conduit-api-errors>
 
             <form>
-              <fieldset class="form-group">
+              <conduit-register-username>
                 <input class="form-control form-control-lg" type="text" placeholder="Your Name">
-              </fieldset>
-              <fieldset class="form-group">
+                <conduit-in-error code="missing">Your name is required</conduit-in-error>
+              </conduit-register-username>
+              <conduit-login-email>
                 <input class="form-control form-control-lg" type="text" placeholder="Email">
-              </fieldset>
-              <fieldset class="form-group">
+                <conduit-in-error code="missing">Email is required</conduit-in-error>
+              </conduit-login-email>
+              <conduit-login-password>
                 <input class="form-control form-control-lg" type="password" placeholder="Password">
-              </fieldset>
+                <conduit-in-error code="missing">Password is required</conduit-in-error>
+              </conduit-login-password>
               <button class="btn btn-lg btn-primary pull-xs-right">
                 Sign up
               </button>

@@ -11,6 +11,12 @@ export interface LoginRequest {
   readonly password: string;
 }
 
+export interface RegisterRequest {
+  readonly username: string;
+  readonly email: string;
+  readonly password: string;
+}
+
 export abstract class AuthService {
 
   static get [ContextKey__symbol](): ContextKey<AuthService> {
@@ -20,6 +26,8 @@ export abstract class AuthService {
   abstract readonly user: AfterEvent<AuthUserOrFailure>;
 
   abstract login(request: LoginRequest): OnEvent<[ApiResponse<AuthUser>]>;
+
+  abstract register(request: RegisterRequest): OnEvent<[ApiResponse<AuthUser>]>;
 
   abstract logout(): void;
 

@@ -11,7 +11,7 @@ import {
   ValueTracker,
 } from 'fun-events';
 import { ApiFetch, ApiResponse } from '../api';
-import { AuthService as AuthService_, AuthUserOrFailure, LoginRequest } from './auth-service';
+import { AuthService as AuthService_, AuthUserOrFailure, LoginRequest, RegisterRequest } from './auth-service';
 import { AuthUser } from './auth-user';
 
 const authTokenKey = 'wesib-conduit:auth';
@@ -84,11 +84,23 @@ export class AuthService extends AuthService_ {
   }
 
   login(request: LoginRequest): OnEvent<[ApiResponse<AuthUser>]> {
+    return this._request(request);
+  }
+
+  register(request: RegisterRequest): OnEvent<[ApiResponse<AuthUser>]> {
+    return this._request(request);
+  }
+
+  logout(): void {
+    this._auth.it = null;
+  }
+
+  private _request(request: LoginRequest | RegisterRequest): OnEvent<[ApiResponse<AuthUser>]> {
 
     const apiFetch: ApiFetch<AuthUser> = this._context.get(ApiFetch);
 
     return apiFetch({
-      path: 'users/login',
+      path: 'users',
       init: {
         method: 'POST',
         body: JSON.stringify({ user: request }),
@@ -109,10 +121,6 @@ export class AuthService extends AuthService_ {
           return response;
         },
     );
-  }
-
-  logout(): void {
-    this._auth.it = null;
   }
 
 }

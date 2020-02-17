@@ -1,3 +1,8 @@
 conduit-register {
+  display: contents;
+}
+conduit-register-username {
   display: block;
+  @extend fieldset;
+  @extend .form-group;
 }
