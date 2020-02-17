@@ -62,6 +62,7 @@ export class AuthService extends AuthService_ {
                   Authorization: `Token ${token}`,
                 },
               },
+              respondIn: 'user',
               auth: false,
             }).thru_(
                 (response: ApiResponse<AuthUser>): NextCall<OnEventCallChain, AuthUserOrFailure> => {
@@ -90,12 +91,13 @@ export class AuthService extends AuthService_ {
       path: 'users/login',
       init: {
         method: 'POST',
-        body: JSON.stringify(request),
+        body: JSON.stringify({ user: request }),
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
       },
+      respondIn: 'user',
       auth: false,
     }).thru_(
         response => {

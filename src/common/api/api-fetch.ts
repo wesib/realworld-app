@@ -19,6 +19,11 @@ export interface ApiRequest {
   readonly path: string;
 
   /**
+   * Wrapper field containing response object.
+   */
+  readonly respondIn: string;
+
+  /**
    * Additional HTTP request options.
    */
   readonly init?: RequestInit;
@@ -83,8 +88,9 @@ function newApiFetch(context: BootstrapContext): ApiFetch {
   const httpFetch = context.get(HttpFetch);
   const apiRootURL = context.get(ApiRootURL);
 
-  return ({ path, init, auth }) => {
+  return request => {
 
+    const { path, init, auth } = request;
     const onResponse: OnEvent<[ResponseOrFailure]> = apiRootURL.thru_(
         baseURL => new URL(path, baseURL),
         url => buildApiRequest(url, init),
@@ -97,8 +103,9 @@ function newApiFetch(context: BootstrapContext): ApiFetch {
             : nextArgs({ failure: requestOrFailure.failure }),
     );
 
-    return onAsync(onResponse.thru_(parseApiResponse))
-        .thru_(([responseOrFailure, json]) => handleApiResponse(responseOrFailure, json));
+    return onAsync(onResponse.thru_(parseApiResponse)).thru_(
+        ([responseOrFailure, json]) => handleApiResponse(request, responseOrFailure, json),
+    );
   };
 }
 
@@ -158,8 +165,9 @@ function parseApiResponse(
 }
 
 function handleApiResponse(
+    { respondIn }: ApiRequest,
     responseOfFailure: ResponseOrFailure,
-    body?: any,
+    json?: any,
 ): ApiResponse {
   if (!responseOfFailure.response) {
     return responseOfFailure.failure;
@@ -171,14 +179,14 @@ function handleApiResponse(
     return {
       ok: true,
       response,
-      body,
+      body: json[respondIn],
     };
   }
 
   return {
     ok: false,
     response,
-    errors: body.errors || {
+    errors: json.errors || {
       http: [
         response.statusText
             ? `${response.status}: ${response.statusText}`
