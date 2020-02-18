@@ -8,5 +8,6 @@ export * from './conduit.feature';
 export * from './conduit.ns';
 export * from './input';
 export * from './users';
+export * from './util';
 
 export const conduitContext = bootstrapComponents(ConduitFeature);

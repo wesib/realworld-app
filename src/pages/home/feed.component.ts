@@ -9,8 +9,8 @@ import {
   FeedRequest,
   feedRequestsEqual,
   FeedService,
+  hashURL,
 } from '../../common';
-import { hashURL } from '../../common/layout';
 
 @Component(
     ['feed', Conduit__NS],

@@ -2,8 +2,7 @@ import { ActivateNavLink, HandleNavLinks, Navigation } from '@wesib/generic';
 import { Component, ComponentContext } from '@wesib/wesib';
 import { noop } from 'call-thru';
 import { afterAll } from 'fun-events';
-import { AuthService, Conduit__NS } from '../../common';
-import { hashURL, setHashURL } from '../../common/layout';
+import { AuthService, Conduit__NS, hashURL, setHashURL } from '../../common';
 
 @Component(
     ['feed-toggle', Conduit__NS],
