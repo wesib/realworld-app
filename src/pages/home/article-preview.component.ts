@@ -1,6 +1,6 @@
 import { HandleNavLinks } from '@wesib/generic';
-import { Component, ComponentContext, DomProperty, Render } from '@wesib/wesib';
-import { Article, Conduit__NS, escapeHtml } from '../../common';
+import { Component, ComponentContext, DomProperty, ElementRender, Render } from '@wesib/wesib';
+import { Article, articleContent, Conduit__NS, escapeHtml } from '../../common';
 
 @Component(
     ['article-preview', Conduit__NS],
@@ -36,11 +36,12 @@ export class ArticlePreviewComponent {
   article: Article | undefined;
 
   @Render()
-  render(): void {
+  render(): ElementRender | void {
     if (!this.article) {
       return;
     }
 
+    const { article } = this;
     const content = this._context.contentRoot as Element;
     const { author } = this.article;
     const profileURL = `profile/#${encodeURIComponent(author.username)}`;
@@ -63,10 +64,31 @@ export class ArticlePreviewComponent {
 </div>
 <a href="${postURL}" class="preview-link">
 <h1>${escapeHtml(this.article.title)}</h1>
-<p>${this.article.body}</p>
+<p class="post-content"></p>
 <span>Read more...</span>
 </a>
 `;
+
+    let postContent = '';
+
+    const setContent = (html: string): void => {
+
+      const prev = postContent;
+
+      postContent = html;
+      this._context.updateState('postContent', postContent, prev);
+    };
+
+    articleContent(article)
+        .then(setContent)
+        .catch(error => {
+          console.log(`Failed to display article ${article.slug}`);
+          setContent(`ERROR ${String(error)}`);
+        });
+
+    return () => {
+      content.querySelector('.post-content')!.innerHTML = postContent;
+    };
   }
 
 }
