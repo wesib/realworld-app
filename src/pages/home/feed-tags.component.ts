@@ -14,7 +14,6 @@ export class FeedTagsComponent {
 
     _context.whenOn(supply => {
       feedService.tags().tillOff(supply)((...tags) => this.tags = tags);
-      supply.whenOff(() => console.log('off'));
     });
   }
 
