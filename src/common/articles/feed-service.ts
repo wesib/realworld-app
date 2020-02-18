@@ -28,6 +28,8 @@ export interface FeedService {
 
   feed(request: FeedRequest): OnEvent<[ApiResponse<ArticleList>]>;
 
+  tags(): OnEvent<string[]>;
+
   article(slug: string): OnEvent<[ApiResponse<Article>]>;
 
 }
