@@ -18,3 +18,4 @@ Thumbs.db
 # Output
 /dist
 /target
+*.log
