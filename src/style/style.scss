@@ -148,37 +148,16 @@ conduit-footer {
 }
 
 // Import all of our SCSS files
-@import 'article/article';
-@import 'editor/editor';
-@import 'home/home';
-@import 'login/login';
-@import 'profile/profile';
-@import 'register/register';
-@import 'settings/settings';
+@import '../pages/article/article';
+@import '../pages/editor/editor';
+@import '../pages/home/home';
+@import '../pages/login/login';
+@import '../pages/profile/profile';
+@import '../pages/register/register';
+@import '../pages/settings/settings';
 
-@import '~bootstrap/scss/bootstrap.scss';
+@import '../../node_modules/bootstrap/scss/bootstrap';
 
-// Authentication status
-conduit-container {
-  &.authenticated\@conduit {
-    .unless-authenticated\@conduit {
-      @extend .d-none;
-    }
-  }
-
-  &:not(.authenticated\@conduit) {
-    .if-authenticated\@conduit {
-      @extend .d-none;
-    }
-  }
-}
-
-// Validation status
-conduit-in-error {
-  @extend .form-text;
-  @extend .text-danger;
-  @extend .d-none;
-  &.is-invalid{
-    @extend .d-block;
-  }
-}
+@import './container';
+@import './loader';
+@import './input';

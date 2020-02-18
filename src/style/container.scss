@@ -1,0 +1,14 @@
+// Authentication status
+conduit-container {
+  &.authenticated\@conduit {
+    .unless-authenticated\@conduit {
+      @extend .d-none;
+    }
+  }
+
+  &:not(.authenticated\@conduit) {
+    .if-authenticated\@conduit {
+      @extend .d-none;
+    }
+  }
+}
