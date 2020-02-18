@@ -19,13 +19,12 @@ export class ArticlePreviewComponent {
     }
 
     const content = this._context.contentRoot as Element;
-    const { data } = this.article;
-    const { author } = data;
+    const { author } = this.article;
     const profileURL = `profile/#${encodeURIComponent(author.username)}`;
     const profileImage = author.image ? `<img src="${encodeURI(author.image)}"/>` : '';
     const username = escape(author.username);
-    const postDate = this.article.createdAt.toDateString();
-    const postURL = `article/#${encodeURIComponent(data.slug)}`;
+    const postDate = new Date(this.article.createdAt).toDateString();
+    const postURL = `article/#${encodeURIComponent(this.article.slug)}`;
 
     content.innerHTML = `
 <div class="post-meta">
@@ -39,21 +38,11 @@ export class ArticlePreviewComponent {
 </button>
 </div>
 <a href="${postURL}" class="preview-link">
-<h1>${escape(data.title)}</h1>
-<p class="post-preview-contents"></p>
+<h1>${escape(this.article.title)}</h1>
+<p>${this.article.body}</p>
 <span>Read more...</span>
 </a>
 `;
-
-    this.article.onHtml.once(html => {
-      content.querySelector('.post-preview-contents')!.innerHTML = html;
-    }).whenOff(reason => {
-      if (reason != null) {
-        content.querySelector('.post-preview-contents')!.innerHTML = `
-<div class="alert alert-danger">${reason}</div>
-`;
-      }
-    });
   }
 
 }

@@ -1,6 +1,6 @@
 import { BootstrapContext } from '@wesib/wesib';
 import { overEntries, thruIt } from 'a-iterable';
-import { nextArg, nextSkip } from 'call-thru';
+import { asis, nextArg, nextSkip } from 'call-thru';
 import { OnEvent } from 'fun-events';
 import { ApiFetch, ApiRequest, ApiResponse } from '../api';
 import { Article } from './article';
@@ -64,20 +64,7 @@ export class FeedService$ implements FeedService {
         },
       },
       auth,
-      respondAs(
-          {
-            articleCount,
-            articles,
-          }: {
-            articleCount: number;
-            articles: readonly Article.Data[];
-          },
-      ): ArticleList {
-        return {
-          articleCount,
-          articles: articles.map(article => new Article(article)),
-        };
-      },
+      respondAs: asis,
     };
 
     return this._apiFetch(apiRequest);
