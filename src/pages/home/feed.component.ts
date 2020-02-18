@@ -92,14 +92,12 @@ export class FeedComponent {
     };
 
     function displayProgress(range: Range): void {
-      console.log('progress');
       const loader = document.createElement('conduit-loader');
       loader.setAttribute('data-feed', 'feed');
       range.insertNode(loader);
     }
 
     function displayError(range: Range, errors: ApiResponse.Errors): void {
-      console.log('error');
 
       const errorList = errorGen(errors);
 
@@ -115,7 +113,6 @@ export class FeedComponent {
     }
 
     function displayArticles(range: Range, articles: ArticleList): void {
-      console.log('articles');
 
       const fragment = document.createDocumentFragment();
 
