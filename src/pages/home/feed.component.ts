@@ -73,41 +73,49 @@ export class FeedComponent {
 
     const document = this._context.get(BootstrapWindow).document;
     const errorGen = this._context.get(ApiErrorGenerator);
-    const range = document.createRange();
-
-    range.selectNodeContents(this._context.contentRoot as unknown as Node);
 
     return () => {
 
       const response = this.response;
+      const range = document.createRange();
 
+      range.selectNodeContents(this._context.contentRoot);
       range.deleteContents();
 
       if (!response) {
-        displayProgress();
+        displayProgress(range);
       } else if (response.ok) {
-        displayArticles(response.body);
+        displayArticles(range, response.body);
       } else {
-        displayError(response.errors);
+        displayError(range, response.errors);
       }
     };
 
-    function displayProgress(): void {
-      // TODO: Display articles load progress
+    function displayProgress(range: Range): void {
+      console.log('progress');
+      const loader = document.createElement('conduit-loader');
+      loader.setAttribute('data-feed', 'feed');
+      range.insertNode(loader);
     }
 
-    function displayError(errors: ApiResponse.Errors): void {
+    function displayError(range: Range, errors: ApiResponse.Errors): void {
+      console.log('error');
 
       const errorList = errorGen(errors);
 
       if (errorList) {
         range.insertNode(errorList);
       } else {
-        range.insertNode(document.createTextNode('Failed to load articles'));
+
+        const loader = document.createElement('conduit-loader');
+
+        loader.setAttribute('load-error', 'Failed to load articles');
+        range.insertNode(loader);
       }
     }
 
-    function displayArticles(articles: ArticleList): void {
+    function displayArticles(range: Range, articles: ArticleList): void {
+      console.log('articles');
 
       const fragment = document.createDocumentFragment();
 
