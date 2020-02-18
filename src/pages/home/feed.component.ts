@@ -1,6 +1,7 @@
 import { Navigation } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, ElementRender, Render } from '@wesib/wesib';
 import { nextOnEvent, trackValue } from 'fun-events';
+import { DomEventDispatcher } from 'fun-events/dom';
 import {
   ApiErrorGenerator,
   ApiResponse,
@@ -9,7 +10,7 @@ import {
   FeedRequest,
   feedRequestsEqual,
   FeedService,
-  hashURL,
+  hashURL, PagerEvent, setHashURL,
 } from '../../common';
 
 @Component(
@@ -71,6 +72,8 @@ export class FeedComponent {
   @Render()
   render(): ElementRender {
 
+    const component = this;
+    const navigation = this._context.get(Navigation);
     const document = this._context.get(BootstrapWindow).document;
     const errorGen = this._context.get(ApiErrorGenerator);
 
@@ -83,36 +86,63 @@ export class FeedComponent {
       range.deleteContents();
 
       if (!response) {
-        displayProgress(range);
+        range.insertNode(displayProgress());
       } else if (response.ok) {
-        displayArticles(range, response.body);
+        range.insertNode(displayPager(response.body));
+        range.insertNode(displayArticles(response.body));
       } else {
-        displayError(range, response.errors);
+        range.insertNode(displayError(response.errors));
       }
     };
 
-    function displayProgress(range: Range): void {
-      const loader = document.createElement('conduit-loader');
-      loader.setAttribute('data-feed', 'feed');
-      range.insertNode(loader);
+    function displayProgress(): Element {
+      return document.createElement('conduit-loader');
     }
 
-    function displayError(range: Range, errors: ApiResponse.Errors): void {
+    function displayError(errors: ApiResponse.Errors): Element {
 
       const errorList = errorGen(errors);
 
       if (errorList) {
-        range.insertNode(errorList);
-      } else {
-
-        const loader = document.createElement('conduit-loader');
-
-        loader.setAttribute('load-error', 'Failed to load articles');
-        range.insertNode(loader);
+        return errorList;
       }
+
+      const loader = document.createElement('conduit-loader');
+
+      loader.setAttribute('load-error', 'Failed to load articles');
+
+      return loader;
     }
 
-    function displayArticles(range: Range, articles: ArticleList): void {
+    function displayPager({ articlesCount }: ArticleList): Element {
+
+      const [, { limit = 20, offset = 0 }] = component._request.it;
+      const totalPages = Math.ceil(articlesCount / limit);
+      const currentPage = Math.floor(offset / limit);
+      const pager = document.createElement('conduit-pager');
+
+      pager.setAttribute('total-pages', totalPages.toString(10));
+      pager.setAttribute('current-page', currentPage.toString(10));
+
+      new DomEventDispatcher(pager).on<PagerEvent>('conduit:pager').just(({ detail: page }) => {
+        navigation.read.once(({ url }) => {
+
+          const hash = hashURL(url);
+
+          if (page) {
+            hash.searchParams.set('offset', (page * limit).toString(10));
+          } else {
+            hash.searchParams.delete('offset');
+          }
+
+          navigation.open(setHashURL(url, hash));
+        });
+      });
+
+      return pager;
+    }
+
+    function displayArticles(articles: ArticleList): DocumentFragment {
 
       const fragment = document.createDocumentFragment();
 
@@ -123,7 +153,7 @@ export class FeedComponent {
         element.feedArticle = article;
       });
 
-      range.insertNode(fragment);
+      return fragment;
     }
   }
 

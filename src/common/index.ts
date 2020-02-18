@@ -6,6 +6,7 @@ export * from './articles';
 export * from './auth';
 export * from './conduit.feature';
 export * from './conduit.ns';
+export * from './generic';
 export * from './input';
 export * from './users';
 export * from './util';

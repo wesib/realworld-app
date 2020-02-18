@@ -18,8 +18,8 @@ export function feedRequestsEqual(first: FeedRequest, second: FeedRequest): bool
 }
 
 export interface ArticleList {
-  readonly articleCount: number;
   readonly articles: readonly Article[];
+  readonly articlesCount: number;
 }
 
 export interface FeedService {

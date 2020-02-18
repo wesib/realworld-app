@@ -159,5 +159,5 @@ conduit-footer {
 @import '../../node_modules/bootstrap/scss/bootstrap';
 
 @import './container';
-@import './loader';
-@import './input';
+@import '../common/generic/generic';
+@import '../common/input/input';

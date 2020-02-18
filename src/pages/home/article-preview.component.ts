@@ -48,6 +48,7 @@ export class ArticlePreviewComponent {
     const username = escapeHtml(author.username);
     const postDate = new Date(this.article.createdAt).toDateString();
     const postURL = `article/#${encodeURIComponent(this.article.slug)}`;
+    const favIconClass = this.article.favorited ? 'ion-heart' : 'ion-ios-heart-outline';
 
     content.innerHTML = `
 <div class="post-meta">
@@ -57,7 +58,7 @@ export class ArticlePreviewComponent {
     <span class="date">${postDate}</span>
 </div>
 <button class="btn btn-outline-primary btn-sm float-right">
-  <i class="ion-heart"></i> 32
+  <i class="${favIconClass}"></i> ${this.article.favoritesCount}
 </button>
 </div>
 <a href="${postURL}" class="preview-link">
