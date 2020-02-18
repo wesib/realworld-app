@@ -1,5 +1,5 @@
 import { Component, ComponentContext, DomProperty, Render } from '@wesib/wesib';
-import { Article, Conduit__NS } from '../../common';
+import { Article, Conduit__NS, escapeHtml } from '../../common';
 
 @Component(
     ['article-preview', Conduit__NS],
@@ -22,7 +22,7 @@ export class ArticlePreviewComponent {
     const { author } = this.article;
     const profileURL = `profile/#${encodeURIComponent(author.username)}`;
     const profileImage = author.image ? `<img src="${encodeURI(author.image)}"/>` : '';
-    const username = escape(author.username);
+    const username = escapeHtml(author.username);
     const postDate = new Date(this.article.createdAt).toDateString();
     const postURL = `article/#${encodeURIComponent(this.article.slug)}`;
 
@@ -38,7 +38,7 @@ export class ArticlePreviewComponent {
 </button>
 </div>
 <a href="${postURL}" class="preview-link">
-<h1>${escape(this.article.title)}</h1>
+<h1>${escapeHtml(this.article.title)}</h1>
 <p>${this.article.body}</p>
 <span>Read more...</span>
 </a>
