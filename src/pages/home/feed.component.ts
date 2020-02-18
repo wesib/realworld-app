@@ -1,4 +1,4 @@
-import { HandleNavLinks, Navigation } from '@wesib/generic';
+import { Navigation } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, ElementRender, Render } from '@wesib/wesib';
 import { nextOnEvent, trackValue } from 'fun-events';
 import {
@@ -14,7 +14,6 @@ import {
 
 @Component(
     ['feed', Conduit__NS],
-    HandleNavLinks(),
 )
 export class FeedComponent {
 

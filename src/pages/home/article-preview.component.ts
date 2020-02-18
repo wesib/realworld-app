@@ -1,8 +1,31 @@
+import { HandleNavLinks } from '@wesib/generic';
 import { Component, ComponentContext, DomProperty, Render } from '@wesib/wesib';
 import { Article, Conduit__NS, escapeHtml } from '../../common';
 
 @Component(
     ['article-preview', Conduit__NS],
+    HandleNavLinks({
+      href(event) {
+
+        let target = event.target as Element;
+
+        for (;;) {
+
+          const href = target.getAttribute('href');
+
+          if (href != null) {
+            return href;
+          }
+
+          const { parentNode } = target;
+
+          if (!parentNode) {
+            return;
+          }
+          target = parentNode as Element;
+        }
+      },
+    }),
 )
 export class ArticlePreviewComponent {
 

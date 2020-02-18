@@ -137,10 +137,10 @@
     semver "^6.3.0"
     tsutils "^3.17.1"
 
-"@wesib/generic@^1.0.0-alpha.82":
-  version "1.0.0-alpha.82"
-  resolved "https://registry.yarnpkg.com/@wesib/generic/-/generic-1.0.0-alpha.82.tgz#32d5908bdf8b5337401c91976cf0cb939f61a594"
-  integrity sha512-hPnm8Uk65ax/hvhORxTiEk/aq0SWQfxzDMlJepVCro3xliqGbTZrd/XGGXywjJv8Tt5VAZVJdxJh4xS1UXa6tA==
+"@wesib/generic@^1.0.0-alpha.83":
+  version "1.0.0-alpha.83"
+  resolved "https://registry.yarnpkg.com/@wesib/generic/-/generic-1.0.0-alpha.83.tgz#4cad267b9bd35c3cf618958253f2c1d38b161b7a"
+  integrity sha512-laOrGsUYTIFVMSvkOvgnUhCdkduLCQEU3C2luOkbwg5t1Hrvobx7cbe4JloIRg8ZgHmqEog49277OqN8Mqk/wg==
   dependencies:
     http-header-value "^2.0.2"
 
