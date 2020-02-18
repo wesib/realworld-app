@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
   <title>Conduit</title>
-  <meta name="wesib-app-rev" content="1e195j4mr">
+  <meta name="wesib-app-rev" content="1e1b7m3aj">
   <base href="."/>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -45,17 +45,18 @@
         <div class="row">
 
           <div class="col-md-9">
-            <div class="feed-toggle">
+            <conduit-feed-toggle>
               <ul class="nav nav-pills outline-active">
-                <li class="nav-item">
-                  <a class="nav-link disabled" href="#">Your Feed</a>
+                <li class="nav-item if-authenticated@conduit">
+                  <a class="nav-link" href="#personal">Your Feed</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link active" href="#">Global Feed</a>
+                  <a class="nav-link" href=".">Global Feed</a>
                 </li>
               </ul>
-            </div>
+            </conduit-feed-toggle>
 
+            <conduit-feed>
             <div class="post-preview">
               <div class="post-meta">
                 <a href="../profile/profile.html"><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
@@ -91,7 +92,7 @@
                 <span>Read more...</span>
               </a>
             </div>
-
+            </conduit-feed>
           </div>
 
           <div class="col-md-3">
@@ -123,5 +124,5 @@
     </span>
   </div>
 </conduit-footer>
-<script src="home/main.39cee593.js" type="module"></script></body>
+<script src="home/main.f1d86228.js" type="module"></script></body>
 </html>
