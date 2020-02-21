@@ -1,10 +1,20 @@
 import { BootstrapContext } from '@wesib/wesib';
-import { overEntries, thruIt } from 'a-iterable';
 import { asis, nextArg, nextArgs, nextSkip } from 'call-thru';
 import { afterSupplied, OnEvent, onEventBy, trackValueBy } from 'fun-events';
 import { ApiFetch, ApiRequest, ApiResponse } from '../api';
 import { Article } from './article';
-import { ArticleList, FeedRequest, FeedService } from './feed-service';
+import { FeedId, FeedRequest, feedRequestSearchParams } from './feed-request';
+import { ArticleList, FeedService } from './feed-service';
+
+interface FeedSource {
+  path: string;
+  auth?: boolean;
+}
+
+const feedSources: { readonly [id in FeedId]: FeedSource } = {
+  '/personal-feed': { path: 'articles/feed', auth: true },
+  '/global-feed': { path: 'articles' },
+};
 
 export class FeedService$ implements FeedService {
 
@@ -16,11 +26,22 @@ export class FeedService$ implements FeedService {
   }
 
   articles(request: FeedRequest): OnEvent<[ApiResponse<ArticleList>]> {
-    return this._articles('articles', request);
-  }
 
-  feed(request: FeedRequest): OnEvent<[ApiResponse<ArticleList>]> {
-    return this._articles('articles/feed', request, true);
+    const { path, auth } = feedSources[request.feed || '/global-feed'];
+
+    const apiRequest: ApiRequest<ArticleList> = {
+      path: `${path}?${feedRequestSearchParams(request)}`,
+      init: {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+        },
+      },
+      auth,
+      respondAs: asis,
+    };
+
+    return this._apiFetch(apiRequest);
   }
 
   article(slug: string): OnEvent<[ApiResponse<Article>]> {
@@ -81,38 +102,6 @@ export class FeedService$ implements FeedService {
 
       onTags(receiver);
     });
-  }
-
-  private _articles(
-      path: string,
-      request: FeedRequest,
-      auth?: boolean,
-  ): OnEvent<[ApiResponse<ArticleList>]> {
-
-    const params: [string, string][] = Array.from(thruIt(
-        overEntries(request),
-        ([key, value]) => value
-            ? nextArg<[string, string]>([key, String(value)])
-            : nextSkip,
-    ));
-
-    if (params.length) {
-      path = `${path}?${new URLSearchParams(params)}`;
-    }
-
-    const apiRequest: ApiRequest<ArticleList> = {
-      path,
-      init: {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-        },
-      },
-      auth,
-      respondAs: asis,
-    };
-
-    return this._apiFetch(apiRequest);
   }
 
 }

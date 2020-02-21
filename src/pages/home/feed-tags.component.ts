@@ -1,7 +1,7 @@
 import { Navigation } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, ElementRender, Render } from '@wesib/wesib';
 import { DomEventDispatcher } from 'fun-events/dom';
-import { Conduit__NS, FeedService, hashURL, setHashURL } from '../../common';
+import { Conduit__NS, FeedService, PageFeedParam } from '../../common';
 
 @Component(['feed-tags', Conduit__NS])
 export class FeedTagsComponent {
@@ -52,13 +52,10 @@ export class FeedTagsComponent {
         a.href = '';
         a.innerText = tag;
         new DomEventDispatcher(a).on('click').instead(() => {
-          navigation.read.once(({ url }) => {
 
-            const hash = hashURL(url);
+          const request = navigation.page.get(PageFeedParam);
 
-            hash.searchParams.set('tag', tag);
-            navigation.open(setHashURL(url, hash));
-          });
+          navigation.with(PageFeedParam, { ...request, tag, offset: 0 }).open();
         });
       });
 

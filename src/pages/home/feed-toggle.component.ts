@@ -2,7 +2,7 @@ import { ActivateNavLink, HandleNavLinks, Navigation } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext } from '@wesib/wesib';
 import { noop } from 'call-thru';
 import { afterAll } from 'fun-events';
-import { AuthService, Conduit__NS, hashURL, setHashURL } from '../../common';
+import { AuthService, Conduit__NS, PageFeedParam } from '../../common';
 
 @Component(
     ['feed-toggle', Conduit__NS],
@@ -24,25 +24,24 @@ export class FeedToggleComponent {
       }).tillOff(supply)(
           ({
             user: [user],
-            page: [{ url }],
+            page: [page],
           }) => {
 
+            const { url } = page;
             const baseURL = new URL(document.baseURI);
 
             if (url.pathname !== baseURL.pathname) {
               return; // Not a home page
             }
 
-            const hash = hashURL(url);
-            const feed = hash.pathname.substring(1);
+            const { feed } = page.get(PageFeedParam);
 
-            if (!feed) {
+            if (feed !== '/personal-feed') {
               return; // Global feed
             }
-            if (feed !== 'personal' /* invalid feed */ || !user /* not authenticated */) {
+            if (!user /* not authenticated */) {
               // Redirect to global feed
-              hash.pathname = '';
-              navigation.replace(setHashURL(url, hash)).catch(noop);
+              navigation.with(PageFeedParam, {}).replace().catch(noop);
             }
           },
       );

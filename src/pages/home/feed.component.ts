@@ -10,7 +10,8 @@ import {
   FeedRequest,
   feedRequestsEqual,
   FeedService,
-  hashURL, PagerEvent, setHashURL,
+  PageFeedParam,
+  PagerEvent,
 } from '../../common';
 
 @Component(
@@ -18,7 +19,7 @@ import {
 )
 export class FeedComponent {
 
-  private readonly _request = trackValue<[boolean, FeedRequest]>([false, {}]);
+  private readonly _request = trackValue<FeedRequest>({});
   private _response?: ApiResponse<ArticleList>;
 
   constructor(private readonly _context: ComponentContext) {
@@ -27,31 +28,21 @@ export class FeedComponent {
     const feedService = _context.get(FeedService);
 
     _context.whenOn(supply => {
-      navigation.read.tillOff(supply)(({ url }) => {
+      navigation.read.tillOff(supply)(page => {
 
-        const { pathname, searchParams: params } = hashURL(url);
-        const personal = pathname === '/personal';
-        const request: FeedRequest = {
-          tag: params.get('tag') || undefined,
-          author: params.get('author') || undefined,
-          favorited: params.get('favorited') || undefined,
-          limit: parseInt(params.get('limit') || '', 10) || undefined,
-          offset: parseInt(params.get('offset') || '', 10) || undefined,
-        };
-        const [prevPersonal, prevRequest] = this._request.it;
+        const request = page.get(PageFeedParam);
+        const prevRequest = this._request.it;
 
-        if (prevPersonal !== personal || !feedRequestsEqual(request, prevRequest)) {
-          this._request.it = [personal, request];
+        if (!feedRequestsEqual(request, prevRequest)) {
+          this._request.it = request;
         }
       });
       this._request.read
           .tillOff(supply)
           .thru_(
-              ([personal, request]) => {
+              request => {
                 this.response = undefined;
-                return nextOnEvent(personal
-                    ? feedService.feed(request)
-                    : feedService.articles(request));
+                return nextOnEvent(feedService.articles(request));
               },
           )(response => this.response = response);
     });
@@ -116,7 +107,7 @@ export class FeedComponent {
 
     function displayPager({ articlesCount }: ArticleList): Element {
 
-      const [, { limit = 20, offset = 0 }] = component._request.it;
+      const { limit = 20, offset = 0 } = component._request.it;
       const totalPages = Math.ceil(articlesCount / limit);
       const currentPage = Math.floor(offset / limit);
       const pager = document.createElement('conduit-pager');
@@ -125,18 +116,10 @@ export class FeedComponent {
       pager.setAttribute('current-page', currentPage.toString(10));
 
       new DomEventDispatcher(pager).on<PagerEvent>('conduit:pager').just(({ detail: page }) => {
-        navigation.read.once(({ url }) => {
 
-          const hash = hashURL(url);
+        const request = navigation.page.get(PageFeedParam);
 
-          if (page) {
-            hash.searchParams.set('offset', (page * limit).toString(10));
-          } else {
-            hash.searchParams.delete('offset');
-          }
-
-          navigation.open(setHashURL(url, hash));
-        });
+        navigation.with(PageFeedParam, { ...request, offset: page * limit }).open();
       });
 
       return pager;
