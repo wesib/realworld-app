@@ -1,10 +1,12 @@
-import { Navigation } from '@wesib/generic';
+import { HandleNavLinks, Navigation, Page } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, ElementRender, Render } from '@wesib/wesib';
-import { DomEventDispatcher } from 'fun-events/dom';
 import { Conduit__NS, FeedService } from '../../common';
 import { PageFeedParam } from './page-feed-param';
 
-@Component(['feed-tags', Conduit__NS])
+@Component(
+    ['feed-tags', Conduit__NS],
+    HandleNavLinks(),
+)
 export class FeedTagsComponent {
 
   private _tags: string[] = [];
@@ -33,7 +35,6 @@ export class FeedTagsComponent {
   @Render()
   render(): ElementRender {
 
-    const navigation = this._context.get(Navigation);
     const { document } = this._context.get(BootstrapWindow);
     const range = document.createRange();
     const { contentRoot }: { contentRoot: Element } = this._context;
@@ -41,23 +42,34 @@ export class FeedTagsComponent {
     range.selectNodeContents(contentRoot);
     range.setStartAfter(contentRoot.childNodes[contentRoot.childNodes.length - 1]);
 
+    const navigation = this._context.get(Navigation);
+    let page: Page;
+
+    navigation.read(p => {
+
+      const prev = page;
+
+      page = p;
+      this._context.updateState('page', page, prev);
+    });
+
     return () => {
       range.deleteContents();
 
       const fragment = document.createDocumentFragment();
+      const request = page.get(PageFeedParam);
 
       this.tags.forEach(tag => {
 
-        const a = fragment.appendChild(document.createElement('a'));
+        const target = navigation.with(PageFeedParam, { ...request, tag, offset: 0 }).pretend();
 
-        a.href = '';
-        a.innerText = tag;
-        new DomEventDispatcher(a).on('click').instead(() => {
+        if (target) {
 
-          const request = navigation.page.get(PageFeedParam);
+          const a = fragment.appendChild(document.createElement('a'));
 
-          navigation.with(PageFeedParam, { ...request, tag, offset: 0 }).open();
-        });
+          a.href = target.url.href;
+          a.innerText = tag;
+        }
       });
 
       range.insertNode(fragment);
