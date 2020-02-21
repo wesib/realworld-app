@@ -1,7 +1,8 @@
 import { Navigation } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, ElementRender, Render } from '@wesib/wesib';
 import { DomEventDispatcher } from 'fun-events/dom';
-import { Conduit__NS, FeedService, PageFeedParam } from '../../common';
+import { Conduit__NS, FeedService } from '../../common';
+import { PageFeedParam } from './page-feed-param';
 
 @Component(['feed-tags', Conduit__NS])
 export class FeedTagsComponent {

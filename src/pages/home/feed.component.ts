@@ -10,9 +10,9 @@ import {
   FeedRequest,
   feedRequestsEqual,
   FeedService,
-  PageFeedParam,
   PagerEvent,
 } from '../../common';
+import { PageFeedParam } from './page-feed-param';
 
 @Component(
     ['feed', Conduit__NS],

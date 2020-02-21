@@ -1,5 +1,5 @@
 import { Page, PageHashURLParam, PageParam } from '@wesib/generic';
-import { FeedRequest, feedRequestSearchParams } from './feed-request';
+import { FeedRequest, feedRequestSearchParams } from '../../common/articles/feed-request';
 
 class PageFeedParam$ extends PageParam<FeedRequest, FeedRequest> {
 

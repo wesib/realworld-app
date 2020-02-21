@@ -2,7 +2,8 @@ import { ActivateNavLink, HandleNavLinks, Navigation } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext } from '@wesib/wesib';
 import { noop } from 'call-thru';
 import { afterAll } from 'fun-events';
-import { AuthService, Conduit__NS, PageFeedParam } from '../../common';
+import { AuthService, Conduit__NS } from '../../common';
+import { PageFeedParam } from './page-feed-param';
 
 @Component(
     ['feed-toggle', Conduit__NS],
