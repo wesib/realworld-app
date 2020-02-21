@@ -20,11 +20,11 @@ export class FeedToggleComponent {
 
     context.whenOn(supply => {
       afterAll({
-        user: authService.user,
+        auth: authService.authentication,
         page: navigation,
       }).tillOff(supply)(
           ({
-            user: [user],
+            auth: [{ token }],
             page: [page],
           }) => {
 
@@ -40,7 +40,7 @@ export class FeedToggleComponent {
             if (feed !== '/personal-feed') {
               return; // Global feed
             }
-            if (!user /* not authenticated */) {
+            if (!token /* not authenticated */) {
               // Redirect to global feed
               navigation.with(PageFeedParam, {}).replace().catch(noop);
             }

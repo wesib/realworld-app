@@ -35,7 +35,7 @@ export interface ApiRequest<T> {
    *
    * - `true` to always send it,
    * - `false` to never send it,
-   * - `undefined` (the default) - to send it only if {@link AuthService.user current user} is authenticated.
+   * - `undefined` (the default) - to send it only when {@link AuthService.authentication authenticated}.
    */
   readonly auth?: boolean;
 
@@ -127,10 +127,10 @@ function authenticateApiRequest(
     auth?: true,
 ): AfterEvent<[RequestOrFailure]> {
   // Access by key to avoid circular dependencies during the build
-  return context.get(AuthService__key).user.keep.thru_(
-      (user?, failure?) => {
-        if (user) {
-          request.headers.set('Authorization', `Token ${user.token}`);
+  return context.get(AuthService__key).authentication.keep.thru_(
+      ({ token, failure }) => {
+        if (token) {
+          request.headers.set('Authorization', `Token ${token}`);
           return { request };
         }
         if (!auth) {

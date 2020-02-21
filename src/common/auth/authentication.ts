@@ -1,0 +1,32 @@
+import { ApiResponse } from '../api';
+
+export interface AuthToken {
+  readonly token: string;
+  readonly email?: undefined;
+  readonly failure?: undefined;
+}
+
+export interface NotAuthenticated {
+  readonly token?: undefined;
+  readonly email?: undefined;
+  readonly failure?: ApiResponse.Failure;
+}
+
+export type Authentication =
+    | NotAuthenticated
+    | AuthToken
+    | AuthUser;
+
+export type AuthUserOrFailure =
+    | []
+    | [AuthUser]
+    | [undefined, ApiResponse.Failure];
+
+export interface AuthUser {
+  readonly email: string;
+  readonly token: string;
+  readonly username?: string;
+  readonly bio?: string;
+  readonly image?: string;
+  readonly failure?: undefined;
+}

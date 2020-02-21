@@ -1,6 +1,6 @@
 import { Component, ComponentContext, DefaultNamespaceAliaser, ElementRender, Render } from '@wesib/wesib';
 import { css__naming, QualifiedName } from 'namespace-aliaser';
-import { AuthService, AuthUser } from '../auth';
+import { Authentication, AuthService } from '../auth';
 import { Conduit__NS } from '../conduit.ns';
 import { MainComponent } from './main.component';
 import { NavbarComponent } from './navbar.component';
@@ -16,26 +16,26 @@ const notAuthenticatedClassQName: QualifiedName = ['not-authenticated', Conduit_
 })
 export class ContainerComponent {
 
-  private _user?: AuthUser;
+  private _auth: Authentication = {};
 
   constructor(private readonly _context: ComponentContext) {
     _context.whenOn(connectSupply => {
-      _context.get(AuthService).user.tillOff(connectSupply)((user?, _failure?) => {
-        this.user = user;
+      _context.get(AuthService).authentication.tillOff(connectSupply)(auth => {
+        this.auth = auth;
       });
     });
   }
 
-  get user(): AuthUser | undefined {
-    return this._user;
+  get auth(): Authentication {
+    return this._auth;
   }
 
-  set user(value: AuthUser | undefined) {
+  set auth(value: Authentication) {
 
-    const oldValue = this._user;
+    const prev = this._auth;
 
-    this._user = value;
-    this._context.updateState('user', value, oldValue);
+    this._auth = value;
+    this._context.updateState('auth', value, prev);
   }
 
   @Render()
@@ -47,7 +47,7 @@ export class ContainerComponent {
     const { classList }: Element = this._context.element;
 
     return () => {
-      if (this.user) {
+      if (this.auth.token) {
         classList.remove(notAuthenticatedClass);
         classList.add(authenticatedClass);
       } else {

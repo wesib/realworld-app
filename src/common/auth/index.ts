@@ -1,3 +1,3 @@
 export * from './auth-service';
 export * from './auth-support.feature';
-export * from './auth-user';
+export * from './authentication';

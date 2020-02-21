@@ -10,43 +10,61 @@ import {
   trackValue,
   ValueTracker,
 } from 'fun-events';
+import { DomEventDispatcher } from 'fun-events/dom';
 import { ApiFetch, ApiRequest, ApiResponse } from '../api';
-import { AuthService, AuthUserOrFailure, LoginRequest, RegisterRequest } from './auth-service';
-import { AuthUser } from './auth-user';
+import { AuthService, LoginRequest, RegisterRequest } from './auth-service';
+import { Authentication, AuthUser, AuthUserOrFailure } from './authentication';
 
 const authTokenKey = 'wesib-conduit:auth';
-type Authentication = AuthUser | string | null;
 
 export class AuthService$ extends AuthService {
 
   readonly user: AfterEvent<AuthUserOrFailure>;
   private readonly _auth: ValueTracker<Authentication>;
 
+  get authentication(): AfterEvent<[Authentication]> {
+    return this._auth.read;
+  }
+
   constructor(private readonly _context: BootstrapContext) {
     super();
 
-    const storage = _context.get(BootstrapWindow).localStorage;
+    const window = _context.get(BootstrapWindow);
+    const storage = window.localStorage;
 
-    this._auth = trackValue(storage.getItem(authTokenKey));
-    this._auth.on(updateAuthToken);
-    this.user = this._auth.read.keep.thru(authUser);
+    this._auth = trackValue<Authentication>(toAuthToken(storage.getItem(authTokenKey)));
+    this._auth.on(storeAuthToken);
+    this.user = this.authentication.keep.thru(authUser);
+    new DomEventDispatcher(window).on<StorageEvent>('storage')(({ key, newValue }) => {
+      if (key === authTokenKey) {
 
-    function updateAuthToken(newAuth: Authentication): void {
-      if (!newAuth) {
-        storage.removeItem(authTokenKey);
+        const token = newValue || undefined;
+
+        if (this._auth.it.token !== token) {
+          this._auth.it = toAuthToken(token);
+        }
+      }
+    });
+
+    function storeAuthToken({ token }: Authentication): void {
+      if (token) {
+        storage.setItem(authTokenKey, token);
       } else {
-        storage.setItem(authTokenKey, typeof newAuth === 'string' ? newAuth : newAuth.token);
+        storage.removeItem(authTokenKey);
       }
     }
 
     function authUser(auth: Authentication): NextCall<OnEventCallChain, AuthUserOrFailure> {
-      if (!auth) {
+      if (auth.email) {
+        return nextArgs(auth);
+      }
+      if (auth.failure) {
+        return nextArgs(undefined, auth.failure);
+      }
+      if (!auth.token) {
         return nextArgs();
       }
-      if (typeof auth === 'string') {
-        return nextOnEvent(fetchCurrentUser(auth));
-      }
-      return nextArgs(auth);
+      return nextOnEvent(fetchCurrentUser(auth.token));
     }
 
     function fetchCurrentUser(token: string): AfterEvent<AuthUserOrFailure> {
@@ -95,7 +113,7 @@ export class AuthService$ extends AuthService {
   }
 
   logout(): void {
-    this._auth.it = null;
+    this._auth.it = {};
   }
 
   private _request(path: string, request: LoginRequest | RegisterRequest): OnEvent<[ApiResponse<AuthUser>]> {
@@ -119,12 +137,18 @@ export class AuthService$ extends AuthService {
         response => {
           if (response.ok) {
             this._auth.it = response.body;
+          } else if (response.ok === false) {
+            this._auth.it = { failure: response };
           } else {
-            this._auth.it = null;
+            this._auth.it = {};
           }
           return response;
         },
     );
   }
 
+}
+
+function toAuthToken(token: string | null | undefined): Authentication {
+  return token ? { token } : {};
 }
