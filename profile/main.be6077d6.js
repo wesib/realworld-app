@@ -1,1 +1,0 @@
-import{ab as s}from"../js/lib.e4c19b17.js";import{C as o}from"../js/wesib.026f685a.js";import{C as a,c as m}from"../js/common.673eb9a1.js";let r=class{};r=s([o(["profile",a])],r),m.load(r);//# sourceMappingURL=main.be6077d6.js.map
