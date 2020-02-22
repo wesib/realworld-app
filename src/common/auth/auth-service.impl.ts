@@ -139,8 +139,6 @@ export class AuthService$ extends AuthService {
             this._auth.it = response.body;
           } else if (response.ok === false) {
             this._auth.it = { failure: response };
-          } else {
-            this._auth.it = {};
           }
           return response;
         },
