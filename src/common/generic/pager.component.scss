@@ -1,6 +1,0 @@
-conduit-pager {
-  display: block;
-  & > .pagination {
-    @extend .justify-content-center;
-  }
-}

@@ -1,7 +1,6 @@
 import { HierarchyContext, Navigation } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, ElementRender, Render } from '@wesib/wesib';
 import { nextOnEvent, trackValue } from 'fun-events';
-import { DomEventDispatcher } from 'fun-events/dom';
 import {
   ApiErrorGenerator,
   ApiResponse,
@@ -10,17 +9,20 @@ import {
   FeedRequest,
   feedRequestsEqual,
   FeedService,
-  PagerEvent,
 } from '../../common';
 import { ArticleListComponent } from './article-list.component';
 import { FeedArticleList } from './feed-article-list';
+import { FeedPagerComponent } from './feed-pager.component';
 import { PageFeedParam } from './page-feed-param';
 
 @Component(
     ['feed', Conduit__NS],
     {
       feature: {
-        needs: ArticleListComponent,
+        needs: [
+          ArticleListComponent,
+          FeedPagerComponent,
+        ],
       },
     },
 )
@@ -69,16 +71,15 @@ export class FeedComponent {
   @Render()
   render(): ElementRender {
 
-    const component = this;
     const { contentRoot }: { contentRoot: Node } = this._context;
-    const navigation = this._context.get(Navigation);
     const document = this._context.get(BootstrapWindow).document;
     const errorGen = this._context.get(ApiErrorGenerator);
     const list = contentRoot.appendChild(document.createElement('conduit-article-list'));
+    const pager = contentRoot.appendChild(document.createElement('conduit-feed-pager'));
     const range = document.createRange();
 
-    range.selectNodeContents(contentRoot);
     range.setStartAfter(list);
+    range.setEndBefore(pager);
 
     return () => {
       range.deleteContents();
@@ -87,9 +88,7 @@ export class FeedComponent {
 
       if (!response) {
         range.insertNode(displayProgress());
-      } else if (response.ok) {
-        range.insertNode(displayPager(response.body));
-      } else {
+      } else if (!response.ok) {
         range.insertNode(displayError(response.errors));
       }
     };
@@ -111,26 +110,6 @@ export class FeedComponent {
       loader.setAttribute('load-error', 'Failed to load articles');
 
       return loader;
-    }
-
-    function displayPager({ articlesCount }: ArticleList): Element {
-
-      const { limit = 20, offset = 0 } = component._request.it;
-      const totalPages = Math.ceil(articlesCount / limit);
-      const currentPage = Math.floor(offset / limit);
-      const pager = document.createElement('conduit-pager');
-
-      pager.setAttribute('total-pages', totalPages.toString(10));
-      pager.setAttribute('current-page', currentPage.toString(10));
-
-      new DomEventDispatcher(pager).on<PagerEvent>('conduit:pager').just(({ detail: page }) => {
-
-        const request = navigation.page.get(PageFeedParam);
-
-        navigation.with(PageFeedParam, { ...request, offset: page * limit }).open();
-      });
-
-      return pager;
     }
 
   }

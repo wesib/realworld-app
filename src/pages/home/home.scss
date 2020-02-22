@@ -54,6 +54,13 @@ conduit-article-preview {
   }
 }
 
+conduit-feed-pager {
+  display: contents;
+  & > .pagination {
+    @extend .justify-content-center;
+  }
+}
+
 conduit-feed-tags {
   display: block;
   padding:5px 10px 10px 10px;
