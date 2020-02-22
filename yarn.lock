@@ -144,10 +144,10 @@
   dependencies:
     http-header-value "^2.0.2"
 
-"@wesib/wesib@^1.0.0-alpha.83":
-  version "1.0.0-alpha.83"
-  resolved "https://registry.yarnpkg.com/@wesib/wesib/-/wesib-1.0.0-alpha.83.tgz#0ded9144362912492910db19c1b660e8e771dc9f"
-  integrity sha512-+W2FUrwTgDCZwfr5P+QkLOtn2ABkd4t1yQdPMDPG3R10OLEli7ttWp9c9cAQ5r0HB9ZGxAk/HVIyKhCaXVRptA==
+"@wesib/wesib@^1.0.0-alpha.86":
+  version "1.0.0-alpha.86"
+  resolved "https://registry.yarnpkg.com/@wesib/wesib/-/wesib-1.0.0-alpha.86.tgz#2f169fc916b99c782015b44aaa1e17d8981d3784"
+  integrity sha512-iRjHcvSVybLYz8lk1cHSTQgzI5AcFcyIImHe90pWXvzk3hqhd2nqQ+C1TXXu6LVqYX/3kBAbNoCratAPbjBM0g==
 
 a-iterable@^2.5.0:
   version "2.5.0"

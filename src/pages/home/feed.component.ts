@@ -75,15 +75,15 @@ export class FeedComponent {
     const document = this._context.get(BootstrapWindow).document;
     const errorGen = this._context.get(ApiErrorGenerator);
     const list = contentRoot.appendChild(document.createElement('conduit-article-list'));
+    const range = document.createRange();
+
+    range.selectNodeContents(contentRoot);
+    range.setStartAfter(list);
 
     return () => {
+      range.deleteContents();
 
       const response = this._response.it;
-      const range = document.createRange();
-
-      range.selectNodeContents(contentRoot);
-      range.setStartAfter(list);
-      range.deleteContents();
 
       if (!response) {
         range.insertNode(displayProgress());
