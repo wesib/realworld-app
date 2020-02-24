@@ -15,8 +15,6 @@ export interface FeedService {
 
   tags(): OnEvent<string[]>;
 
-  article(slug: string): OnEvent<[ApiResponse<Article>]>;
-
 }
 
 export const FeedService: ContextRef<FeedService> = new SingleContextKey<FeedService>('feed-service');

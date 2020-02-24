@@ -1,7 +1,7 @@
 import { HandleNavLinks } from '@wesib/generic';
 import { Component, ComponentContext, DomProperty, ElementRender, Render } from '@wesib/wesib';
 import { Conduit__NS } from '../../common';
-import { Article, articleContent } from '../../common/articles';
+import { Article, ArticleService } from '../../common/articles';
 import { escapeHtml } from '../../common/util';
 
 @Component(
@@ -31,11 +31,41 @@ import { escapeHtml } from '../../common/util';
 )
 export class ArticlePreviewComponent {
 
+  private _article: Article | undefined;
+  private _contents: string | undefined;
+
   constructor(private readonly _context: ComponentContext) {
   }
 
+  get article(): Article | undefined {
+    return this._article;
+  }
+
   @DomProperty({ propertyKey: 'feedArticle' })
-  article: Article | undefined;
+  set article(value: Article | undefined) {
+    this._article = value;
+    if (value) {
+      this._context.get(ArticleService)
+          .htmlContents(value)
+          .then(contents => this._contents = contents)
+          .catch(error => {
+            console.log(`Failed to display article ${value.slug}`);
+            this.contents = `ERROR ${String(error)}`;
+          });
+    }
+  }
+
+  get contents(): string | undefined {
+    return this._contents;
+  }
+
+  set contents(value: string | undefined) {
+
+    const prev = this._contents;
+
+    this._contents = value;
+    this._context.updateState('contents', value, prev);
+  }
 
   @Render()
   render(): ElementRender | void {
@@ -43,7 +73,6 @@ export class ArticlePreviewComponent {
       return;
     }
 
-    const { article } = this;
     const content = this._context.contentRoot as Element;
     const { author } = this.article;
     const profileURL = `profile/#${encodeURIComponent(author.username)}`;
@@ -71,25 +100,13 @@ export class ArticlePreviewComponent {
 </a>
 `;
 
-    let postContent = '';
-
-    const setContent = (html: string): void => {
-
-      const prev = postContent;
-
-      postContent = html;
-      this._context.updateState('postContent', postContent, prev);
-    };
-
-    articleContent(article)
-        .then(setContent)
-        .catch(error => {
-          console.log(`Failed to display article ${article.slug}`);
-          setContent(`ERROR ${String(error)}`);
-        });
-
     return () => {
-      content.querySelector('.post-content')!.innerHTML = postContent;
+
+      const contents = this.contents;
+
+      if (contents) {
+        content.querySelector('.post-content')!.innerHTML = contents;
+      }
     };
   }
 

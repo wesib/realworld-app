@@ -2,7 +2,6 @@ import { BootstrapContext } from '@wesib/wesib';
 import { asis, nextArg, nextArgs, nextSkip } from 'call-thru';
 import { afterSupplied, OnEvent, onEventBy, trackValueBy } from 'fun-events';
 import { ApiFetch, ApiRequest, ApiResponse } from '../api';
-import { Article } from './article';
 import { FeedId, FeedRequest, feedRequestSearchParams } from './feed-request';
 import { ArticleList, FeedService } from './feed-service';
 
@@ -39,22 +38,6 @@ export class FeedService$ implements FeedService {
       },
       auth,
       respondAs: asis,
-    };
-
-    return this._apiFetch(apiRequest);
-  }
-
-  article(slug: string): OnEvent<[ApiResponse<Article>]> {
-
-    const apiRequest: ApiRequest<Article> = {
-      path: `articles/${encodeURIComponent(slug)}`,
-      init: {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-        },
-      },
-      respondAs: 'article',
     };
 
     return this._apiFetch(apiRequest);
