@@ -7,7 +7,7 @@ export interface ArticleService {
 
   article(slug: string): OnEvent<[ApiResponse<Article>]>;
 
-  htmlContents(article: Article): Promise<string>;
+  htmlContents(article: Article): Promise<Node>;
 
 }
 

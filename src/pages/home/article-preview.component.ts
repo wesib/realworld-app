@@ -1,5 +1,5 @@
 import { HandleNavLinks } from '@wesib/generic';
-import { Component, ComponentContext, DomProperty, ElementRender, Render } from '@wesib/wesib';
+import { BootstrapWindow, Component, ComponentContext, DomProperty, ElementRender, Render } from '@wesib/wesib';
 import { Conduit__NS } from '../../common';
 import { Article, ArticleService } from '../../common/articles';
 import { escapeHtml } from '../../common/util';
@@ -32,7 +32,7 @@ import { escapeHtml } from '../../common/util';
 export class ArticlePreviewComponent {
 
   private _article: Article | undefined;
-  private _contents: string | undefined;
+  private _contents: Node | undefined;
 
   constructor(private readonly _context: ComponentContext) {
   }
@@ -47,19 +47,19 @@ export class ArticlePreviewComponent {
     if (value) {
       this._context.get(ArticleService)
           .htmlContents(value)
-          .then(contents => this._contents = contents)
+          .then(contents => this.contents = contents)
           .catch(error => {
             console.log(`Failed to display article ${value.slug}`);
-            this.contents = `ERROR ${String(error)}`;
+            this.contents = this._context.get(BootstrapWindow).document.createTextNode(`ERROR ${String(error)}`);
           });
     }
   }
 
-  get contents(): string | undefined {
+  get contents(): Node | undefined {
     return this._contents;
   }
 
-  set contents(value: string | undefined) {
+  set contents(value: Node | undefined) {
 
     const prev = this._contents;
 
@@ -105,7 +105,11 @@ export class ArticlePreviewComponent {
       const contents = this.contents;
 
       if (contents) {
-        content.querySelector('.post-content')!.innerHTML = contents;
+
+        const postContent = content.querySelector('.post-content')!;
+
+        postContent.innerHTML = '';
+        postContent.appendChild(contents);
       }
     };
   }

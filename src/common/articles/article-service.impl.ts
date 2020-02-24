@@ -4,17 +4,20 @@ import { ApiFetch, ApiRequest, ApiResponse } from '../api';
 import { Article } from './article';
 import { ArticleService } from './article-service';
 import marked from 'marked';
+import DOMPurify from 'dompurify';
 
 export class ArticleService$ implements ArticleService {
 
   private readonly _apiFetch: ApiFetch;
   private readonly _schedule: (task: () => void) => void;
+  private readonly _purify: DOMPurify.DOMPurifyI;
 
   constructor(context: BootstrapContext) {
     this._apiFetch = context.get(ApiFetch);
 
     const window = context.get(BootstrapWindow);
 
+    this._purify = DOMPurify(window);
     if ((window as any).requestIdleCallback) {
       this._schedule = task => (window as any).requestIdleCallback(task, { timeout: 100 });
     } else {
@@ -38,8 +41,9 @@ export class ArticleService$ implements ArticleService {
     return this._apiFetch(apiRequest);
   }
 
-  htmlContents(article: Article): Promise<string> {
-    return new Promise<string>((resolve, reject) => {
+  async htmlContents(article: Article): Promise<Node> {
+
+    const html = await new Promise<string>((resolve, reject) => {
       this._schedule(() => {
         marked(article.body, (error, html) => {
           if (error != null) {
@@ -50,6 +54,13 @@ export class ArticleService$ implements ArticleService {
         });
       });
     });
+
+    return this._purify.sanitize(
+        html, {
+          RETURN_DOM_FRAGMENT: true,
+          RETURN_DOM_IMPORT: true,
+        },
+    );
   }
 
 }
