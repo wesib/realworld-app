@@ -1,4 +1,4 @@
-import { conduitContext } from '../../common';
+import { conduitContext } from '../../common/main';
 import { RegisterComponent } from './register.component';
 
 conduitContext.load(RegisterComponent);

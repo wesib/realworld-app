@@ -11,7 +11,7 @@ async function generateHtml(context, name) {
 
   const [, page, file] = pagePattern.exec(name);
 
-  if (page === 'js') {
+  if (page === 'js' || page.startsWith('_')) {
     return; // Not page
   }
 
@@ -36,11 +36,6 @@ async function generateSass() {
     outputStyle: 'compressed',
     sourceMap: true,
     sourceMapContents: true,
-    importer(url) {
-      if (url.startsWith('~')) {
-        return { file: require.resolve(url.substring(1)) };
-      }
-    },
   });
 
   await Promise.all([

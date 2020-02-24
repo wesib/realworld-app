@@ -1,7 +1,8 @@
 import { HierarchyContext, Navigation } from '@wesib/generic';
 import { Component, ComponentContext } from '@wesib/wesib';
 import { afterAll } from 'fun-events';
-import { Conduit__NS, PagingInfo, RenderPager } from '../../common';
+import { Conduit__NS } from '../../common';
+import { PagingInfo, RenderPager } from '../../generic/pager';
 import { FeedArticleList } from './feed-article-list';
 import { PageFeedParam } from './page-feed-param';
 

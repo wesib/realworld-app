@@ -1,0 +1,6 @@
+conduit-feed-pager {
+  display: contents;
+  & > .pagination {
+    @extend .justify-content-center;
+  }
+}

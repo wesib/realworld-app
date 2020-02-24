@@ -1,6 +1,8 @@
 import { HandleNavLinks } from '@wesib/generic';
 import { Component, ComponentContext, DomProperty, ElementRender, Render } from '@wesib/wesib';
-import { Article, articleContent, Conduit__NS, escapeHtml } from '../../common';
+import { Conduit__NS } from '../../common';
+import { Article, articleContent } from '../../common/articles';
+import { escapeHtml } from '../../common/util';
 
 @Component(
     ['article-preview', Conduit__NS],

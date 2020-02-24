@@ -1,9 +1,15 @@
 import { IncludePage } from '@wesib/generic';
 import { BootstrapWindow, Component } from '@wesib/wesib';
+import { LoaderComponent } from '../../generic/loader';
 import { Conduit__NS } from '../conduit.ns';
 
 @Component(
     ['main', Conduit__NS],
+    {
+      feature: {
+        needs: LoaderComponent,
+      },
+    },
     IncludePage({
       onResponse({ context, response, range }) {
         if (!response.ok) {

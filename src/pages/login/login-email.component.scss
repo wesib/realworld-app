@@ -1,0 +1,5 @@
+conduit-login-email {
+  display: block;
+  @extend fieldset;
+  @extend .form-group;
+}

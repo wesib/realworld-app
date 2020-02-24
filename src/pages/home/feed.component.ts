@@ -1,15 +1,10 @@
 import { HierarchyContext, Navigation } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, ElementRender, Render } from '@wesib/wesib';
 import { nextOnEvent, trackValue } from 'fun-events';
-import {
-  ApiErrorGenerator,
-  ApiResponse,
-  ArticleList,
-  Conduit__NS,
-  FeedRequest,
-  feedRequestsEqual,
-  FeedService,
-} from '../../common';
+import { Conduit__NS } from '../../common';
+import { ApiResponse } from '../../common/api';
+import { ArticleList, FeedRequest, feedRequestsEqual, FeedService } from '../../common/articles';
+import { ApiErrorGenerator } from '../../common/input/api-error-generator';
 import { ArticleListComponent } from './article-list.component';
 import { FeedArticleList } from './feed-article-list';
 import { FeedPagerComponent } from './feed-pager.component';

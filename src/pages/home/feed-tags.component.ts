@@ -1,6 +1,7 @@
 import { HandleNavLinks, Navigation, Page } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, ElementRender, Render } from '@wesib/wesib';
-import { Conduit__NS, FeedService } from '../../common';
+import { Conduit__NS } from '../../common';
+import { FeedService } from '../../common/articles';
 import { PageFeedParam } from './page-feed-param';
 
 @Component(

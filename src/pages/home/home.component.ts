@@ -1,6 +1,8 @@
 import { PageHashURLSupport } from '@wesib/generic';
 import { Component } from '@wesib/wesib';
 import { Conduit__NS } from '../../common';
+import { FeedSupport } from '../../common/articles';
+import { LoaderComponent } from '../../generic/loader';
 import { FeedTagsComponent } from './feed-tags.component';
 import { FeedToggleComponent } from './feed-toggle.component';
 import { FeedComponent } from './feed.component';
@@ -10,9 +12,11 @@ import { FeedComponent } from './feed.component';
     {
       feature: {
         needs: [
+          FeedSupport,
           FeedComponent,
           FeedTagsComponent,
           FeedToggleComponent,
+          LoaderComponent,
           PageHashURLSupport,
         ],
       },

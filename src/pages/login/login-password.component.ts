@@ -1,7 +1,8 @@
 import { SetInputName } from '@wesib/generic/input';
 import { Component } from '@wesib/wesib';
 import { inText, InValidation, requirePresent } from 'input-aspects';
-import { Conduit__NS, UseConduitInput } from '../../common';
+import { Conduit__NS } from '../../common';
+import { UseConduitInput } from '../../common/input';
 
 @Component(
     ['login-password', Conduit__NS],
