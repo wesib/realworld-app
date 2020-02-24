@@ -19,9 +19,9 @@ export class ArticleService$ implements ArticleService {
 
     this._purify = DOMPurify(window);
     if ((window as any).requestIdleCallback) {
-      this._schedule = task => (window as any).requestIdleCallback(task, { timeout: 100 });
+      this._schedule = task => (window as any).requestIdleCallback(task, { timeout: 750 });
     } else {
-      this._schedule = task => window.setTimeout(task, 0);
+      this._schedule = task => window.setTimeout(task);
     }
   }
 
