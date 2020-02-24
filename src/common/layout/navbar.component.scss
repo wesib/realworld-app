@@ -1,0 +1,34 @@
+// Set the navbar's logo to the conduit logo font & large size
+.navbar-brand {
+  font-family: $font-family-logo;
+  font-size:1.5rem !important;
+  padding-top:0rem !important;
+  margin-right:2rem !important;
+  color:$brand-primary !important;
+  // margin-bottom:40px;
+}
+
+// set a smooth transition for nav-link hover effects
+.nav-link:hover {
+  transition: 0.1s all;
+}
+
+// create style for nav-link pills that do an outline instead of block
+.nav-pills.outline-active {
+  .nav-link {
+    border-radius:0px;
+    border:none;
+    border-bottom:2px solid transparent;
+    background:transparent;
+    color:#aaa;
+    &:hover {
+      color:#555;
+    }
+
+    &.active {
+      background: #fff !important;
+      border-bottom:2px solid $brand-primary !important;
+      color: $brand-primary !important;
+    }
+  }
+}

@@ -31,7 +31,7 @@ async function generateHtml(context, name) {
 
 async function generateSass() {
   const result = renderSync({
-    file: './src/style/style.scss',
+    file: './src/style.scss',
     outFile: `css/style.css`,
     outputStyle: 'compressed',
     sourceMap: true,

@@ -1,2 +1,22 @@
+// Auto offset from top for pages
+.container.page {
+  margin-top:1.5rem;
+}
+
+// This is used on homepage & post page
+// Basically a pretty wrapper for H1 at top
+.banner {
+  color:#fff;
+  background: #333;
+  padding:2rem;
+  margin-bottom:2rem;
+
+  h1 {
+    text-shadow: 0px 1px 3px rgba(0,0,0,0.3);
+    margin-bottom:0px;
+  }
+}
+
 @import './container.component';
 @import './footer.component';
+@import './navbar.component';

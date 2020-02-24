@@ -1,1 +1,7 @@
+// general error handling style
+.error-messages {
+  color: $brand-danger !important;
+  font-weight:bold;
+}
+
 @import './in-error.component';
