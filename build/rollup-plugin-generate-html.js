@@ -7,14 +7,12 @@ const pagePattern = /([^/\\]+)[/\\]([^/]+\.js)$/;
 const rev = Date.now().toString(32);
 const dist = './dist';
 
-async function generateHtml(context, name) {
-
-  const [, page, file] = pagePattern.exec(name);
-
-  if (page === 'js' || page.startsWith('_')) {
-    return; // Not page
+async function generateHtml(context, name, info) {
+  if (!info.isEntry) {
+    return; // Not a page.
   }
 
+  const [, page, file] = pagePattern.exec(name);
   const isHome = page === 'home';
   const input = `./src/pages/${page}/${page}.html`;
   const output = isHome ? `${dist}/index.html` : `${dist}/${page}/index.html`;
@@ -65,7 +63,7 @@ export default {
   generateBundle(_opts, bundle) {
     return Promise.all([
       generateSass(),
-      ...Object.keys(bundle).map(name => generateHtml(this, name)),
+      ...Object.entries(bundle).map(([name, info]) => generateHtml(this, name, info)),
     ]);
   },
 };

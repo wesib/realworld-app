@@ -84,10 +84,10 @@ function manualChunks(id) {
     const idx = id.indexOf(path.sep);
 
     if (idx < 0) {
-      return `_${dir}/index`;
+      return `${dir}`;
     }
 
-    return `_${dir}/${id.substring(0, idx)}`;
+    return `${dir}/${id.substring(0, idx)}`;
   }
 
   function helpersChunk() {
@@ -110,13 +110,13 @@ function manualChunks(id) {
     let module;
 
     if (!id.startsWith('@')) {
-      scope = 'lib_';
+      scope = 'lib';
       module = id.substring(0, slashIdx);
     } else {
       scope = id.substring(1, slashIdx);
       module = id.substring(slashIdx + 1, id.indexOf(path.sep, slashIdx + 1));
     }
 
-    return `_${scope}/${module}`;
+    return `${scope}/${module}`;
   }
 }
