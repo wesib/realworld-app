@@ -1,11 +1,20 @@
-import { HandleNavLinks } from '@wesib/generic';
+import { HandleNavLinks, HierarchyContext } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, DomProperty, ElementRender, Render } from '@wesib/wesib';
 import { Conduit__NS } from '../../common';
-import { Article, ArticleService } from '../../common/articles';
+import { ArticleService } from '../../common/articles';
 import { escapeHtml } from '../../common/util';
+import { ArticleAuthorComponent } from '../article/article-author.component';
+import { CurrentArticle } from '../article/current-article';
 
 @Component(
     ['article-preview', Conduit__NS],
+    {
+      feature: {
+        needs: [
+          ArticleAuthorComponent,
+        ],
+      },
+    },
     HandleNavLinks({
       href(event) {
 
@@ -31,20 +40,20 @@ import { escapeHtml } from '../../common/util';
 )
 export class ArticlePreviewComponent {
 
-  private _article: Article | undefined;
+  private _article: CurrentArticle = {};
   private _contents: Node | undefined;
 
   constructor(private readonly _context: ComponentContext) {
   }
 
-  get article(): Article | undefined {
+  get article(): CurrentArticle {
     return this._article;
   }
 
   @DomProperty({ propertyKey: 'feedArticle' })
-  set article(value: Article | undefined) {
+  set article(value: CurrentArticle) {
     this._article = value;
-    if (value) {
+    if (value.slug) {
       this._context.get(ArticleService)
           .htmlContents(value)
           .then(contents => this.contents = contents)
@@ -53,6 +62,7 @@ export class ArticlePreviewComponent {
             this.contents = this._context.get(BootstrapWindow).document.createTextNode(`ERROR ${String(error)}`);
           });
     }
+    this._context.get(HierarchyContext).provide({ a: CurrentArticle, is: value });
   }
 
   get contents(): Node | undefined {
@@ -69,26 +79,17 @@ export class ArticlePreviewComponent {
 
   @Render()
   render(): ElementRender | void {
-    if (!this.article) {
+    if (!this.article.slug) {
       return;
     }
 
     const content = this._context.contentRoot as Element;
-    const { author } = this.article;
-    const profileURL = `profile/#${encodeURIComponent(author.username)}`;
-    const profileImage = author.image ? `<img src="${encodeURI(author.image)}"/>` : '';
-    const username = escapeHtml(author.username);
-    const postDate = new Date(this.article.createdAt).toDateString();
-    const postURL = `article/#${encodeURIComponent(this.article.slug)}`;
+    const postURL = `article/#/${encodeURIComponent(this.article.slug)}`;
     const favIconClass = this.article.favorited ? 'ion-heart' : 'ion-ios-heart-outline';
 
     content.innerHTML = `
 <div class="post-meta">
-<a href="${profileURL}">${profileImage}</a>
-<div class="info">
-    <a href="${profileURL}" class="author">${username}</a>
-    <span class="date">${postDate}</span>
-</div>
+<conduit-article-author></conduit-article-author>
 <button class="btn btn-outline-primary btn-sm float-right">
   <i class="${favIconClass}"></i> ${this.article.favoritesCount}
 </button>
