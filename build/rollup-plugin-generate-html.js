@@ -32,6 +32,7 @@ async function generateHtml(context, name) {
 async function generateSass() {
   const result = renderSync({
     file: './src/style.scss',
+    importer: npmModule,
     outFile: `css/style.css`,
     outputStyle: 'compressed',
     sourceMap: true,
@@ -42,6 +43,21 @@ async function generateSass() {
       fs.outputFile(`${dist}/css/style.css`, result.css, { encoding: 'utf8' }),
       fs.outputFile(`${dist}/css/style.css.map`, result.map, { encoding: 'utf8' }),
   ]);
+}
+
+function npmModule(url) {
+  if (url.startsWith('~')) {
+
+    const id = url.substring(1);
+
+    try {
+      return { file: require.resolve(`${id}.scss`) };
+    } catch (e) {/* noop */}
+    try {
+      return { file: require.resolve(id) };
+    } catch (e) {/* noop */}
+  }
+  return { file: url };
 }
 
 export default {
