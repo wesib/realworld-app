@@ -1,16 +1,7 @@
 import { HandleNavLinks, HierarchyContext } from '@wesib/generic';
-import {
-  BootstrapWindow,
-  Component,
-  ComponentContext,
-  DomProperty,
-  ElementRender,
-  Render,
-  StateProperty,
-} from '@wesib/wesib';
+import { Component, ComponentContext, DomProperty, ElementRender, Render } from '@wesib/wesib';
 import { trackValue } from 'fun-events';
 import { Conduit__NS } from '../../common';
-import { ArticleService } from '../../common/articles';
 import { escapeHtml } from '../../common/util';
 import { ArticleMetaSupport } from '../article/article-meta-support.feature';
 import { CurrentArticle } from '../article/current-article';
@@ -51,9 +42,6 @@ export class ArticlePreviewComponent {
 
   private readonly _article = trackValue<CurrentArticle>({});
 
-  @StateProperty()
-  contents: Node | undefined;
-
   constructor(private readonly _context: ComponentContext) {
 
     const hierarchy = _context.get(HierarchyContext);
@@ -73,15 +61,6 @@ export class ArticlePreviewComponent {
   @DomProperty({ propertyKey: 'feedArticle' })
   set article(value: CurrentArticle) {
     this._article.it = value;
-    if (value.slug) {
-       this._context.get(ArticleService)
-          .htmlContents(value)
-          .then(contents => this.contents = contents)
-          .catch(error => {
-            console.log(`Failed to display article ${value.slug}`);
-            this.contents = this._context.get(BootstrapWindow).document.createTextNode(`ERROR ${String(error)}`);
-          });
-    }
   }
 
   @Render({ offline: true })
@@ -103,23 +82,10 @@ export class ArticlePreviewComponent {
 </div>
 <a href="${postURL}" class="preview-link">
 <h1>${escapeHtml(this.article.title)}</h1>
-<p class="post-content"></p>
+<p class="post-content">${escapeHtml(this.article.description)}</p>
 <span>Read more...</span>
 </a>
 `;
-
-    return () => {
-
-      const contents = this.contents;
-
-      if (contents) {
-
-        const postContent = content.querySelector('.post-content')!;
-
-        postContent.innerHTML = '';
-        postContent.appendChild(contents);
-      }
-    };
   }
 
 }
