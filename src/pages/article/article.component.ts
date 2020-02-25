@@ -1,5 +1,5 @@
 import { HierarchyContext, Navigation, PageHashURLParam } from '@wesib/generic';
-import { Component, ComponentContext } from '@wesib/wesib';
+import { Component, ComponentContext, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../common';
 import { ApiResponse } from '../../common/api';
 import { Article, ArticleService, FeedSupport } from '../../common/articles';
@@ -42,12 +42,9 @@ export class ArticleComponent {
     return this._response;
   }
 
+  @StateProperty()
   set response(value: ApiResponse<Article> | undefined) {
-
-    const prev = this._response;
-
     this._response = value;
-    this._context.updateState('response', value, prev);
     this._context.get(HierarchyContext).provide({ a: CurrentArticle, is: value && value.ok ? value.body : {} });
   }
 

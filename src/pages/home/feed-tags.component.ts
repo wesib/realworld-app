@@ -1,5 +1,5 @@
 import { HandleNavLinks, Navigation, Page } from '@wesib/generic';
-import { BootstrapWindow, Component, ComponentContext, ElementRender, Render } from '@wesib/wesib';
+import { BootstrapWindow, Component, ComponentContext, ElementRender, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../common';
 import { FeedService } from '../../common/articles';
 import { PageFeedParam } from './page-feed-param';
@@ -10,27 +10,21 @@ import { PageFeedParam } from './page-feed-param';
 )
 export class FeedTagsComponent {
 
-  private _tags: string[] = [];
+  @StateProperty()
+  private tags: string[] = [];
+
+  @StateProperty()
+  private page?: Page;
 
   constructor(private readonly _context: ComponentContext) {
 
     const feedService = this._context.get(FeedService);
+    const navigation = this._context.get(Navigation);
 
     _context.whenOn(supply => {
+      navigation.read.tillOff(supply)(page => this.page = page);
       feedService.tags().tillOff(supply)((...tags) => this.tags = tags);
     });
-  }
-
-  get tags(): string[] {
-    return this._tags;
-  }
-
-  set tags(value: string[]) {
-
-    const prev = this._tags;
-
-    this._tags = value;
-    this._context.updateState('tags', value, prev);
   }
 
   @Render()
@@ -43,22 +37,15 @@ export class FeedTagsComponent {
     range.selectNodeContents(contentRoot);
     range.setStartAfter(contentRoot.childNodes[contentRoot.childNodes.length - 1]);
 
-    const navigation = this._context.get(Navigation);
-    let page: Page;
-
-    navigation.read(p => {
-
-      const prev = page;
-
-      page = p;
-      this._context.updateState('page', page, prev);
-    });
-
     return () => {
       range.deleteContents();
+      if (!this.page) {
+        return;
+      }
 
+      const navigation = this._context.get(Navigation);
       const fragment = document.createDocumentFragment();
-      const request = page.get(PageFeedParam);
+      const request = this.page.get(PageFeedParam);
 
       this.tags.forEach(tag => {
 

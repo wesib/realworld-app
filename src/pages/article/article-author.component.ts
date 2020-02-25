@@ -1,5 +1,5 @@
 import { HandleNavLinks, HierarchyContext } from '@wesib/generic';
-import { BootstrapWindow, Component, ComponentContext, ElementRender, Render } from '@wesib/wesib';
+import { BootstrapWindow, Component, ComponentContext, ElementRender, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../common';
 import { CurrentArticle } from './current-article';
 
@@ -9,24 +9,16 @@ import { CurrentArticle } from './current-article';
 )
 export class ArticleAuthorComponent {
 
-  private _article: CurrentArticle = {};
+  @StateProperty()
+  private article: CurrentArticle = {};
 
   constructor(private readonly _context: ComponentContext) {
+
+    const hierarchy = _context.get(HierarchyContext);
+
     _context.whenOn(supply => {
-      _context.get(HierarchyContext).get(CurrentArticle).tillOff(supply)(article => this.article = article);
+      hierarchy.get(CurrentArticle).tillOff(supply)(article => this.article = article);
     });
-  }
-
-  get article(): CurrentArticle {
-    return this._article;
-  }
-
-  set article(value: CurrentArticle) {
-
-    const prev = this._article;
-
-    this._article = value;
-    this._context.updateState('article', value, prev);
   }
 
   @Render()

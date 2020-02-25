@@ -1,5 +1,14 @@
 import { HandleNavLinks, HierarchyContext } from '@wesib/generic';
-import { BootstrapWindow, Component, ComponentContext, DomProperty, ElementRender, Render } from '@wesib/wesib';
+import {
+  BootstrapWindow,
+  Component,
+  ComponentContext,
+  DomProperty,
+  ElementRender,
+  Render,
+  StateProperty,
+} from '@wesib/wesib';
+import { trackValue } from 'fun-events';
 import { Conduit__NS } from '../../common';
 import { ArticleService } from '../../common/articles';
 import { escapeHtml } from '../../common/util';
@@ -40,21 +49,32 @@ import { CurrentArticle } from '../article/current-article';
 )
 export class ArticlePreviewComponent {
 
-  private _article: CurrentArticle = {};
-  private _contents: Node | undefined;
+  private readonly _article = trackValue<CurrentArticle>({});
+
+  @StateProperty()
+  contents: Node | undefined;
 
   constructor(private readonly _context: ComponentContext) {
+
+    const hierarchy = _context.get(HierarchyContext);
+
+    _context.whenOn(supply => {
+
+      const off = hierarchy.provide({ a: CurrentArticle, is: this._article.read });
+
+      supply.whenOff(off);
+    });
   }
 
   get article(): CurrentArticle {
-    return this._article;
+    return this._article.it;
   }
 
   @DomProperty({ propertyKey: 'feedArticle' })
   set article(value: CurrentArticle) {
-    this._article = value;
+    this._article.it = value;
     if (value.slug) {
-      this._context.get(ArticleService)
+       this._context.get(ArticleService)
           .htmlContents(value)
           .then(contents => this.contents = contents)
           .catch(error => {
@@ -62,22 +82,9 @@ export class ArticlePreviewComponent {
             this.contents = this._context.get(BootstrapWindow).document.createTextNode(`ERROR ${String(error)}`);
           });
     }
-    this._context.get(HierarchyContext).provide({ a: CurrentArticle, is: value });
   }
 
-  get contents(): Node | undefined {
-    return this._contents;
-  }
-
-  set contents(value: Node | undefined) {
-
-    const prev = this._contents;
-
-    this._contents = value;
-    this._context.updateState('contents', value, prev);
-  }
-
-  @Render()
+  @Render({ offline: true })
   render(): ElementRender | void {
     if (!this.article.slug) {
       return;

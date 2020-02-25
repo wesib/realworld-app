@@ -1,4 +1,11 @@
-import { Component, ComponentContext, DefaultNamespaceAliaser, ElementRender, Render } from '@wesib/wesib';
+import {
+  Component,
+  ComponentContext,
+  DefaultNamespaceAliaser,
+  ElementRender,
+  Render,
+  StateProperty,
+} from '@wesib/wesib';
 import { css__naming, QualifiedName } from 'namespace-aliaser';
 import { Authentication, AuthService } from '../auth';
 import { Conduit__NS } from '../conduit.ns';
@@ -16,7 +23,8 @@ const notAuthenticatedClassQName: QualifiedName = ['not-authenticated', Conduit_
 })
 export class ContainerComponent {
 
-  private _auth: Authentication = {};
+  @StateProperty()
+  auth: Authentication = {};
 
   constructor(private readonly _context: ComponentContext) {
     _context.whenOn(connectSupply => {
@@ -24,18 +32,6 @@ export class ContainerComponent {
         this.auth = auth;
       });
     });
-  }
-
-  get auth(): Authentication {
-    return this._auth;
-  }
-
-  set auth(value: Authentication) {
-
-    const prev = this._auth;
-
-    this._auth = value;
-    this._context.updateState('auth', value, prev);
   }
 
   @Render()
