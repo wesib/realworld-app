@@ -4,16 +4,18 @@ import { Conduit__NS } from '../../common';
 import { ApiResponse } from '../../common/api';
 import { Article, ArticleService, FeedSupport } from '../../common/articles';
 import { LoaderComponent } from '../../generic/loader';
-import { ArticleAuthorComponent } from './article-author.component';
+import { ArticleMetaSupport } from './article-meta-support.feature';
 import { CurrentArticle } from './current-article';
+import { FollowAuthorComponent } from './follow-author.component';
 
 @Component(
     ['article', Conduit__NS],
     {
       feature: {
         needs: [
-          ArticleAuthorComponent,
+          ArticleMetaSupport,
           FeedSupport,
+          FollowAuthorComponent,
           LoaderComponent,
         ],
       },

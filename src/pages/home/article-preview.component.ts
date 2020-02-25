@@ -12,7 +12,7 @@ import { trackValue } from 'fun-events';
 import { Conduit__NS } from '../../common';
 import { ArticleService } from '../../common/articles';
 import { escapeHtml } from '../../common/util';
-import { ArticleAuthorComponent } from '../article/article-author.component';
+import { ArticleMetaSupport } from '../article/article-meta-support.feature';
 import { CurrentArticle } from '../article/current-article';
 
 @Component(
@@ -20,7 +20,7 @@ import { CurrentArticle } from '../article/current-article';
     {
       feature: {
         needs: [
-          ArticleAuthorComponent,
+          ArticleMetaSupport,
         ],
       },
     },
