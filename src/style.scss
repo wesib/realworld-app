@@ -23,11 +23,6 @@ $brand-primary: #5CB85C;
 $brand-danger:  #B85C5C;
 $navbar-padding-x: 0rem !important;
 
-// Counter for buttons
-.btn .counter {
-  font-size:0.8rem !important;
-}
-
 @import './common/common';
 @import './generic/generic';
 @import './pages/pages';

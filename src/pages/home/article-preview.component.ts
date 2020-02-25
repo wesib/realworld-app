@@ -71,14 +71,11 @@ export class ArticlePreviewComponent {
 
     const content = this._context.contentRoot as Element;
     const postURL = `article/#/${encodeURIComponent(this.article.slug)}`;
-    const favIconClass = this.article.favorited ? 'ion-heart' : 'ion-ios-heart-outline';
 
     content.innerHTML = `
 <div class="post-meta">
 <conduit-article-author></conduit-article-author>
-<button class="btn btn-outline-primary btn-sm float-right">
-  <i class="${favIconClass}"></i> ${this.article.favoritesCount}
-</button>
+<conduit-favorite-post></conduit-favorite-post>
 </div>
 <a href="${postURL}" class="preview-link">
 <h1>${escapeHtml(this.article.title)}</h1>

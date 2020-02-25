@@ -23,6 +23,10 @@ conduit-article-preview {
       color:#bbb;
     }
   }
+
+  conduit-favorite-post {
+    @extend .float-right;
+  }
 }
 
 // Link that doesn't modify color/style of text
@@ -59,7 +63,7 @@ conduit-article-preview {
       display:block;
       font-weight: 500 !important;
     }
-    .date {
+    time {
       color:#bbb;
       font-size:0.8rem;
       display:block;

@@ -1,0 +1,26 @@
+conduit-favorite-post {
+  @extend .btn;
+  @extend .btn-sm;
+
+  .counter {
+    font-size: 0.8rem !important;
+    &:not(:empty) {
+      padding-left: 0.5rem;
+    }
+  }
+}
+
+conduit-article conduit-favorite-post {
+  margin-left: 0.5rem;
+  i {
+    padding-right: 0.5rem;
+  }
+  .counter:not(:empty) {
+    &::before {
+      content: '(';
+    }
+    &::after {
+      content: ')';
+    }
+  }
+}
