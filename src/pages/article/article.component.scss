@@ -1,4 +1,13 @@
-conduit-article {
+conduit-article:not(.visible#{$conduit-ns}) {
+  .banner {
+    @extend .d-none;
+  }
+  .page {
+    @extend .d-none;
+  }
+}
+
+conduit-article.visible#{$conduit-ns} {
 
   .banner {
     padding:3rem 0 2rem 0;
@@ -7,10 +16,8 @@ conduit-article {
       font-size:2.8rem;
     }
 
-
-
     // Set follow/favorite buttons to lower opacity until hovered
-    .btn {
+    conduit-follow-author, conduit-favorite-post {
       opacity: 0.8;
       &:hover {
         transition: 0.1s all;
