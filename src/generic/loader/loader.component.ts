@@ -1,4 +1,4 @@
-import { Attribute, BootstrapWindow, Component, ComponentContext, ElementRender, Render } from '@wesib/wesib';
+import { Attribute, BootstrapWindow, Component, ComponentContext, ElementRenderer, Render } from '@wesib/wesib';
 import { Conduit__NS } from '../../common/conduit.ns';
 
 @Component(['loader', Conduit__NS])
@@ -11,7 +11,7 @@ export class LoaderComponent {
   }
 
   @Render()
-  render(): ElementRender {
+  render(): ElementRenderer {
 
     const { document } = this._context.get(BootstrapWindow);
     const range = document.createRange();

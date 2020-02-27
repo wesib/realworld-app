@@ -1,5 +1,5 @@
 import { HandleNavLinks, HierarchyContext } from '@wesib/generic';
-import { BootstrapWindow, Component, ComponentContext, ElementRender, Render, StateProperty } from '@wesib/wesib';
+import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../common';
 import { CurrentArticle } from './current-article';
 
@@ -22,7 +22,7 @@ export class ArticleAuthorComponent {
   }
 
   @Render()
-  render(): ElementRender {
+  render(): ElementRenderer {
 
     const { document } = this._context.get(BootstrapWindow);
     const { contentRoot }: { contentRoot: Node } = this._context;

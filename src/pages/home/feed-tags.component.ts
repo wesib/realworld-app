@@ -1,5 +1,5 @@
 import { HandleNavLinks, Navigation, Page } from '@wesib/generic';
-import { BootstrapWindow, Component, ComponentContext, ElementRender, Render, StateProperty } from '@wesib/wesib';
+import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../common';
 import { FeedService } from '../../common/articles';
 import { PageFeedParam } from './page-feed-param';
@@ -28,7 +28,7 @@ export class FeedTagsComponent {
   }
 
   @Render()
-  render(): ElementRender {
+  render(): ElementRenderer {
 
     const { document } = this._context.get(BootstrapWindow);
     const range = document.createRange();

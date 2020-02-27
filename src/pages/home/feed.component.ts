@@ -1,5 +1,5 @@
 import { HierarchyContext, Navigation } from '@wesib/generic';
-import { BootstrapWindow, Component, ComponentContext, ElementRender, Render } from '@wesib/wesib';
+import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render } from '@wesib/wesib';
 import { nextOnEvent, trackValue } from 'fun-events';
 import { Conduit__NS } from '../../common';
 import { ApiResponse } from '../../common/api';
@@ -64,7 +64,7 @@ export class FeedComponent {
   }
 
   @Render()
-  render(): ElementRender {
+  render(): ElementRenderer {
 
     const { contentRoot }: { contentRoot: Node } = this._context;
     const document = this._context.get(BootstrapWindow).document;

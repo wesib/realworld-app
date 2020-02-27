@@ -1,6 +1,6 @@
 import { HierarchyContext } from '@wesib/generic';
 import { InputToForm } from '@wesib/generic/input';
-import { Component, ComponentContext, ElementRender, Render, StateProperty } from '@wesib/wesib';
+import { Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { nextArgs, NextCall } from 'call-thru';
 import { nextAfterEvent, OnEventCallChain } from 'fun-events';
 import { InValidation } from 'input-aspects';
@@ -40,7 +40,7 @@ export class ApiErrorsComponent {
   }
 
   @Render()
-  render(): ElementRender {
+  render(): ElementRenderer {
 
     const { contentRoot } = this._context;
     let list: Element | undefined;

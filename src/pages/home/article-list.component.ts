@@ -1,5 +1,5 @@
 import { HierarchyContext } from '@wesib/generic';
-import { BootstrapWindow, Component, ComponentContext, ElementRender, Render, StateProperty } from '@wesib/wesib';
+import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../common';
 import { ArticlePreviewComponent } from './article-preview.component';
 import { FeedArticleList } from './feed-article-list';
@@ -27,7 +27,7 @@ export class ArticleListComponent {
   }
 
   @Render()
-  render(): ElementRender {
+  render(): ElementRenderer {
 
     const document = this._context.get(BootstrapWindow).document;
     const range = document.createRange();

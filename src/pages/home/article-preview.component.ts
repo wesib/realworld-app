@@ -1,5 +1,5 @@
 import { HandleNavLinks, HierarchyContext } from '@wesib/generic';
-import { Component, ComponentContext, DomProperty, ElementRender, Render } from '@wesib/wesib';
+import { Component, ComponentContext, DomProperty, ElementRenderer, Render } from '@wesib/wesib';
 import { trackValue } from 'fun-events';
 import { Conduit__NS } from '../../common';
 import { escapeHtml } from '../../common/util';
@@ -64,7 +64,7 @@ export class ArticlePreviewComponent {
   }
 
   @Render({ offline: true })
-  render(): ElementRender | void {
+  render(): ElementRenderer | void {
     if (!this.article.slug) {
       return;
     }

@@ -1,5 +1,5 @@
 import { HierarchyContext } from '@wesib/generic';
-import { Component, ComponentContext, ElementRender, Render, StateProperty } from '@wesib/wesib';
+import { Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../common';
 import { UserProfile } from '../../common/users';
 import { escapeHtml } from '../../common/util';
@@ -23,7 +23,7 @@ export class FollowAuthorComponent {
   }
 
   @Render()
-  render(): ElementRender {
+  render(): ElementRenderer {
 
     const { contentRoot }: { contentRoot: Element } = this._context;
 

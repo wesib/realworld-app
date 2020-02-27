@@ -1,5 +1,5 @@
 import { HierarchyContext } from '@wesib/generic';
-import { BootstrapWindow, Component, ComponentContext, ElementRender, Render, StateProperty } from '@wesib/wesib';
+import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../common';
 import { CurrentArticle } from './current-article';
 
@@ -23,7 +23,7 @@ export class FavoritePostComponent {
   }
 
   @Render()
-  render(): ElementRender {
+  render(): ElementRenderer {
 
     const { contentRoot }: { contentRoot: HTMLElement } = this._context;
     const { document } = this._context.get(BootstrapWindow);

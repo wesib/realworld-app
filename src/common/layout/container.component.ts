@@ -2,7 +2,7 @@ import {
   Component,
   ComponentContext,
   DefaultNamespaceAliaser,
-  ElementRender,
+  ElementRenderer,
   Render,
   StateProperty,
 } from '@wesib/wesib';
@@ -35,7 +35,7 @@ export class ContainerComponent {
   }
 
   @Render()
-  render(): ElementRender {
+  render(): ElementRenderer {
 
     const nsAlis = this._context.get(DefaultNamespaceAliaser);
     const authenticatedClass = css__naming.name(authenticatedClassQName, nsAlis);
