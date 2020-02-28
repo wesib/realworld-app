@@ -6,7 +6,7 @@ import { ApiResponse } from '../api';
 export type ApiErrorGenerator = (this: void, errors: ApiResponse.Errors) => Element | undefined;
 
 export const ApiErrorGenerator: FnContextRef<[ApiResponse.Errors], Element | undefined> = (
-    new FnContextKey<[ApiResponse.Errors], Element | undefined>(
+    /*#__PURE__*/ new FnContextKey<[ApiResponse.Errors], Element | undefined>(
         'api-error-generator',
         {
           byDefault: bootstrapDefault(context => {
@@ -40,4 +40,5 @@ export const ApiErrorGenerator: FnContextRef<[ApiResponse.Errors], Element | und
             };
           }),
         },
-    ));
+    )
+);

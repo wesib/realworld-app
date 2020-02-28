@@ -11,5 +11,7 @@ export interface ArticleService {
 
 }
 
-export const ArticleService: ContextRef<ArticleService> = new SingleContextKey<ArticleService>('article-service');
+export const ArticleService: ContextRef<ArticleService> = (
+    /*#__PURE__*/ new SingleContextKey<ArticleService>('article-service')
+);
 

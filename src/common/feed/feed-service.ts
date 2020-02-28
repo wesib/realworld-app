@@ -17,4 +17,6 @@ export interface FeedService {
 
 }
 
-export const FeedService: ContextRef<FeedService> = new SingleContextKey<FeedService>('feed-service');
+export const FeedService: ContextRef<FeedService> = (
+    /*#__PURE__*/ new SingleContextKey<FeedService>('feed-service')
+);

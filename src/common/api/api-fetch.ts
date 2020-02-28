@@ -68,7 +68,7 @@ export namespace ApiResponse {
 export type ApiFetch = <T>(this: void, request: ApiRequest<T>) => OnEvent<[ApiResponse<T>]>;
 
 export const ApiFetch: ContextUpRef<ApiFetch, ApiFetch> = (
-    new FnContextKey<[ApiRequest<any>], OnEvent<[ApiResponse<any>]>>(
+    /*#__PURE__*/ new FnContextKey<[ApiRequest<any>], OnEvent<[ApiResponse<any>]>>(
         'api-fetch',
         {
           byDefault: bootstrapDefault(newApiFetch),

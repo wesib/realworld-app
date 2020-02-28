@@ -8,12 +8,13 @@ export type ApiSubmitter =
     <Value = any, Result = any>(this: void, request: ApiRequest<Result>) => InSubmit.Submitter<Value, Result>;
 
 export const ApiSubmitter: ContextUpRef<ApiSubmitter, ApiSubmitter> = (
-    new FnContextKey<[ApiRequest<any>], InSubmit.Submitter<any, any>>(
+    /*#__PURE__*/ new FnContextKey<[ApiRequest<any>], InSubmit.Submitter<any, any>>(
         'api-submitter',
         {
           byDefault: bootstrapDefault(newApiSubmitter),
         },
-    ));
+    )
+);
 
 function newApiSubmitter(
     context: BootstrapContext,
