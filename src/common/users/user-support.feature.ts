@@ -7,5 +7,5 @@ import { UserService$ } from './user-service.impl';
     setup.provide({ a: UserService, as: UserService$ });
   },
 })
-export class UserSupportFeature {
+export class UserSupport {
 }

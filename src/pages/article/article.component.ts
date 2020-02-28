@@ -17,9 +17,10 @@ import { Article, ArticleService } from '../../common/articles';
 import { ArticlesSupport } from '../../common/articles/articles-support.feature';
 import { ApiErrorGenerator } from '../../common/input';
 import { LoaderComponent } from '../../generic/loader';
+import { CurrentUserProfile } from '../profile/current-user-profile';
 import { ArticleMetaSupport } from './article-meta-support.feature';
 import { CurrentArticle } from './current-article';
-import { FollowAuthorComponent } from './follow-author.component';
+import { FollowAuthorComponent } from '../profile/follow-author.component';
 
 @Component(
     ['article', Conduit__NS],
@@ -50,7 +51,15 @@ export class ArticleComponent {
 
     hierarchy.provide({
       a: CurrentArticle,
-      is: this._response.read.keep.thru_(response => response && response.ok ? response.body : {}),
+      is: this._response.read.keep.thru_(
+          response => response && response.ok ? response.body : {},
+      ),
+    });
+    hierarchy.provide({
+      a: CurrentUserProfile,
+      is: this._response.read.keep.thru_(
+          response => response && response.ok ? response.body.author : {},
+      ),
     });
     _context.whenOn(supply => {
       supply.whenOff(() => this.content = undefined);
@@ -112,46 +121,44 @@ export class ArticleComponent {
       } else {
         displayContents(response);
       }
-
-      function displayLoader(): void {
-        setContentsVisible(false);
-        if (!loader) {
-          loader = contentRoot.appendChild(document.createElement('conduit-loader'));
-        }
-      }
-
-      function hideLoader(): void {
-        if (loader) {
-          loader.remove();
-          loader = undefined;
-        }
-      }
-
-      function displayContents({ body }: ApiResponse.Ok<Article>): void {
-        hideLoader();
-        setContentsVisible(true);
-        element.classList.add(visibleClassName);
-        document.getElementById('article:title')!.innerText = body.title;
-      }
-
-      function displayErrors({ errors }: ApiResponse.Failure): void {
-        hideLoader();
-        setContentsVisible(false);
-        element.classList.remove(visibleClassName);
-        loader = genErrors(errors);
-        if (loader) {
-          contentRoot.appendChild(loader);
-        }
-      }
-
-      function setContentsVisible(visible: boolean): void {
-        if (visible) {
-          element.classList.add(visibleClassName);
-        } else {
-          element.classList.remove(visibleClassName);
-        }
-      }
     };
+
+    function displayContents({ body }: ApiResponse.Ok<Article>): void {
+      hideLoader();
+      setContentsVisible(true);
+      document.getElementById('article:title')!.innerText = body.title;
+    }
+
+    function displayErrors({ errors }: ApiResponse.Failure): void {
+      hideLoader();
+      setContentsVisible(false);
+      loader = genErrors(errors);
+      if (loader) {
+        contentRoot.appendChild(loader);
+      }
+    }
+
+    function displayLoader(): void {
+      setContentsVisible(false);
+      if (!loader) {
+        loader = contentRoot.appendChild(document.createElement('conduit-loader'));
+      }
+    }
+
+    function hideLoader(): void {
+      if (loader) {
+        loader.remove();
+        loader = undefined;
+      }
+    }
+
+    function setContentsVisible(visible: boolean): void {
+      if (visible) {
+        element.classList.add(visibleClassName);
+      } else {
+        element.classList.remove(visibleClassName);
+      }
+    }
   }
 
   @Render({ path: statePropertyPathTo('content') })

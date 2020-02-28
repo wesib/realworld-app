@@ -1,8 +1,5 @@
 conduit-article:not(.visible#{$conduit-ns}) {
-  .banner {
-    @extend .d-none;
-  }
-  .page {
+  .banner, .page {
     @extend .d-none;
   }
 }
