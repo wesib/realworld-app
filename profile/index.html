@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
   <title>Conduit: User Profile</title>
-  <meta name="wesib-app-rev" content="1e24tmfu2">
+  <meta name="wesib-app-rev" content="1e257hqn0">
   <base href=".."/>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -34,28 +34,22 @@
   </conduit-navbar>  <conduit-main>
     <conduit-profile>
 
-      <div class="user-info">
+      <conduit-user-info>
         <div class="container">
           <div class="row">
 
             <div class="col-md-10 offset-md-1">
-              <img src="http://i.imgur.com/Qr71crq.jpg" class="user-img" />
-              <h4>Eric Simons</h4>
-              <p>
-                Cofounder @GoThinkster, lived in Aol's HQ for a few months, kinda looks like Peeta from the Hunger Games
-              </p>
-              <button class="btn btn-sm btn-outline-secondary action-btn">
-                <i class="ion-plus-round"></i>
-                &nbsp;
-                Follow Eric Simons <span class="counter">(10)</span>
-              </button>
+              <img id="user:image" class="user-img" />
+              <h4 id="user:username"></h4>
+              <p id="user:bio"></p>
+              <conduit-follow-author></conduit-follow-author>
             </div>
 
           </div>
         </div>
-      </div>
+      </conduit-user-info>
 
-      <div class="container">
+      <conduit-user-posts>
         <div class="row">
 
           <div class="col-md-10 offset-md-1">
@@ -110,7 +104,7 @@
           </div>
 
         </div>
-      </div>
+      </conduit-user-posts>
 
     </conduit-profile>
   </conduit-main>
@@ -123,5 +117,5 @@
     </span>
   </div>
 </conduit-footer>
-<script src="profile/main.12ce56fc.js" type="module"></script></body>
+<script src="profile/main.59415c77.js" type="module"></script></body>
 </html>
