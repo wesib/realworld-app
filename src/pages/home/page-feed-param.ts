@@ -21,8 +21,6 @@ class PageFeedParam$ extends PageParam<FeedRequest, FeedRequest> {
         return {
           feed: pathname === '/personal-feed' ? pathname : undefined,
           tag: params.get('tag') || undefined,
-          author: params.get('author') || undefined,
-          favorited: params.get('favorited') || undefined,
           limit: parseInt(params.get('limit') || '', 10) || undefined,
           offset: parseInt(params.get('offset') || '', 10) || undefined,
         };

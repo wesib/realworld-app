@@ -12,11 +12,12 @@ import {
 import { ContextKey, ContextKey__symbol, SingleContextKey } from 'context-values';
 import { nextOnEvent, StatePath, trackValue } from 'fun-events';
 import { ApiResponse } from '../../common/api';
-import { ArticleList, FeedRequest, feedRequestsEqual, FeedService } from '../../common/feed';
+import { ArticleList, FeedRequest, feedRequestsEqual, FeedService, FeedSupport } from '../../common/feed';
 import { ApiErrorGenerator } from '../../common/input';
 import { ArticleListComponent } from './article-list.component';
 import { FeedArticleList } from './feed-article-list';
 import { FeedPagerComponent } from './feed-pager.component';
+import { FeedRequestPageParam } from './feed-request-page-param';
 
 const RenderFeedState__key = (/*#__PURE__*/ new SingleContextKey<RenderFeedState>('render-feed-state'));
 const RenderFeedState__symbol = (/*#__PURE__*/ Symbol('render-feed-state'));
@@ -73,7 +74,9 @@ class RenderFeedState {
 
 }
 
-export function RenderFeed<T extends ComponentClass>(): ComponentPropertyDecorator<FeedRequest, T> {
+export function RenderFeed<T extends ComponentClass>(
+    { requestParam }: RenderFeedDef = {},
+): ComponentPropertyDecorator<FeedRequest, T> {
   return ComponentProperty(({ get, set: setValue, key }) => {
 
     const path: StatePath = [RenderFeedState__symbol, key];
@@ -85,6 +88,7 @@ export function RenderFeed<T extends ComponentClass>(): ComponentPropertyDecorat
               needs: [
                 ArticleListComponent,
                 FeedPagerComponent,
+                FeedSupport,
               ],
             },
             define(defContext) {
@@ -92,6 +96,11 @@ export function RenderFeed<T extends ComponentClass>(): ComponentPropertyDecorat
                 a: RenderFeedState,
                 by: (context: ComponentContext) => new RenderFeedState(context, path),
               });
+              if (requestParam) {
+                defContext.whenComponent(context => {
+                  context.get(HierarchyContext).provide({ a: FeedRequestPageParam, is: requestParam });
+                });
+              }
             },
           },
           Render({ path }).As(renderFeed, key),
@@ -149,4 +158,8 @@ export function RenderFeed<T extends ComponentClass>(): ComponentPropertyDecorat
       }
     }
   });
+}
+
+export interface RenderFeedDef {
+  readonly requestParam?: FeedRequestPageParam;
 }

@@ -4,7 +4,7 @@ import { afterAll } from 'fun-events';
 import { Conduit__NS } from '../../common';
 import { PagingInfo, RenderPager } from '../../generic/pager';
 import { FeedArticleList } from './feed-article-list';
-import { PageFeedParam } from './page-feed-param';
+import { FeedRequestPageParam } from './feed-request-page-param';
 
 @Component(['feed-pager', Conduit__NS])
 export class FeedPagerComponent {
@@ -18,14 +18,17 @@ export class FeedPagerComponent {
 
     context.whenOn(supply => {
       afterAll({
-        param: navigation.read.keep.thru_(page => page.get(PageFeedParam)),
+        param: hierarchy.get(FeedRequestPageParam),
+        page: navigation,
         list: hierarchy.get(FeedArticleList),
       }).tillOff(supply)(
           ({
-            param: [param],
+            param: [paramRef],
+            page: [page],
             list: [{ articlesCount }],
           }) => {
 
+            const param = page.get(paramRef);
             const { limit = 20, offset = 0 } = param;
 
             this.feedPaging = {
@@ -33,7 +36,7 @@ export class FeedPagerComponent {
               currentPage: Math.floor(offset / limit),
               pageHref(page: number): string {
                 return navigation.with(
-                    PageFeedParam,
+                    paramRef,
                     { ...param, offset: limit * page },
                 ).pretend()?.url.href || '';
               },

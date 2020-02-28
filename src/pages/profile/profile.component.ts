@@ -17,6 +17,7 @@ import { UserProfile, UserService, UserSupport } from '../../common/users';
 import { CurrentUserProfile, currentUserProfileBy, noUserProfile } from './current-user-profile';
 import { PageUserProfileParam } from './page-user-profile-param';
 import { UserFeedToggleComponent } from './user-feed-toggle.component';
+import { UserFeedComponent } from './user-feed.component';
 import { UserInfoComponent } from './user-info.component';
 
 @Component(
@@ -24,6 +25,7 @@ import { UserInfoComponent } from './user-info.component';
     {
       feature: {
         needs: [
+          UserFeedComponent,
           UserFeedToggleComponent,
           UserInfoComponent,
           UserSupport,
