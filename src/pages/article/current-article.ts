@@ -3,9 +3,11 @@ import { Article } from '../../common/articles';
 
 export type CurrentArticle = Article | { readonly slug?: undefined };
 
-export const CurrentArticle: SingleContextUpRef<CurrentArticle> = new SingleContextUpKey<CurrentArticle>(
-    'current-article',
-    {
-      byDefault: () => ({}),
-    },
+export const CurrentArticle: SingleContextUpRef<CurrentArticle> = (
+    /*#__PURE__*/ new SingleContextUpKey<CurrentArticle>(
+        'current-article',
+        {
+          byDefault: () => ({}),
+        },
+    )
 );
