@@ -55,7 +55,7 @@ export class UserFeedToggleComponent {
                 request = { author: user };
               }
 
-              const targetPage = navigation.with(PageUserProfileParam, request).pretend('profile/');
+              const targetPage = navigation.with(PageUserProfileParam, request).pretend();
 
               if (targetPage) {
 
