@@ -19,7 +19,7 @@ import { ApiErrorGenerator } from '../../common/input';
 import { LoaderComponent } from '../../generic/loader';
 import { CurrentUserProfile, currentUserProfileBy, noUserProfile } from '../profile/current-user-profile';
 import { FollowAuthorComponent } from '../profile/follow-author.component';
-import { ArticleMetaSupport } from './article-meta-support.feature';
+import { ArticleMetaComponentsSupport } from './article-meta-components-support.feature';
 import { CurrentArticle } from './current-article';
 
 @Component(
@@ -27,7 +27,7 @@ import { CurrentArticle } from './current-article';
     {
       feature: {
         needs: [
-          ArticleMetaSupport,
+          ArticleMetaComponentsSupport,
           ArticlesSupport,
           FollowAuthorComponent,
           LoaderComponent,

@@ -3,7 +3,7 @@ import { Component, ComponentContext, DomProperty, ElementRenderer, Render } fro
 import { trackValue } from 'fun-events';
 import { Conduit__NS } from '../../common';
 import { escapeHtml } from '../../common/util';
-import { ArticleMetaSupport } from '../article/article-meta-support.feature';
+import { ArticleMetaComponentsSupport } from '../article/article-meta-components-support.feature';
 import { CurrentArticle } from '../article/current-article';
 
 @Component(
@@ -11,7 +11,7 @@ import { CurrentArticle } from '../article/current-article';
     {
       feature: {
         needs: [
-          ArticleMetaSupport,
+          ArticleMetaComponentsSupport,
         ],
       },
     },

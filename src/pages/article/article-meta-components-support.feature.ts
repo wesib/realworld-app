@@ -8,5 +8,5 @@ import { FavoritePostComponent } from './favorite-post.component';
     FavoritePostComponent,
   ],
 })
-export class ArticleMetaSupport {
+export class ArticleMetaComponentsSupport {
 }
