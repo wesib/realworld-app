@@ -3,7 +3,7 @@ import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render }
 import { nextOnEvent, trackValue } from 'fun-events';
 import { Conduit__NS } from '../../common';
 import { ApiResponse } from '../../common/api';
-import { ArticleList, FeedRequest, feedRequestsEqual, FeedService } from '../../common/articles';
+import { ArticleList, FeedRequest, feedRequestsEqual, FeedService } from '../../common/feed';
 import { ApiErrorGenerator } from '../../common/input';
 import { ArticleListComponent } from './article-list.component';
 import { FeedArticleList } from './feed-article-list';

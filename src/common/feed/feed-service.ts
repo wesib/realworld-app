@@ -1,7 +1,7 @@
 import { ContextRef, SingleContextKey } from 'context-values';
 import { OnEvent } from 'fun-events';
 import { ApiResponse } from '../api';
-import { Article } from './article';
+import { Article } from '../articles';
 import { FeedRequest } from './feed-request';
 
 export interface ArticleList {

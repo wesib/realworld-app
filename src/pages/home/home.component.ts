@@ -1,7 +1,7 @@
 import { PageHashURLSupport } from '@wesib/generic';
 import { Component } from '@wesib/wesib';
 import { Conduit__NS } from '../../common';
-import { FeedSupport } from '../../common/articles';
+import { FeedSupport } from '../../common/feed';
 import { LoaderComponent } from '../../generic/loader';
 import { FeedTagsComponent } from './feed-tags.component';
 import { FeedToggleComponent } from './feed-toggle.component';

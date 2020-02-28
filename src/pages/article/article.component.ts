@@ -13,7 +13,8 @@ import { trackValue } from 'fun-events';
 import { css__naming } from 'namespace-aliaser';
 import { Conduit__NS } from '../../common';
 import { ApiResponse } from '../../common/api';
-import { Article, ArticleService, FeedSupport } from '../../common/articles';
+import { Article, ArticleService } from '../../common/articles';
+import { ArticlesSupport } from '../../common/articles/articles-support.feature';
 import { ApiErrorGenerator } from '../../common/input';
 import { LoaderComponent } from '../../generic/loader';
 import { ArticleMetaSupport } from './article-meta-support.feature';
@@ -26,7 +27,7 @@ import { FollowAuthorComponent } from './follow-author.component';
       feature: {
         needs: [
           ArticleMetaSupport,
-          FeedSupport,
+          ArticlesSupport,
           FollowAuthorComponent,
           LoaderComponent,
         ],

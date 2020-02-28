@@ -1,5 +1,5 @@
 import { SingleContextUpKey, SingleContextUpRef } from 'context-values/updatable';
-import { ArticleList } from '../../common/articles';
+import { ArticleList } from '../../common/feed';
 
 export type FeedArticleList = ArticleList;
 
