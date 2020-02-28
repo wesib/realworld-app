@@ -61,7 +61,7 @@ export class ArticleAuthorComponent {
         profileURL = navigation.with(
             PageUserProfileParam,
             { author: author.username },
-        ).pretend('profile')?.url?.href || '';
+        ).pretend('profile/')?.url?.href || '';
         profileImage = author.image ? `<img src="${encodeURI(author.image)}"/>` : '';
         username = author.username;
         timestamp = article.createdAt;
