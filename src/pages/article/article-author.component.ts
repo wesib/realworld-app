@@ -1,6 +1,7 @@
-import { HandleNavLinks, HierarchyContext } from '@wesib/generic';
+import { HandleNavLinks, HierarchyContext, Navigation } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../common';
+import { PageUserProfileParam } from '../profile/page-user-profile-param';
 import { CurrentArticle } from './current-article';
 
 @Component(
@@ -24,6 +25,7 @@ export class ArticleAuthorComponent {
   @Render()
   render(): ElementRenderer {
 
+    const navigation = this._context.get(Navigation);
     const { document } = this._context.get(BootstrapWindow);
     const { contentRoot }: { contentRoot: Node } = this._context;
     const fragment = document.createDocumentFragment();
@@ -56,7 +58,10 @@ export class ArticleAuthorComponent {
 
         const { author } = article;
 
-        profileURL = `profile/#/${encodeURIComponent(author.username)}`;
+        profileURL = navigation.with(
+            PageUserProfileParam,
+            { author: author.username },
+        ).pretend('profile')?.url?.href || '';
         profileImage = author.image ? `<img src="${encodeURI(author.image)}"/>` : '';
         username = author.username;
         timestamp = article.createdAt;

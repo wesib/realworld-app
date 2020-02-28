@@ -1,4 +1,4 @@
-import { HierarchyContext, Navigation, PageHashURLParam } from '@wesib/generic';
+import { HierarchyContext, Navigation } from '@wesib/generic';
 import {
   BootstrapWindow,
   Component,
@@ -15,6 +15,7 @@ import { ApiResponse } from '../../common/api';
 import { ApiErrorGenerator } from '../../common/input';
 import { UserProfile, UserService, UserSupport } from '../../common/users';
 import { CurrentUserProfile, currentUserProfileBy, noUserProfile } from './current-user-profile';
+import { PageUserProfileParam } from './page-user-profile-param';
 import { UserInfoComponent } from './user-info.component';
 
 @Component(
@@ -47,7 +48,12 @@ export class ProfileComponent {
     _context.whenOn(supply => {
       navigation.read
           .thru_(
-              page => page.get(PageHashURLParam).pathname.substring(1),
+              page => {
+
+                const param = page.get(PageUserProfileParam);
+
+                return param.author || param.favorited;
+              },
           )
           .tillOff(supply)
           .consume(username => {
