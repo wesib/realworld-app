@@ -6,7 +6,8 @@ import { Conduit__NS } from '../../common';
 import { apiSubmit } from '../../common/api';
 import { AuthService, RegisterRequest } from '../../common/auth';
 import { ConduitInputSupport, FillConduitForm } from '../../common/input';
-import { LoginEmailComponent, LoginPasswordComponent } from '../login';
+import { LoginEmailComponent } from '../login/login-email.component';
+import { LoginPasswordComponent } from '../login/login-password.component';
 import { RegisterUsernameComponent } from './register-username.component';
 
 @Component(
