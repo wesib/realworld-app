@@ -21,7 +21,7 @@ export const CurrentUserProfile: SingleContextUpRef<CurrentUserProfile> = (
     /*#__PURE__*/ new SingleContextUpKey<CurrentUserProfile>(
         'current-user-profile',
         {
-          byDefault: () => (noUserProfile),
+          byDefault: () => noUserProfile,
         },
     )
 );

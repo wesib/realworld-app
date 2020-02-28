@@ -1,4 +1,4 @@
-import { HandleNavLinks, HierarchyContext, Navigation } from '@wesib/generic';
+import { HandleNavLinks, HierarchyContext, Navigation, PageHashURLSupport } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../common';
 import { PageUserProfileParam } from '../profile/page-user-profile-param';
@@ -6,6 +6,11 @@ import { CurrentArticle } from './current-article';
 
 @Component(
     ['article-author', Conduit__NS],
+    {
+      feature: {
+        needs: PageHashURLSupport,
+      },
+    },
     HandleNavLinks(),
 )
 export class ArticleAuthorComponent {

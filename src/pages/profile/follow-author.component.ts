@@ -1,11 +1,18 @@
 import { HierarchyContext } from '@wesib/generic';
 import { Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../common';
-import { UserService } from '../../common/users';
+import { UserService, UserSupport } from '../../common/users';
 import { escapeHtml } from '../../common/util';
 import { CurrentUserProfile, noUserProfile } from './current-user-profile';
 
-@Component(['follow-author', Conduit__NS])
+@Component(
+    ['follow-author', Conduit__NS],
+    {
+      feature: {
+        needs: UserSupport,
+      },
+    },
+)
 export class FollowAuthorComponent {
 
   @StateProperty()
