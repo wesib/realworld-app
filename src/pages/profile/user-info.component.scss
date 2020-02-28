@@ -1,12 +1,19 @@
-conduit-profile:not(.visible#{$conduit-ns}) conduit-user-posts {
+conduit-profile:not(.visible#{$conduit-ns}) conduit-user-info {
   @extend .d-none;
 }
 
 conduit-profile.visible#{$conduit-ns} conduit-user-info {
   display: block;
+}
+
+conduit-user-info {
   text-align: center;
   background:#f3f3f3;
   padding:2rem 0 1rem 0;
+
+  conduit-follow-author {
+    @extend .action-btn;
+  }
 
   .user-img {
     width:100px;
@@ -27,12 +34,5 @@ conduit-profile.visible#{$conduit-ns} conduit-user-info {
     float:right;
     color:#999;
     border:1px solid #999;
-  }
-
-}
-
-conduit-user-info {
-  conduit-follow-author {
-    @extend .action-btn;
   }
 }

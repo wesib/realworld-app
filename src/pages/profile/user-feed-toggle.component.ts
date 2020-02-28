@@ -62,7 +62,6 @@ export class UserFeedToggleComponent {
                 const href = targetPage.url.href;
 
                 if (element.href !== href) {
-                  console.log(element.href, href);
 
                   const clone = element.cloneNode(true) as HTMLLinkElement;
 

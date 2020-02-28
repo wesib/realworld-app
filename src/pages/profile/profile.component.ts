@@ -63,6 +63,9 @@ export class ProfileComponent {
               this._response.it = undefined;
               return;
             }
+            if (this.response && this.response.ok && this.response.body.username === username) {
+              return; // User didn't change
+            }
             return userService.userProfile(username)(response => this.response = response);
           });
     });
