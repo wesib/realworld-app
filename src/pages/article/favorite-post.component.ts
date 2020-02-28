@@ -38,7 +38,7 @@ export class FavoritePostComponent {
     return () => {
       icon.className = this._post && this._post.favorited ? 'ion-heart' : 'ion-ios-heart-outline';
       counter.innerText = this._post && this._post.favoritesCount ? String(this._post.favoritesCount) : '';
-      contentRoot.className = this._post && this._post.favorited ? 'btn-outline-primary' : 'btn-outline-secondary';
+      contentRoot.className = this._post && this._post.favorited ? 'btn-secondary' : 'btn-outline-secondary';
     };
   }
 

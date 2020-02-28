@@ -13,8 +13,8 @@ import { css__naming } from 'namespace-aliaser';
 import { Conduit__NS } from '../../common';
 import { ApiResponse } from '../../common/api';
 import { ApiErrorGenerator } from '../../common/input';
-import { UserService, UserSupport } from '../../common/users';
-import { CurrentUserProfile, noUserProfile } from './current-user-profile';
+import { UserProfile, UserService, UserSupport } from '../../common/users';
+import { CurrentUserProfile, currentUserProfileBy, noUserProfile } from './current-user-profile';
 import { UserInfoComponent } from './user-info.component';
 
 @Component(
@@ -30,20 +30,20 @@ import { UserInfoComponent } from './user-info.component';
 )
 export class ProfileComponent {
 
-  private readonly _response = trackValue<ApiResponse<CurrentUserProfile>>();
+  private readonly _response = trackValue<ApiResponse<UserProfile>>();
 
   constructor(private readonly _context: ComponentContext) {
 
     const userService = _context.get(UserService);
     const navigation = _context.get(Navigation);
     const hierarchy = _context.get(HierarchyContext);
+    const profile = currentUserProfileBy(
+        this._response.read.keep.thru_(
+            response => response && response.ok ? response.body : noUserProfile,
+        ),
+    );
 
-    hierarchy.provide({
-      a: CurrentUserProfile,
-      is: this._response.read.keep.thru_(
-          response => response && response.ok ? response.body : noUserProfile,
-      ),
-    });
+    hierarchy.provide({ a: CurrentUserProfile, is: profile });
     _context.whenOn(supply => {
       navigation.read
           .thru_(
@@ -60,12 +60,12 @@ export class ProfileComponent {
     });
   }
 
-  get response(): ApiResponse<CurrentUserProfile> | undefined {
+  get response(): ApiResponse<UserProfile> | undefined {
     return this._response.it;
   }
 
   @StateProperty()
-  set response(value: ApiResponse<CurrentUserProfile> | undefined) {
+  set response(value: ApiResponse<UserProfile> | undefined) {
     this._response.it = value;
   }
 
@@ -91,7 +91,7 @@ export class ProfileComponent {
       }
     };
 
-    function displayContents(_response: ApiResponse.Ok<CurrentUserProfile>): void {
+    function displayContents(_response: ApiResponse.Ok<UserProfile>): void {
       hideLoader();
       setContentsVisible(true);
     }

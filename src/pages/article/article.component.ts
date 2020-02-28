@@ -17,10 +17,10 @@ import { Article, ArticleService } from '../../common/articles';
 import { ArticlesSupport } from '../../common/articles/articles-support.feature';
 import { ApiErrorGenerator } from '../../common/input';
 import { LoaderComponent } from '../../generic/loader';
-import { CurrentUserProfile } from '../profile/current-user-profile';
+import { CurrentUserProfile, currentUserProfileBy, noUserProfile } from '../profile/current-user-profile';
+import { FollowAuthorComponent } from '../profile/follow-author.component';
 import { ArticleMetaSupport } from './article-meta-support.feature';
 import { CurrentArticle } from './current-article';
-import { FollowAuthorComponent } from '../profile/follow-author.component';
 
 @Component(
     ['article', Conduit__NS],
@@ -48,6 +48,11 @@ export class ArticleComponent {
     const articleService = _context.get(ArticleService);
     const navigation = _context.get(Navigation);
     const hierarchy = this._context.get(HierarchyContext);
+    const author = currentUserProfileBy(
+        this._response.read.keep.thru_(
+            response => response && response.ok ? response.body.author : noUserProfile,
+        ),
+    );
 
     hierarchy.provide({
       a: CurrentArticle,
@@ -57,9 +62,7 @@ export class ArticleComponent {
     });
     hierarchy.provide({
       a: CurrentUserProfile,
-      is: this._response.read.keep.thru_(
-          response => response && response.ok ? response.body.author : {},
-      ),
+      is: author,
     });
     _context.whenOn(supply => {
       supply.whenOff(() => this.content = undefined);

@@ -28,4 +28,21 @@ export class UserService$ implements UserService {
     return this._fetch(apiRequest);
   }
 
+  followUser(username: string, follow?: boolean): OnEvent<[ApiResponse<UserProfile>]> {
+
+    const apiRequest: ApiRequest<UserProfile> = {
+      path: 'profiles/' + encodeURIComponent(username) + '/follow',
+      init: {
+        method: follow ? 'POST' : 'DELETE',
+        headers: {
+          Accept: 'application/json',
+        },
+      },
+      respondAs: 'profile',
+      auth: true,
+    };
+
+    return this._fetch(apiRequest);
+  }
+
 }

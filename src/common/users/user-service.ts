@@ -7,6 +7,8 @@ export interface UserService {
 
   userProfile(username: string): OnEvent<[ApiResponse<UserProfile>]>;
 
+  followUser(username: string, follow?: boolean): OnEvent<[ApiResponse<UserProfile>]>;
+
 }
 
 export const UserService: ContextRef<UserService> = (
