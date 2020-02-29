@@ -13,7 +13,7 @@ import { ContextKey, ContextKey__symbol, SingleContextKey } from 'context-values
 import { nextOnEvent, StatePath, trackValue } from 'fun-events';
 import { ApiResponse } from '../../core/api';
 import { ArticleList, FeedRequest, feedRequestsEqual, FeedService, FeedSupport } from '../../core/feed';
-import { ApiErrorGenerator } from '../../core/input';
+import { ApiErrorGenerator } from '../../reusable';
 import { ArticleListComponent } from './article-list.component';
 import { FeedArticleList } from './feed-article-list';
 import { FeedPagerComponent } from './feed-pager.component';

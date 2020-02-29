@@ -3,20 +3,17 @@ import {
   BootstrapWindow,
   Component,
   ComponentContext,
-  DefaultNamespaceAliaser,
   ElementRenderer,
   Render,
   StateProperty,
   statePropertyPathTo,
 } from '@wesib/wesib';
 import { trackValue } from 'fun-events';
-import { css__naming } from 'namespace-aliaser';
 import { Conduit__NS } from '../../core';
 import { ApiResponse } from '../../core/api';
 import { Article, ArticleService } from '../../core/articles';
 import { ArticlesSupport } from '../../core/articles/articles-support.feature';
-import { ApiErrorGenerator } from '../../core/input';
-import { LoaderComponent } from '../../core/loader';
+import { LoaderComponent, RenderLoader } from '../../core/loader';
 import { CurrentUserProfile, currentUserProfileBy, noUserProfile } from '../profile/current-user-profile';
 import { FollowAuthorComponent } from '../profile/follow-author.component';
 import { ArticleContentComponent } from './article-content.component';
@@ -78,6 +75,7 @@ export class ArticleComponent {
   }
 
   @StateProperty()
+  @RenderLoader()
   set response(value: ApiResponse<Article> | undefined) {
     this._response.it = value;
   }
@@ -85,61 +83,16 @@ export class ArticleComponent {
   @Render({ path: statePropertyPathTo('response') })
   render(): ElementRenderer {
 
-    const visibleClassName = css__naming.name(['visible', Conduit__NS], this._context.get(DefaultNamespaceAliaser));
-    const genErrors = this._context.get(ApiErrorGenerator);
-    const { element, contentRoot }: { element: Element; contentRoot: Node } = this._context;
     const { document } = this._context.get(BootstrapWindow);
-    let loader: Element | undefined;
 
     return () => {
 
       const { response } = this;
 
-      if (!response) {
-        displayLoader();
-      } else if (!response.ok) {
-        displayErrors(response);
-      } else {
-        displayContents(response);
+      if (response && response.ok) {
+        document.getElementById('article:title')!.innerText = response.body.title;
       }
     };
-
-    function displayContents({ body }: ApiResponse.Ok<Article>): void {
-      hideLoader();
-      setContentsVisible(true);
-      document.getElementById('article:title')!.innerText = body.title;
-    }
-
-    function displayErrors({ errors }: ApiResponse.Failure): void {
-      hideLoader();
-      setContentsVisible(false);
-      loader = genErrors(errors);
-      if (loader) {
-        contentRoot.appendChild(loader);
-      }
-    }
-
-    function displayLoader(): void {
-      setContentsVisible(false);
-      if (!loader) {
-        loader = contentRoot.appendChild(document.createElement('conduit-loader'));
-      }
-    }
-
-    function hideLoader(): void {
-      if (loader) {
-        loader.remove();
-        loader = undefined;
-      }
-    }
-
-    function setContentsVisible(visible: boolean): void {
-      if (visible) {
-        element.classList.add(visibleClassName);
-      } else {
-        element.classList.remove(visibleClassName);
-      }
-    }
   }
 
 }

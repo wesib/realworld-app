@@ -1,10 +1,10 @@
-conduit-article:not(.visible#{$conduit-ns}) {
+conduit-article:not(.loaded#{$conduit-ns}) {
   .banner, .page {
     @extend .d-none;
   }
 }
 
-conduit-article.visible#{$conduit-ns} {
+conduit-article.loaded#{$conduit-ns} {
 
   .banner {
     padding:3rem 0 2rem 0;
