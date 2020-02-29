@@ -18,7 +18,7 @@ class PageUserProfileParam$ extends PageParam<FeedRequest, FeedRequest> {
 
         const { searchParams: params, pathname } = page.get(PageHashURLParam);
         const slashIdx = pathname.indexOf('/', 1);
-        const user = slashIdx < 0 ? pathname.substring(1) : pathname.substring(1, slashIdx);
+        const user = decodeURIComponent(slashIdx < 0 ? pathname.substring(1) : pathname.substring(1, slashIdx));
         let author: string | undefined;
         let favorited: string | undefined;
 
