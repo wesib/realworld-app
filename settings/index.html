@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
   <title>Conduit: Settings</title>
-  <meta name="wesib-app-rev" content="1e27vhqmj">
+  <meta name="wesib-app-rev" content="1e28emdn5">
   <base href=".."/>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -39,23 +39,47 @@
           <div class="col-md-6 offset-md-3 col-12">
             <h1 class="text-center">Your Settings</h1>
 
-            <form>
-              <fieldset class="form-group">
-                <input class="form-control" type="text" placeholder="URL of profile picture">
-                <!--             <input type="file" id="file"> -->
-              </fieldset>
-              <fieldset class="form-group">
-                <input class="form-control form-control-lg" type="text" placeholder="Your Name">
-              </fieldset>
-              <fieldset class="form-group">
-                <textarea class="form-control form-control-lg" rows="8" placeholder="Short bio about you"></textarea>
-              </fieldset>
-              <fieldset class="form-group">
-                <input class="form-control form-control-lg" type="text" placeholder="Email">
-              </fieldset>
-              <fieldset class="form-group">
-                <input class="form-control form-control-lg" type="password" placeholder="Password">
-              </fieldset>
+            <div class="updated-alert" role="alert">Settings updated</div>
+            <conduit-api-errors></conduit-api-errors>
+
+            <form novalidate>
+              <conduit-user-image>
+                <input
+                    class="form-control"
+                    type="text"
+                    placeholder="URL of profile picture"
+                    autocomplete="photo">
+              </conduit-user-image>
+              <conduit-user-name>
+                <input
+                    class="form-control form-control-lg"
+                    type="text"
+                    placeholder="Your Name"
+                    autocomplete="nickname">
+                <conduit-in-error code="missing">Your name is required</conduit-in-error>
+              </conduit-user-name>
+              <conduit-user-bio>
+                <textarea
+                    class="form-control form-control-lg"
+                    rows="8"
+                    placeholder="Short bio about you"
+                    autocomplete="off"></textarea>
+              </conduit-user-bio>
+              <conduit-user-email>
+                <input
+                    class="form-control form-control-lg"
+                    type="text"
+                    placeholder="Email"
+                    autocomplete="email"/>
+                <conduit-in-error code="missing">Email is required</conduit-in-error>
+              </conduit-user-email>
+              <conduit-change-password>
+                <input
+                    class="form-control form-control-lg"
+                    type="password"
+                    placeholder="Password"
+                    autocomplete="new-password"/>
+              </conduit-change-password>
               <button class="btn btn-lg btn-primary float-right">
                 Update Settings
               </button>
@@ -75,5 +99,5 @@
     </span>
   </div>
 </conduit-footer>
-<script src="settings/main.5b85d34a.js" type="module"></script></body>
+<script src="settings/main.9ae0e8c5.js" type="module"></script></body>
 </html>

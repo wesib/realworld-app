@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
   <title>Conduit: Sign Up</title>
-  <meta name="wesib-app-rev" content="1e27vhqmj">
+  <meta name="wesib-app-rev" content="1e28emdn5">
   <base href=".."/>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -45,18 +45,30 @@
             <conduit-api-errors></conduit-api-errors>
 
             <form>
-              <conduit-register-username>
-                <input class="form-control form-control-lg" type="text" placeholder="Your Name">
+              <conduit-user-name>
+                <input
+                    class="form-control form-control-lg"
+                    type="text"
+                    placeholder="Your Name"
+                    autocomplete="nickname">
                 <conduit-in-error code="missing">Your name is required</conduit-in-error>
-              </conduit-register-username>
-              <conduit-login-email>
-                <input class="form-control form-control-lg" type="text" placeholder="Email">
+              </conduit-user-name>
+              <conduit-user-email>
+                <input
+                    class="form-control form-control-lg"
+                    type="text"
+                    placeholder="Email"
+                    autocomplete="email">
                 <conduit-in-error code="missing">Email is required</conduit-in-error>
-              </conduit-login-email>
-              <conduit-login-password>
-                <input class="form-control form-control-lg" type="password" placeholder="Password">
+              </conduit-user-email>
+              <conduit-user-password>
+                <input
+                    class="form-control form-control-lg"
+                    type="password"
+                    placeholder="Password"
+                    autocomplete="new-password">
                 <conduit-in-error code="missing">Password is required</conduit-in-error>
-              </conduit-login-password>
+              </conduit-user-password>
               <button class="btn btn-lg btn-primary float-right">
                 Sign up
               </button>
@@ -76,5 +88,5 @@
     </span>
   </div>
 </conduit-footer>
-<script src="register/main.86f6583c.js" type="module"></script></body>
+<script src="register/main.a835c8e5.js" type="module"></script></body>
 </html>
