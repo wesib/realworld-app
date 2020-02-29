@@ -25,7 +25,7 @@ export default {
   input: pages.reduce(
       (prev, entry) => ({
         ...prev,
-        [entry]: `./src/pages/${entry}/index.ts`,
+        [entry]: `./src/pages/${entry}/main.ts`,
       }),
       {},
   ),
