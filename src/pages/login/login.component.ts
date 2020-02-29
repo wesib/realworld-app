@@ -6,8 +6,8 @@ import { Conduit__NS } from '../../core';
 import { apiSubmit } from '../../core/api';
 import { AuthService, LoginRequest } from '../../core/auth';
 import { ConduitInputSupport, FillConduitForm } from '../../core/input';
-import { LoginEmailComponent } from './login-email.component';
-import { LoginPasswordComponent } from './login-password.component';
+import { UserEmailComponent } from '../settings/user-email.component';
+import { UserPasswordComponent } from '../settings/user-password.component';
 
 @Component(
     ['login', Conduit__NS],
@@ -15,8 +15,8 @@ import { LoginPasswordComponent } from './login-password.component';
       feature: {
         needs: [
           ConduitInputSupport,
-          LoginEmailComponent,
-          LoginPasswordComponent,
+          UserEmailComponent,
+          UserPasswordComponent,
         ],
       },
     },
@@ -46,9 +46,9 @@ export class LoginComponent {
         .then(() => this._navigation.open('.'))
         .catch(e => {
           if (e instanceof InSubmitError) {
-            console.log('Failed to login', ...e.errors);
+            console.error('Failed to login', ...e.errors);
           } else {
-            console.log('Failed to login', e);
+            console.error('Failed to login', e);
           }
         });
   }

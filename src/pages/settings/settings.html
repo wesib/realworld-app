@@ -14,23 +14,47 @@
           <div class="col-md-6 offset-md-3 col-12">
             <h1 class="text-center">Your Settings</h1>
 
-            <form>
-              <fieldset class="form-group">
-                <input class="form-control" type="text" placeholder="URL of profile picture">
-                <!--             <input type="file" id="file"> -->
-              </fieldset>
-              <fieldset class="form-group">
-                <input class="form-control form-control-lg" type="text" placeholder="Your Name">
-              </fieldset>
-              <fieldset class="form-group">
-                <textarea class="form-control form-control-lg" rows="8" placeholder="Short bio about you"></textarea>
-              </fieldset>
-              <fieldset class="form-group">
-                <input class="form-control form-control-lg" type="text" placeholder="Email">
-              </fieldset>
-              <fieldset class="form-group">
-                <input class="form-control form-control-lg" type="password" placeholder="Password">
-              </fieldset>
+            <div class="updated-alert" role="alert">Settings updated</div>
+            <conduit-api-errors></conduit-api-errors>
+
+            <form novalidate>
+              <conduit-user-image>
+                <input
+                    class="form-control"
+                    type="text"
+                    placeholder="URL of profile picture"
+                    autocomplete="photo">
+              </conduit-user-image>
+              <conduit-user-name>
+                <input
+                    class="form-control form-control-lg"
+                    type="text"
+                    placeholder="Your Name"
+                    autocomplete="nickname">
+                <conduit-in-error code="missing">Your name is required</conduit-in-error>
+              </conduit-user-name>
+              <conduit-user-bio>
+                <textarea
+                    class="form-control form-control-lg"
+                    rows="8"
+                    placeholder="Short bio about you"
+                    autocomplete="off"></textarea>
+              </conduit-user-bio>
+              <conduit-user-email>
+                <input
+                    class="form-control form-control-lg"
+                    type="text"
+                    placeholder="Email"
+                    autocomplete="email"/>
+                <conduit-in-error code="missing">Email is required</conduit-in-error>
+              </conduit-user-email>
+              <conduit-new-user-password>
+                <input
+                    class="form-control form-control-lg"
+                    type="password"
+                    placeholder="Password"
+                    autocomplete="new-password"/>
+              </conduit-new-user-password>
               <button class="btn btn-lg btn-primary float-right">
                 Update Settings
               </button>

@@ -5,14 +5,14 @@ import { Conduit__NS } from '../../core';
 import { UseConduitInput } from '../../core/input';
 
 @Component(
-    ['login-email', Conduit__NS],
+    ['user-name', Conduit__NS],
     UseConduitInput({
       makeControl({ node, aspects }) {
         return inText(node.element, { aspects })
             .setup(InValidation, validation => validation.by(requirePresent()));
       },
     }),
-    SetInputName('email'),
+    SetInputName('username'),
 )
-export class LoginEmailComponent {
+export class UserNameComponent {
 }

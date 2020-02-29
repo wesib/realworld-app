@@ -104,7 +104,7 @@ export function RenderLoader<T extends ComponentClass>(
 
       const status = get(component);
 
-      return status && status.ok === false
+      return status && !status.ok
           ? ComponentContext.of(component).get(ApiErrorGenerator)(status.errors)
           : undefined;
     }

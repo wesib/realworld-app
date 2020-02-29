@@ -20,14 +20,22 @@
             <conduit-api-errors></conduit-api-errors>
 
             <form novalidate>
-              <conduit-login-email>
-                <input class="form-control form-control-lg" type="text" placeholder="Email"/>
+              <conduit-user-email>
+                <input
+                    class="form-control form-control-lg"
+                    type="text"
+                    placeholder="Email"
+                    autocomplete="email"/>
                 <conduit-in-error code="missing">Email is required</conduit-in-error>
-              </conduit-login-email>
-              <conduit-login-password>
-                <input class="form-control form-control-lg" type="password" placeholder="Password"/>
+              </conduit-user-email>
+              <conduit-user-password>
+                <input
+                    class="form-control form-control-lg"
+                    type="password"
+                    placeholder="Password"
+                    autocomplete="current-password"/>
                 <conduit-in-error code="missing">Password is required</conduit-in-error>
-              </conduit-login-password>
+              </conduit-user-password>
               <button class="btn btn-lg btn-primary float-right">
                 Sign in
               </button>

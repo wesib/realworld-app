@@ -5,7 +5,7 @@ import { Conduit__NS } from '../../core';
 import { UseConduitInput } from '../../core/input';
 
 @Component(
-    ['login-password', Conduit__NS],
+    ['user-password', Conduit__NS],
     UseConduitInput({
       makeControl({ node, aspects }) {
         return inText(node.element, { aspects })
@@ -14,5 +14,5 @@ import { UseConduitInput } from '../../core/input';
     }),
     SetInputName('password'),
 )
-export class LoginPasswordComponent {
+export class UserPasswordComponent {
 }

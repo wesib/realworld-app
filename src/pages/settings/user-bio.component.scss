@@ -1,0 +1,5 @@
+conduit-user-bio {
+  display: block;
+  @extend fieldset;
+  @extend .form-group;
+}

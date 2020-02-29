@@ -6,9 +6,9 @@ import { Conduit__NS } from '../../core';
 import { apiSubmit } from '../../core/api';
 import { AuthService, RegisterRequest } from '../../core/auth';
 import { ConduitInputSupport, FillConduitForm } from '../../core/input';
-import { LoginEmailComponent } from '../login/login-email.component';
-import { LoginPasswordComponent } from '../login/login-password.component';
-import { RegisterUsernameComponent } from './register-username.component';
+import { UserEmailComponent } from '../settings/user-email.component';
+import { UserNameComponent } from '../settings/user-name.component';
+import { UserPasswordComponent } from '../settings/user-password.component';
 
 @Component(
     ['register', Conduit__NS],
@@ -16,9 +16,9 @@ import { RegisterUsernameComponent } from './register-username.component';
       feature: {
         needs: [
           ConduitInputSupport,
-          LoginEmailComponent,
-          LoginPasswordComponent,
-          RegisterUsernameComponent,
+          UserEmailComponent,
+          UserNameComponent,
+          UserPasswordComponent,
         ],
       },
     },
@@ -49,9 +49,9 @@ export class RegisterComponent {
         .then(() => this._navigation.open('.'))
         .catch(e => {
           if (e instanceof InSubmitError) {
-            console.log('Failed to register', ...e.errors);
+            console.error('Failed to register', ...e.errors);
           } else {
-            console.log('Failed to register', e);
+            console.error('Failed to register', e);
           }
         });
   }

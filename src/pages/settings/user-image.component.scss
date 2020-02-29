@@ -1,0 +1,5 @@
+conduit-user-image {
+  display: block;
+  @extend fieldset;
+  @extend .form-group;
+}

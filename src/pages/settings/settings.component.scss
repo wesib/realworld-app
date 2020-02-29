@@ -1,3 +1,14 @@
 conduit-settings {
   display: contents;
+  &:not(.loaded#{$conduit-ns}) .page {
+    @extend .d-none;
+  }
+
+  &:not(.updated#{$conduit-ns}) .updated-alert {
+    @extend .d-none;
+  }
+  .updated-alert {
+    @extend .alert;
+    @extend .alert-success;
+  }
 }
