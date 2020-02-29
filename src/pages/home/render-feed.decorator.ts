@@ -9,11 +9,12 @@ import {
   ElementRenderer,
   Render,
 } from '@wesib/wesib';
+import { noop } from 'call-thru';
 import { ContextKey, ContextKey__symbol, SingleContextKey } from 'context-values';
 import { nextOnEvent, StatePath, trackValue } from 'fun-events';
 import { ApiResponse } from '../../core/api';
 import { ArticleList, FeedRequest, feedRequestsEqual, FeedService, FeedSupport } from '../../core/feed';
-import { ApiErrorGenerator } from '../../reusable';
+import { LoadStatus, RenderLoader } from '../../core/loader';
 import { ArticleListComponent } from './article-list.component';
 import { FeedArticleList } from './feed-article-list';
 import { FeedPagerComponent } from './feed-pager.component';
@@ -103,7 +104,8 @@ export function RenderFeed<T extends ComponentClass>(
               }
             },
           },
-          Render({ path }).As(renderFeed, key),
+          RenderLoader({ path, offline: true, comment: `FEED(${String(key)})` }).By(renderLoader, key),
+          Render({ path, offline: true }).As(renderFeed, key),
       ),
       get,
       set(component, value) {
@@ -112,50 +114,20 @@ export function RenderFeed<T extends ComponentClass>(
       },
     };
 
-    function renderFeed(this: object): ElementRenderer {
+    function renderLoader(component: InstanceType<T>): LoadStatus | undefined {
+      return ComponentContext.of(component).get(RenderFeedState).response.it;
+    }
+
+    function renderFeed(this: InstanceType<T>): ElementRenderer {
 
       const context = ComponentContext.of(this);
       const { contentRoot }: { contentRoot: Node } = context;
       const document = context.get(BootstrapWindow).document;
-      const errorGen = context.get(ApiErrorGenerator);
-      const list = contentRoot.appendChild(document.createElement('conduit-article-list'));
-      const pager = contentRoot.appendChild(document.createElement('conduit-feed-pager'));
-      const range = document.createRange();
-      const state = context.get(RenderFeedState);
 
-      range.setStartAfter(list);
-      range.setEndBefore(pager);
+      contentRoot.appendChild(document.createElement('conduit-article-list'));
+      contentRoot.appendChild(document.createElement('conduit-feed-pager'));
 
-      return () => {
-        range.deleteContents();
-
-        const response = state.response.it;
-
-        if (!response) {
-          range.insertNode(displayProgress());
-        } else if (!response.ok) {
-          range.insertNode(displayError(response.errors));
-        }
-      };
-
-      function displayProgress(): Element {
-        return document.createElement('conduit-loader');
-      }
-
-      function displayError(errors: ApiResponse.Errors): Element {
-
-        const errorList = errorGen(errors);
-
-        if (errorList) {
-          return errorList;
-        }
-
-        const loader = document.createElement('conduit-loader');
-
-        loader.setAttribute('load-error', 'Failed to load articles');
-
-        return loader;
-      }
+      return noop;
     }
   });
 }

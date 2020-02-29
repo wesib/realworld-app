@@ -16,15 +16,10 @@ import { Conduit__NS } from '../conduit.ns';
 import { LoaderComponent } from './loader.component';
 
 export type LoadStatus =
-    | LoadStatus.Loading
     | LoadStatus.Succeed
     | LoadStatus.Failed;
 
 export namespace LoadStatus {
-
-  export interface Loading {
-    readonly ok?: undefined;
-  }
 
   export interface Succeed {
     readonly ok: true;
@@ -45,11 +40,17 @@ export function RenderLoader<T extends ComponentClass>(
       loaded?: QualifiedName;
       path?: StatePath;
       offline?: boolean;
+      comment?: string;
     } = {},
 ): ComponentPropertyDecorator<LoadStatus | undefined, T> {
   return ComponentProperty(({ get, set: setValue, key }) => {
 
-    const { path = [LoadStatus__symbol, key], offline, loaded = defaultLoadedClass } = def;
+    const {
+      path = [LoadStatus__symbol, key],
+      offline,
+      loaded = defaultLoadedClass,
+      comment = String(key),
+    } = def;
     let loadedClassName: string;
 
     return {
@@ -63,8 +64,8 @@ export function RenderLoader<T extends ComponentClass>(
             },
           },
           Render({ path, offline }).As(updateClass, key),
-          RenderHTML({ path, offline, comment: `LOADER(${String(key)})` }).By(renderLoader, key),
-          RenderHTML({ path, offline, comment: `ERRORS(${String(key)})` }).By(renderErrors, key),
+          RenderHTML({ path, offline, comment: `LOADER(${comment})` }).By(renderLoader, key),
+          RenderHTML({ path, offline, comment: `ERRORS(${comment})` }).By(renderErrors, key),
       ),
       get,
       set(component, value) {
@@ -96,7 +97,7 @@ export function RenderLoader<T extends ComponentClass>(
 
       const status = get(component);
 
-      return status && status.ok == null ? document.createElement('conduit-loader') : undefined;
+      return !status ? document.createElement('conduit-loader') : undefined;
     }
 
     function renderErrors(component: InstanceType<T>): Node | undefined {
