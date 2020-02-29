@@ -15,14 +15,19 @@ export function RenderHTML<T extends ComponentClass>(
     def: {
       path?: StatePath;
       comment?: string;
+      offline?: boolean;
     } = {},
 ): ComponentPropertyDecorator<string | Node | null | undefined, T> {
   return ComponentProperty(({ get, set: setValue, key }) => {
 
-    const { comment = String(key), path = [HTMLContents__symbol, key] } = def;
+    const {
+      comment = String(key),
+      path = [HTMLContents__symbol, key],
+      offline,
+    } = def;
 
     return {
-      componentDef: Render({ path, offline: true }).As(renderHTML, key),
+      componentDef: Render({ path, offline }).As(renderHTML, key),
       get,
       set(component, value) {
 

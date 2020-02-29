@@ -41,7 +41,7 @@ export function RenderPager<T extends ComponentClass>(): ComponentPropertyDecora
 
     return {
       componentDef: ComponentDef.all(
-          RenderHTML({ path, comment: 'PAGER(${key})' }).By(pagerContent, key),
+          RenderHTML({ path, comment: `PAGER(${String(key)})` }).By(pagerContent, key),
           HandleNavLinks(),
       ),
       get,

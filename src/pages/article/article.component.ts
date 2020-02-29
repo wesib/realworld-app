@@ -19,6 +19,7 @@ import { ApiErrorGenerator } from '../../core/input';
 import { LoaderComponent } from '../../core/loader';
 import { CurrentUserProfile, currentUserProfileBy, noUserProfile } from '../profile/current-user-profile';
 import { FollowAuthorComponent } from '../profile/follow-author.component';
+import { ArticleContentComponent } from './article-content.component';
 import { ArticleMetaComponentsSupport } from './article-meta-components-support.feature';
 import { CurrentArticle } from './current-article';
 
@@ -27,6 +28,7 @@ import { CurrentArticle } from './current-article';
     {
       feature: {
         needs: [
+          ArticleContentComponent,
           ArticleMetaComponentsSupport,
           ArticlesSupport,
           FollowAuthorComponent,
@@ -39,9 +41,6 @@ import { CurrentArticle } from './current-article';
 export class ArticleComponent {
 
   private readonly _response = trackValue<ApiResponse<Article>>();
-
-  @StateProperty()
-  private content?: Node;
 
   constructor(private readonly _context: ComponentContext) {
 
@@ -63,27 +62,6 @@ export class ArticleComponent {
     hierarchy.provide({
       a: CurrentUserProfile,
       is: author,
-    });
-    _context.whenOn(supply => {
-      supply.whenOff(() => this.content = undefined);
-      this._response.read.tillOff(supply)(response => {
-        if (response && response.ok) {
-          articleService.htmlContents(response.body)
-              .then(content => {
-                if (_context.connected) {
-                  this.content = content;
-                }
-              })
-              .catch(error => {
-                if (_context.connected) {
-                  this.content = undefined;
-                  this.response = { ok: false, errors: { article: [`can not be parser ${String(error)}`] } };
-                }
-              });
-        } else {
-          this.content = undefined;
-        }
-      });
     });
     _context.whenOn(supply => {
       navigation.read.tillOff(supply).consume(page => {
@@ -162,27 +140,6 @@ export class ArticleComponent {
         element.classList.remove(visibleClassName);
       }
     }
-  }
-
-  @Render({ path: statePropertyPathTo('content') })
-  renderContent(): ElementRenderer {
-
-    const { document } = this._context.get(BootstrapWindow);
-
-    return () => {
-
-      const contentParent = document.getElementById('article:content');
-
-      if (contentParent) {
-        contentParent.innerHTML = '';
-
-        const content = this.content;
-
-        if (content) {
-          contentParent.appendChild(content);
-        }
-      }
-    };
   }
 
 }
