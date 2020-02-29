@@ -62,7 +62,7 @@ export class ArticleComponent {
     _context.whenOn(supply => {
       navigation.read.tillOff(supply).consume(page => {
 
-        const slug = decodeURIComponent(page.get(PageHashURLParam).pathname.substring(0));
+        const slug = decodeURIComponent(page.get(PageHashURLParam).pathname.substring(1));
 
         return articleService.article(slug)(response => this.response = response);
       });
