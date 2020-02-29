@@ -24,6 +24,5 @@ $brand-primary: #5CB85C;
 $brand-danger:  #B85C5C;
 $navbar-padding-x: 0rem !important;
 
-@import './common/common';
-@import './generic/generic';
+@import './core/core';
 @import './pages/pages';

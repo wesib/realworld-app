@@ -1,5 +1,5 @@
 import { Attribute, BootstrapWindow, Component, ComponentContext, ElementRenderer, Render } from '@wesib/wesib';
-import { Conduit__NS } from '../../common';
+import { Conduit__NS } from '../index';
 
 @Component(['loader', Conduit__NS])
 export class LoaderComponent {

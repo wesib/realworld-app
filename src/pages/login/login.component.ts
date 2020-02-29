@@ -2,10 +2,10 @@ import { HandleNavLinks, Navigation } from '@wesib/generic';
 import { InputToForm, OnSubmit } from '@wesib/generic/input';
 import { Component, ComponentContext } from '@wesib/wesib';
 import { InStatus, InSubmit, InSubmitError } from 'input-aspects';
-import { Conduit__NS } from '../../common';
-import { apiSubmit } from '../../common/api';
-import { AuthService, LoginRequest } from '../../common/auth';
-import { ConduitInputSupport, FillConduitForm } from '../../common/input';
+import { Conduit__NS } from '../../core';
+import { apiSubmit } from '../../core/api';
+import { AuthService, LoginRequest } from '../../core/auth';
+import { ConduitInputSupport, FillConduitForm } from '../../core/input';
 import { LoginEmailComponent } from './login-email.component';
 import { LoginPasswordComponent } from './login-password.component';
 

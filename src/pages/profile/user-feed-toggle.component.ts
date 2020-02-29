@@ -8,8 +8,8 @@ import {
 } from '@wesib/generic';
 import { Component, ComponentContext } from '@wesib/wesib';
 import { afterAll } from 'fun-events';
-import { Conduit__NS } from '../../common';
-import { FeedRequest } from '../../common/feed';
+import { Conduit__NS } from '../../core';
+import { FeedRequest } from '../../core/feed';
 import { PageUserProfileParam } from './page-user-profile-param';
 
 const favoriteURLPattern = /#\/.+\/favorite$/;

@@ -1,6 +1,6 @@
 import { HandleNavLinks, HierarchyContext, Navigation, PageHashURLSupport } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
-import { Conduit__NS } from '../../common';
+import { Conduit__NS } from '../../core';
 import { PageUserProfileParam } from '../profile/page-user-profile-param';
 import { CurrentArticle } from './current-article';
 

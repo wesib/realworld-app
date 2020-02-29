@@ -1,6 +1,6 @@
 import { IncludePage } from '@wesib/generic';
 import { BootstrapWindow, Component } from '@wesib/wesib';
-import { LoaderComponent } from '../../generic/loader';
+import { LoaderComponent } from '../loader';
 import { Conduit__NS } from '../conduit.ns';
 
 @Component(

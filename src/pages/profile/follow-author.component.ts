@@ -1,8 +1,8 @@
 import { HierarchyContext } from '@wesib/generic';
 import { Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
-import { Conduit__NS } from '../../common';
-import { UserService, UserSupport } from '../../common/users';
-import { escapeHtml } from '../../common/util';
+import { Conduit__NS } from '../../core';
+import { UserService, UserSupport } from '../../core/users';
+import { escapeHtml } from '../../core/util';
 import { CurrentUserProfile, noUserProfile } from './current-user-profile';
 
 @Component(

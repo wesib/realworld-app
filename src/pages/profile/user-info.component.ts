@@ -1,6 +1,6 @@
 import { HierarchyContext } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
-import { Conduit__NS } from '../../common';
+import { Conduit__NS } from '../../core';
 import { FollowAuthorComponent } from './follow-author.component';
 import { CurrentUserProfile, noUserProfile } from './current-user-profile';
 

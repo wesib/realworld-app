@@ -1,4 +1,4 @@
-import { conduitContext } from '../../common/main';
+import { conduitContext } from '../../core/main';
 import { EditorComponent } from './editor.component';
 
 conduitContext.load(EditorComponent);

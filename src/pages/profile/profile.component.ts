@@ -10,10 +10,10 @@ import {
 } from '@wesib/wesib';
 import { trackValue } from 'fun-events';
 import { css__naming } from 'namespace-aliaser';
-import { Conduit__NS } from '../../common';
-import { ApiResponse } from '../../common/api';
-import { ApiErrorGenerator } from '../../common/input';
-import { UserProfile, UserService, UserSupport } from '../../common/users';
+import { Conduit__NS } from '../../core';
+import { ApiResponse } from '../../core/api';
+import { ApiErrorGenerator } from '../../core/input';
+import { UserProfile, UserService, UserSupport } from '../../core/users';
 import { CurrentUserProfile, currentUserProfileBy, noUserProfile } from './current-user-profile';
 import { PageUserProfileParam } from './page-user-profile-param';
 import { UserFeedToggleComponent } from './user-feed-toggle.component';

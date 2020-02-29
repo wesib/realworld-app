@@ -1,7 +1,7 @@
 import { Navigation } from '@wesib/generic';
 import { Component, ComponentContext } from '@wesib/wesib';
-import { Conduit__NS } from '../../common';
-import { FeedRequest } from '../../common/feed';
+import { Conduit__NS } from '../../core';
+import { FeedRequest } from '../../core/feed';
 import { PageFeedParam } from './page-feed-param';
 import { RenderFeed } from './render-feed.decorator';
 

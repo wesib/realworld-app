@@ -1,6 +1,6 @@
 import { HierarchyContext } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
-import { Conduit__NS } from '../../common';
+import { Conduit__NS } from '../../core';
 import { ArticlePreviewComponent } from './article-preview.component';
 import { FeedArticleList } from './feed-article-list';
 

@@ -1,6 +1,6 @@
 import { PageParam } from '@wesib/generic';
 import { SingleContextUpKey, SingleContextUpRef } from 'context-values/updatable';
-import { FeedRequest } from '../../common/feed';
+import { FeedRequest } from '../../core/feed';
 import { PageFeedParam } from './page-feed-param';
 
 export type FeedRequestPageParam = PageParam.WithDefaults<FeedRequest, FeedRequest>;

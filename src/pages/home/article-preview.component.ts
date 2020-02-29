@@ -1,8 +1,8 @@
 import { HandleNavLinks, HierarchyContext } from '@wesib/generic';
 import { Component, ComponentContext, DomProperty, ElementRenderer, Render } from '@wesib/wesib';
 import { trackValue } from 'fun-events';
-import { Conduit__NS } from '../../common';
-import { escapeHtml } from '../../common/util';
+import { Conduit__NS } from '../../core';
+import { escapeHtml } from '../../core/util';
 import { ArticleMetaComponentsSupport } from '../article/article-meta-components-support.feature';
 import { CurrentArticle } from '../article/current-article';
 

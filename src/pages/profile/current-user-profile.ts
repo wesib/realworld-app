@@ -1,6 +1,6 @@
 import { SingleContextUpKey, SingleContextUpRef } from 'context-values/updatable';
 import { afterSupplied, EventKeeper, trackValueBy, ValueTracker } from 'fun-events';
-import { UserProfile } from '../../common/users';
+import { UserProfile } from '../../core/users';
 
 export interface UpdatableUserProfile extends UserProfile {
 

@@ -1,5 +1,5 @@
 import { SingleContextUpKey, SingleContextUpRef } from 'context-values/updatable';
-import { Article } from '../../common/articles';
+import { Article } from '../../core/articles';
 
 export type CurrentArticle = Article | { readonly slug?: undefined };
 

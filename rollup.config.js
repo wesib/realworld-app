@@ -68,13 +68,16 @@ export default {
 
 function manualChunks(id) {
   return helpersChunk()
-      || chunkPerSubDir('common')
-      || chunkPerSubDir('generic')
-      || chunkByModule();
+      || coreChunk()
+      || moduleChunk();
 
-  function chunkPerSubDir(dir) {
+  function helpersChunk() {
+    return id.startsWith('\0') && 'helpers';
+  }
 
-    const prefix = path.join(__dirname, 'src', dir) + path.sep;
+  function coreChunk() {
+
+    const prefix = path.join(__dirname, 'src', 'core') + path.sep;
 
     if (!id.startsWith(prefix)) {
       return;
@@ -84,17 +87,13 @@ function manualChunks(id) {
     const idx = id.indexOf(path.sep);
 
     if (idx < 0) {
-      return `${dir}`;
+      return 'core';
     }
 
-    return `${dir}/${id.substring(0, idx)}`;
+    return `core/${id.substring(0, idx)}`;
   }
 
-  function helpersChunk() {
-    return id.startsWith('\0') && 'helpers';
-  }
-
-  function chunkByModule() {
+  function moduleChunk() {
 
     const nodeModulesPrefix = `${path.sep}node_modules${path.sep}`;
     const moduleIdStart = id.indexOf(nodeModulesPrefix);

@@ -2,8 +2,8 @@ import { ActivateNavLink, HandleNavLinks, Navigation } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext } from '@wesib/wesib';
 import { noop } from 'call-thru';
 import { afterAll } from 'fun-events';
-import { Conduit__NS } from '../../common';
-import { AuthService } from '../../common/auth';
+import { Conduit__NS } from '../../core';
+import { AuthService } from '../../core/auth';
 import { PageFeedParam } from './page-feed-param';
 
 @Component(

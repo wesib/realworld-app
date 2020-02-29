@@ -11,12 +11,12 @@ import {
 } from '@wesib/wesib';
 import { trackValue } from 'fun-events';
 import { css__naming } from 'namespace-aliaser';
-import { Conduit__NS } from '../../common';
-import { ApiResponse } from '../../common/api';
-import { Article, ArticleService } from '../../common/articles';
-import { ArticlesSupport } from '../../common/articles/articles-support.feature';
-import { ApiErrorGenerator } from '../../common/input';
-import { LoaderComponent } from '../../generic/loader';
+import { Conduit__NS } from '../../core';
+import { ApiResponse } from '../../core/api';
+import { Article, ArticleService } from '../../core/articles';
+import { ArticlesSupport } from '../../core/articles/articles-support.feature';
+import { ApiErrorGenerator } from '../../core/input';
+import { LoaderComponent } from '../../core/loader';
 import { CurrentUserProfile, currentUserProfileBy, noUserProfile } from '../profile/current-user-profile';
 import { FollowAuthorComponent } from '../profile/follow-author.component';
 import { ArticleMetaComponentsSupport } from './article-meta-components-support.feature';
