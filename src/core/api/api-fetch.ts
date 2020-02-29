@@ -69,11 +69,11 @@ export type ApiFetch = <T>(this: void, request: ApiRequest<T>) => OnEvent<[ApiRe
 
 export const ApiFetch: ContextUpRef<ApiFetch, ApiFetch> = (
     /*#__PURE__*/ new FnContextKey<[ApiRequest<any>], OnEvent<[ApiResponse<any>]>>(
-        'api-fetch',
-        {
-          byDefault: bootstrapDefault(newApiFetch),
-        },
-    ));
+    'api-fetch',
+    {
+      byDefault: bootstrapDefault(newApiFetch),
+    },
+));
 
 type RequestOrFailure =
     | { request: Request }
@@ -158,9 +158,11 @@ function parseApiResponse(
             failure: {
               ok: false,
               response: responseOfFailure.response,
-              errors: {
-                api: [`Failed to parse response: ${error}`],
-              },
+              errors: !responseOfFailure.response.ok
+                  ? httpError(responseOfFailure.response)
+                  : {
+                    api: [`Failed to parse response: ${error}`],
+                  },
             },
           }])
       : [responseOfFailure];
@@ -188,12 +190,12 @@ function handleApiResponse<T>(
   return {
     ok: false,
     response,
-    errors: json.errors || {
-      http: [
-        response.statusText
-            ? `${response.status}: ${response.statusText}`
-            : `ERROR ${response.status}`,
-      ],
-    },
+    errors: json.errors || httpError(response),
+  };
+}
+
+function httpError(response: Response): ApiResponse.Errors {
+  return {
+    HTTP: ['ERROR ' + response.status + (response.statusText ? ': ' + response.statusText : '')],
   };
 }
