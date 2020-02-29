@@ -16,7 +16,7 @@ import { apiSubmit } from '../../core/api';
 import { AuthService, AuthUser, UpdateSettingsRequest } from '../../core/auth';
 import { ConduitInputSupport, FillConduitForm } from '../../core/input';
 import { LoadStatus, RenderLoader } from '../../core/loader';
-import { NewUserPasswordComponent } from './new-user-password.component';
+import { ChangePasswordComponent } from './change-password.component';
 import { UserBioComponent } from './user-bio.component';
 import { UserEmailComponent } from './user-email.component';
 import { UserImageComponent } from './user-image.component';
@@ -29,12 +29,12 @@ const updatedClassName: QualifiedName = ['updated', Conduit__NS];
     {
       feature: {
         needs: [
+          ChangePasswordComponent,
           ConduitInputSupport,
           UserBioComponent,
           UserEmailComponent,
           UserImageComponent,
           UserNameComponent,
-          NewUserPasswordComponent,
         ],
       },
     },

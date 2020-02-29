@@ -129,7 +129,6 @@ function authenticateApiRequest(
   // Access by key to avoid circular dependencies during the build
   return context.get(AuthService__key).token.keep.thru_(
       ({ token, failure }) => {
-        console.log(request.url, token);
         if (token) {
           request.headers.set('Authorization', `Token ${token}`);
           return { request };
