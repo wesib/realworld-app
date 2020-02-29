@@ -13,7 +13,7 @@ import { Conduit__NS } from '../../core';
 import { ApiResponse } from '../../core/api';
 import { Article, ArticleService } from '../../core/articles';
 import { ArticlesSupport } from '../../core/articles/articles-support.feature';
-import { LoaderComponent, RenderLoader } from '../../core/loader';
+import { RenderLoader } from '../../core/loader';
 import { CurrentUserProfile, currentUserProfileBy, noUserProfile } from '../profile/current-user-profile';
 import { FollowAuthorComponent } from '../profile/follow-author.component';
 import { ArticleContentComponent } from './article-content.component';
@@ -29,7 +29,6 @@ import { CurrentArticle } from './current-article';
           ArticleMetaComponentsSupport,
           ArticlesSupport,
           FollowAuthorComponent,
-          LoaderComponent,
         ],
       },
     },

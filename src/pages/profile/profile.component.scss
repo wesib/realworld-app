@@ -1,8 +1,8 @@
-conduit-profile:not(.visible#{$conduit-ns}) conduit-user-posts {
+conduit-profile:not(.loaded#{$conduit-ns}) conduit-user-posts {
   @extend .d-none;
 }
 
-conduit-profile.visible#{$conduit-ns} {
+conduit-profile.loaded#{$conduit-ns} {
   conduit-user-posts {
     @extend .container;
     margin:1.5rem 0 -1px 0;
