@@ -1,0 +1,1 @@
+{"version":3,"file":"core.f6946162.js","sources":["../../src/core/conduit.ns.ts"],"sourcesContent":["import { NamespaceDef } from 'namespace-aliaser';\n\nexport const Conduit__NS: NamespaceDef = (/*#__PURE__*/ new NamespaceDef(\n    'https://wesib.github.io/realworld-app/ns/',\n    'conduit',\n));\n"],"names":["Conduit__NS","NamespaceDef"],"mappings":"8DAEaA,MAA+CC,EACxD,4CACA"}

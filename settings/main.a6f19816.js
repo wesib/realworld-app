@@ -1,0 +1,1 @@
+import{C as s}from"../js/wesib/wesib.c03111fd.js";import{_ as o}from"../js/helpers.920c7f83.js";import{C as r}from"../js/core.f6946162.js";import{c as m}from"../js/core/main.cf584391.js";let e=class{};e=o([s(["settings",r])],e),m.load(e);//# sourceMappingURL=main.a6f19816.js.map
