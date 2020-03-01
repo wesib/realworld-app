@@ -1,8 +1,9 @@
 import { HandleNavLinks, HierarchyContext } from '@wesib/generic';
-import { Component, ComponentContext, DomProperty, ElementRenderer, Render } from '@wesib/wesib';
+import { Component, ComponentContext, DomProperty, domPropertyPathTo } from '@wesib/wesib';
 import { trackValue } from 'fun-events';
 import { Conduit__NS } from '../../core';
 import { escapeHtml } from '../../core/util';
+import { RenderHTML } from '../../reusable';
 import { ArticleMetaComponentsSupport } from '../article/article-meta-components-support.feature';
 import { CurrentArticle } from '../article/current-article';
 
@@ -42,11 +43,11 @@ export class ArticlePreviewComponent {
 
   private readonly _article = trackValue<CurrentArticle>({});
 
-  constructor(private readonly _context: ComponentContext) {
+  constructor(context: ComponentContext) {
 
-    const hierarchy = _context.get(HierarchyContext);
+    const hierarchy = context.get(HierarchyContext);
 
-    _context.whenOn(supply => {
+    context.whenOn(supply => {
 
       const off = hierarchy.provide({ a: CurrentArticle, is: this._article.read });
 
@@ -63,19 +64,18 @@ export class ArticlePreviewComponent {
     this._article.it = value;
   }
 
-  @Render({ offline: true })
-  render(): ElementRenderer | void {
+  @RenderHTML({ path: domPropertyPathTo('article') })
+  get postMeta(): string | undefined {
     if (!this.article.slug) {
       return;
     }
 
-    const content = this._context.contentRoot as Element;
     const postURL = `article/#/${encodeURIComponent(this.article.slug)}`;
 
-    content.innerHTML = `
+    return `
 <div class="post-meta">
 <conduit-article-author></conduit-article-author>
-<conduit-favorite-post></conduit-favorite-post>
+<conduit-favorite-post1></conduit-favorite-post1>
 </div>
 <a href="${postURL}" class="preview-link">
 <h1>${escapeHtml(this.article.title)}</h1>
