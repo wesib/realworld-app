@@ -3,12 +3,14 @@ import { ApiResponse } from '../api';
 export interface AuthToken {
   readonly token: string;
   readonly email?: undefined;
+  readonly username?: undefined;
   readonly failure?: undefined;
 }
 
 export interface NotAuthenticated {
   readonly token?: undefined;
   readonly email?: undefined;
+  readonly username?: undefined;
   readonly failure?: ApiResponse.Failure;
 }
 

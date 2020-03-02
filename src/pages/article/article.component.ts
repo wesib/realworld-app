@@ -15,6 +15,7 @@ import { Article, ArticleService, ArticlesSupport } from '../../core/articles';
 import { RenderLoader } from '../../core/loader';
 import { CurrentUserProfile, currentUserProfileBy, noUserProfile } from '../profile/current-user-profile';
 import { FollowAuthorComponent } from '../profile/follow-author.component';
+import { ArticleCommentsComponent } from './article-comments.component';
 import { ArticleContentComponent } from './article-content.component';
 import { ArticleMetaComponentsSupport } from './article-meta-components-support.feature';
 import { CurrentArticle, CurrentArticleTracker, noArticle } from './current-article';
@@ -24,6 +25,7 @@ import { CurrentArticle, CurrentArticleTracker, noArticle } from './current-arti
     {
       feature: {
         needs: [
+          ArticleCommentsComponent,
           ArticleContentComponent,
           ArticleMetaComponentsSupport,
           ArticlesSupport,

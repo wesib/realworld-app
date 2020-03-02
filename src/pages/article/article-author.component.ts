@@ -1,6 +1,7 @@
 import { HandleNavLinks, HierarchyContext, Navigation, PageHashURLSupport } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
+import { formatDate } from '../../reusable';
 import { PageUserProfileParam } from '../profile/page-user-profile-param';
 import { CurrentArticle } from './current-article';
 
@@ -70,7 +71,7 @@ export class ArticleAuthorComponent {
         profileImage = author.image ? `<img src="${encodeURI(author.image)}"/>` : '';
         username = author.username;
         timestamp = article.createdAt;
-        postDate = formatArticleDate(new Date(article.createdAt));
+        postDate = formatDate(new Date(article.createdAt));
       }
 
       authorImgLink.href = profileURL;
@@ -86,15 +87,4 @@ export class ArticleAuthorComponent {
     };
   }
 
-}
-
-const thisYearDateFormat = new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric' });
-const otherYearFateFormat = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-
-function formatArticleDate(date: Date): string {
-
-  const now = new Date();
-  const format = now.getFullYear() === date.getFullYear() ? thisYearDateFormat : otherYearFateFormat;
-
-  return format.format(date);
 }
