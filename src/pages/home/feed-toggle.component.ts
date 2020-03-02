@@ -90,7 +90,7 @@ export class FeedToggleComponent {
 
       a.className = 'nav-link';
       a.innerText = `#${tag}`;
-      a.href = target.url.hash;
+      a.setAttribute('href', target.url.hash);
 
       range.insertNode(li);
     };

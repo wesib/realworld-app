@@ -161,10 +161,10 @@
     semver "^6.3.0"
     tsutils "^3.17.1"
 
-"@wesib/generic@^1.0.0-alpha.88":
-  version "1.0.0-alpha.88"
-  resolved "https://registry.yarnpkg.com/@wesib/generic/-/generic-1.0.0-alpha.88.tgz#71f146f7f56254fbb1ce612870d4f242e1ac6101"
-  integrity sha512-8AWr6GgFXgBd/b/T6vk/lxB/YKjnzp1W06SXrC50YRrKOcM+1hpTsVDcs3bVIjAM+JAtIJH6kO1T7PQ9D6odBA==
+"@wesib/generic@^1.0.0-alpha.90":
+  version "1.0.0-alpha.90"
+  resolved "https://registry.yarnpkg.com/@wesib/generic/-/generic-1.0.0-alpha.90.tgz#3d3a28da7604239bbc64644b194f93738429b861"
+  integrity sha512-/si2XRSQDVIna49/lUz5mRb3RijibvtyRm8lfNg6fAnERbKenQ9EwxDpTUhaOMpWu+KKGwwOftbtlkldQqCZXw==
   dependencies:
     http-header-value "^2.0.2"
 
