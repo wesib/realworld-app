@@ -49,7 +49,7 @@ export class FeedTagsComponent {
 
       this.tags.forEach(tag => {
 
-        const target = navigation.with(PageFeedParam, { ...request, tag, offset: 0 }).pretend();
+        const target = navigation.with(PageFeedParam, { ...request, tag, feed: undefined, offset: 0 }).pretend();
 
         if (target) {
 
