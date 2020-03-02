@@ -1,24 +1,57 @@
 import { HierarchyContext } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
-import { CurrentArticle } from './current-article';
+import { ArticleService, ArticlesSupport } from '../../core/articles';
+import { CurrentArticle, noArticle } from './current-article';
 
-@Component(['favorite-post', Conduit__NS])
+@Component(
+    ['favorite-post', Conduit__NS],
+    {
+      feature: {
+        needs: ArticlesSupport,
+      },
+    },
+)
 export class FavoritePostComponent {
 
   @StateProperty()
-  private _post?: { favorited: boolean; favoritesCount: number };
+  article: CurrentArticle = noArticle;
 
   constructor(private readonly _context: ComponentContext) {
 
     const hierarchy = _context.get(HierarchyContext);
+    const articleService = _context.get(ArticleService);
 
     _context.whenOn(supply => {
       hierarchy.get(CurrentArticle).tillOff(supply)(article => {
-        this._post = article.slug
-            ? { favorited: article.favorited, favoritesCount: article.favoritesCount }
-            : undefined;
+        this.article = article;
       });
+    });
+    _context.on('click')(() => {
+
+      const { article } = this;
+
+      if (article.slug) {
+
+        const like = !article.favorited;
+
+        article.update({
+          ...article,
+          favorited: like,
+        });
+        articleService.likeArticle(article.slug, like)(
+            response => {
+              if (this.article.slug) {
+                if (response.ok) {
+                  this.article.update(response.body);
+                } else {
+                  this.article.update(article);
+                  console.error(`Failed to like article ${article.slug}`, response.errors);
+                }
+              }
+            },
+        );
+      }
     });
   }
 
@@ -36,9 +69,9 @@ export class FavoritePostComponent {
     counter.className = 'counter';
 
     return () => {
-      icon.className = this._post && this._post.favorited ? 'ion-heart' : 'ion-ios-heart-outline';
-      counter.innerText = this._post && this._post.favoritesCount ? String(this._post.favoritesCount) : '';
-      contentRoot.className = this._post && this._post.favorited ? 'btn-secondary' : 'btn-outline-secondary';
+      icon.className = this.article.slug && this.article.favorited ? 'ion-heart' : 'ion-ios-heart-outline';
+      counter.innerText = this.article.slug && this.article.favoritesCount ? String(this.article.favoritesCount) : '';
+      contentRoot.className = this.article.slug && this.article.favorited ? 'btn-secondary' : 'btn-outline-secondary';
     };
   }
 

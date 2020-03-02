@@ -1,5 +1,5 @@
 import { HandleNavLinks, HierarchyContext } from '@wesib/generic';
-import { Component, ComponentContext, DomProperty, domPropertyPathTo } from '@wesib/wesib';
+import { Component, ComponentContext, DomProperty, domPropertyPathTo, isElement } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
 import { Article } from '../../core/articles';
 import { escapeHtml } from '../../core/util';
@@ -31,10 +31,11 @@ import { CurrentArticle, CurrentArticleTracker, NoArticle } from '../article/cur
 
           const { parentNode } = target;
 
-          if (!parentNode) {
+          if (!parentNode || !isElement(parentNode)) {
             return;
           }
-          target = parentNode as Element;
+
+          target = parentNode;
         }
       },
     }),
@@ -49,7 +50,7 @@ export class ArticlePreviewComponent {
 
     context.whenOn(supply => {
 
-      const off = hierarchy.provide({ a: CurrentArticle, is: this._article.read });
+      const off = hierarchy.provide({ a: CurrentArticle, is: this._article });
 
       supply.whenOff(off);
     });

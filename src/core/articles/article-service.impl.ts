@@ -63,4 +63,21 @@ export class ArticleService$ implements ArticleService {
     );
   }
 
+  likeArticle(slug: string, like = true): OnEvent<[ApiResponse<Article>]> {
+
+    const apiRequest: ApiRequest<Article> = {
+      path: `articles/${encodeURIComponent(slug)}/favorite`,
+      init: {
+        method: like ? 'POST' : 'DELETE',
+        headers: {
+          Accept: 'application/json',
+        },
+      },
+      respondAs: 'article',
+      auth: true,
+    };
+
+    return this._apiFetch(apiRequest);
+  }
+
 }

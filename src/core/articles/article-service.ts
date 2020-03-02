@@ -9,6 +9,8 @@ export interface ArticleService {
 
   htmlContents(article: Article): Promise<Node>;
 
+  likeArticle(slug: string, like?: boolean): OnEvent<[ApiResponse<Article>]>;
+
 }
 
 export const ArticleService: ContextRef<ArticleService> = (
