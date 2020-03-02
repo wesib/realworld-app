@@ -18,7 +18,7 @@ import { CurrentUserProfile, currentUserProfileBy, noUserProfile } from '../prof
 import { FollowAuthorComponent } from '../profile/follow-author.component';
 import { ArticleContentComponent } from './article-content.component';
 import { ArticleMetaComponentsSupport } from './article-meta-components-support.feature';
-import { CurrentArticle } from './current-article';
+import { CurrentArticle, CurrentArticleTracker, noArticle } from './current-article';
 
 @Component(
     ['article', Conduit__NS],
@@ -43,22 +43,19 @@ export class ArticleComponent {
     const articleService = _context.get(ArticleService);
     const navigation = _context.get(Navigation);
     const hierarchy = this._context.get(HierarchyContext);
+    const article = new CurrentArticleTracker().byArticles(
+        this._response.read.keep.thru_(
+            response => response && response.ok ? response.body : noArticle,
+        ),
+    );
     const author = currentUserProfileBy(
         this._response.read.keep.thru_(
             response => response && response.ok ? response.body.author : noUserProfile,
         ),
     );
 
-    hierarchy.provide({
-      a: CurrentArticle,
-      is: this._response.read.keep.thru_(
-          response => response && response.ok ? response.body : {},
-      ),
-    });
-    hierarchy.provide({
-      a: CurrentUserProfile,
-      is: author,
-    });
+    hierarchy.provide({ a: CurrentArticle, is: article });
+    hierarchy.provide({ a: CurrentUserProfile, is: author });
     _context.whenOn(supply => {
       navigation.read.tillOff(supply).consume(page => {
 

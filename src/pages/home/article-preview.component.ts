@@ -1,11 +1,11 @@
 import { HandleNavLinks, HierarchyContext } from '@wesib/generic';
 import { Component, ComponentContext, DomProperty, domPropertyPathTo } from '@wesib/wesib';
-import { trackValue } from 'fun-events';
 import { Conduit__NS } from '../../core';
+import { Article } from '../../core/articles';
 import { escapeHtml } from '../../core/util';
 import { RenderHTML } from '../../reusable';
 import { ArticleMetaComponentsSupport } from '../article/article-meta-components-support.feature';
-import { CurrentArticle } from '../article/current-article';
+import { CurrentArticle, CurrentArticleTracker, NoArticle } from '../article/current-article';
 
 @Component(
     ['article-preview', Conduit__NS],
@@ -41,7 +41,7 @@ import { CurrentArticle } from '../article/current-article';
 )
 export class ArticlePreviewComponent {
 
-  private readonly _article = trackValue<CurrentArticle>({});
+  private readonly _article = new CurrentArticleTracker();
 
   constructor(context: ComponentContext) {
 
@@ -55,13 +55,13 @@ export class ArticlePreviewComponent {
     });
   }
 
-  get article(): CurrentArticle {
+  get article(): Article | NoArticle {
     return this._article.it;
   }
 
   @DomProperty({ propertyKey: 'feedArticle' })
-  set article(value: CurrentArticle) {
-    this._article.it = value;
+  set article(value: Article | NoArticle) {
+    this._article.set(value);
   }
 
   @RenderHTML({ path: domPropertyPathTo('article') })
@@ -75,7 +75,7 @@ export class ArticlePreviewComponent {
     return `
 <div class="post-meta">
 <conduit-article-author></conduit-article-author>
-<conduit-favorite-post1></conduit-favorite-post1>
+<conduit-favorite-post></conduit-favorite-post>
 </div>
 <a href="${postURL}" class="preview-link">
 <h1>${escapeHtml(this.article.title)}</h1>

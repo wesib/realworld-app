@@ -37,9 +37,9 @@ export function currentUserProfileBy(
               return profile;
             }
 
-            const update = (profile: UserProfile): void => {
+            const update = (updated: UserProfile): void => {
               currentProfile.it = {
-                ...profile,
+                ...updated,
                 update,
               };
             };
