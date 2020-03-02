@@ -10,6 +10,7 @@ import {
 } from '@wesib/wesib';
 import { StatePath } from 'fun-events';
 import { css__naming, QualifiedName } from 'namespace-aliaser';
+import { RenderExecution } from 'render-scheduler';
 import { ApiErrorGenerator, RenderHTML } from '../../reusable';
 import { ApiResponse } from '../api';
 import { Conduit__NS } from '../conduit.ns';
@@ -81,12 +82,15 @@ export function RenderLoader<T extends ComponentClass>(
 
       const { element }: { element: Element } = ComponentContext.of(this);
 
-      return () => {
+      return (execution: RenderExecution) => {
 
         const status = get(this);
 
         if (status && status.ok) {
-          element.classList.add(loadedClassName);
+          // Make contents visible in the very end
+          execution.postpone(() => {
+            element.classList.add(loadedClassName);
+          });
         } else {
           element.classList.remove(loadedClassName);
         }
