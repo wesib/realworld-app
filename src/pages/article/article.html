@@ -30,9 +30,11 @@
           <div class="col-md-8 offset-md-2">
             <conduit-new-article-comment>
               <form>
-                <div class="card-block">
+                <conduit-api-errors></conduit-api-errors>
+                <conduit-article-comment-text>
                   <textarea class="form-control" placeholder="Write a comment..." rows="3"></textarea>
-                </div>
+                  <conduit-in-error code="missing">Comment is required</conduit-in-error>
+                </conduit-article-comment-text>
                 <div class="card-footer">
                   <img src="http://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
                   <button class="btn btn-sm btn-primary">

@@ -44,7 +44,7 @@ export class ArticleCommentComponent {
     }
 
     return `
-<div class="card-block">
+<div class="card-body">
 <p class="card-text">${escapeHtml(this.articleComment.body)}</p>
 </div>
 <div class="card-footer">

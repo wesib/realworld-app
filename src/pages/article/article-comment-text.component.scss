@@ -1,0 +1,12 @@
+conduit-article-comment-text {
+  @extend .card-body;
+
+  display: block;
+  padding: 0;
+
+  textarea {
+    border: 0;
+    padding: 1.25rem;
+  }
+
+}
