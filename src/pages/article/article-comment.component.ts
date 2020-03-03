@@ -1,5 +1,4 @@
 import { Component, ComponentContext, DomProperty, StateProperty } from '@wesib/wesib';
-import { nextOnEvent } from 'fun-events';
 import { Conduit__NS } from '../../core';
 import { AuthService, AuthUser, NotAuthenticated } from '../../core/auth';
 import { Comment } from '../../core/comments';
@@ -20,11 +19,7 @@ export class ArticleCommentComponent {
     const authService = context.get(AuthService);
 
     context.whenOn(supply => {
-      authService.authentication.tillOff(supply).thru_(
-          auth => auth.token
-              ? (auth.email ? auth : nextOnEvent(authService.loadUser()))
-              : {},
-      )(
+      authService.user.tillOff(supply)(
           user => this.user = user,
       ).whenOff(
           () => this.user = {},

@@ -33,6 +33,8 @@ export abstract class AuthService {
 
   abstract readonly authentication: AfterEvent<[Authentication]>;
 
+  abstract readonly user: AfterEvent<[AuthUser | NotAuthenticated]>;
+
   abstract login(request: LoginRequest): OnEvent<[ApiResponse<AuthUser>]>;
 
   abstract register(request: RegisterRequest): OnEvent<[ApiResponse<AuthUser>]>;

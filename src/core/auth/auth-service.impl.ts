@@ -1,6 +1,6 @@
 import { BootstrapContext, BootstrapWindow } from '@wesib/wesib';
 import { nextSkip } from 'call-thru';
-import { AfterEvent, OnEvent, trackValue, ValueTracker } from 'fun-events';
+import { AfterEvent, afterSupplied, nextAfterEvent, OnEvent, trackValue, trackValueBy, ValueTracker } from 'fun-events';
 import { DomEventDispatcher } from 'fun-events/dom';
 import { ApiFetch, ApiRequest, ApiResponse } from '../api';
 import { AuthService, LoginRequest, RegisterRequest, UpdateSettingsRequest } from './auth-service';
@@ -13,13 +13,14 @@ export class AuthService$ extends AuthService {
 
   private readonly _auth: ValueTracker<Authentication>;
   private readonly _token = trackValue<AuthToken | NotAuthenticated>(notAuthenticated);
-
-  get authentication(): AfterEvent<[Authentication]> {
-    return this._auth.read;
-  }
+  readonly user: AfterEvent<[AuthUser | NotAuthenticated]>;
 
   get token(): AfterEvent<[AuthToken | NotAuthenticated]> {
     return this._token.read;
+  }
+
+  get authentication(): AfterEvent<[Authentication]> {
+    return this._auth.read;
   }
 
   constructor(private readonly _context: BootstrapContext) {
@@ -32,6 +33,51 @@ export class AuthService$ extends AuthService {
     this._token.by(this._auth.read.thru_(
         ({ token }) => this._token.it.token !== token ? { token } : nextSkip,
     ));
+
+    let userRequest: [AuthToken | AuthUser, ValueTracker<AuthUser | NotAuthenticated>] | undefined;
+
+    this.user = this._auth.read.keep.thru(
+        auth => {
+          if (!auth.token) {
+            return notAuthenticated; // No token. Can not authenticate
+          }
+          if (auth.email) {
+            // User authenticated.
+
+            const tracker = trackValue(auth);
+
+            userRequest = [auth, tracker];
+
+            return nextAfterEvent(tracker);
+          }
+          if (userRequest) {
+            // Some user is loading.
+
+            const [requestToken, responseTracker] = userRequest;
+
+            if (requestToken.token === auth.token) {
+              // The right user is loading.
+              return nextAfterEvent(responseTracker);
+            }
+            // Stop loading the wrong user.
+            responseTracker.byNone();
+          }
+
+          // Request user settings.
+          const tracker = trackValueBy(
+              afterSupplied<[AuthUser | NotAuthenticated]>(
+                  this.loadUser().thru_(
+                      response => response.ok ? response.body : { failure: response },
+                  ),
+                  () => [notAuthenticated],
+              ),
+          );
+
+          userRequest = [auth, tracker];
+
+          return nextAfterEvent(tracker);
+        },
+    );
     this._auth.on(storeAuthToken);
     new DomEventDispatcher(window).on<StorageEvent>('storage')(({ key, newValue }) => {
       if (key === authTokenKey) {
