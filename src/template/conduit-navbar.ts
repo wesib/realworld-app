@@ -7,6 +7,9 @@ Handlebars.registerPartial(
   <div class="container">
     <a class="navbar-brand" href="">conduit</a>
     <ul class="nav navbar-nav pull-xs-right">
+      <li class="nav-item">
+        <a class="nav-link" href="">Home</a>
+      </li>
       <li class="nav-item if-authenticated@conduit">
         <a class="nav-link" href="editor/">
           <i class="ion-compose"></i>&nbsp;New Post
