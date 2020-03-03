@@ -1,10 +1,13 @@
 import { HierarchyContext } from '@wesib/generic';
+import { inputFromControl } from '@wesib/generic/input';
 import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render } from '@wesib/wesib';
 import { nextSkip } from 'call-thru';
-import { nextOnEvent } from 'fun-events';
+import { eventSupplyOf, nextOnEvent } from 'fun-events';
+import { inGroup } from 'input-aspects';
 import { Conduit__NS } from '../../core';
 import { ApiResponse } from '../../core/api';
 import { CommentList, CommentService, CommentsSupport } from '../../core/comments';
+import { ConduitInputSupport } from '../../core/input';
 import { RenderLoader } from '../../core/loader';
 import { ArticleCommentComponent } from './article-comment.component';
 import { CurrentArticle } from './current-article';
@@ -16,6 +19,7 @@ import { CurrentArticle } from './current-article';
         needs: [
           ArticleCommentComponent,
           CommentsSupport,
+          ConduitInputSupport,
         ],
       },
     },
@@ -36,6 +40,11 @@ export class ArticleCommentsComponent {
       )(
           comments => this.comments = comments,
       );
+
+      const group = inGroup({});
+
+      eventSupplyOf(group).needs(supply);
+      inputFromControl(_context, group);
     });
   }
 
@@ -46,7 +55,8 @@ export class ArticleCommentsComponent {
     const { contentRoot }: { contentRoot: Node } = this._context;
     const range = document.createRange();
 
-    range.selectNodeContents(contentRoot);
+    range.setStartAfter(contentRoot.appendChild(document.createComment('[COMMENTS[')));
+    range.setEndBefore(contentRoot.appendChild(document.createComment(']COMMENTS]')));
 
     return () => {
       range.deleteContents();

@@ -1,5 +1,5 @@
 import { HierarchyContext } from '@wesib/generic';
-import { InputToForm } from '@wesib/generic/input';
+import { InputFromControl } from '@wesib/generic/input';
 import { Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { nextArgs, NextCall } from 'call-thru';
 import { nextAfterEvent, OnEventCallChain } from 'fun-events';
@@ -18,7 +18,7 @@ export class ApiErrorsComponent {
 
   constructor(private readonly _context: ComponentContext) {
     _context.get(HierarchyContext)
-        .get(InputToForm)
+        .get(InputFromControl)
         .thru_(
             ({ control }): NextCall<OnEventCallChain, [ApiResponse.Errors]> => {
               if (!control) {

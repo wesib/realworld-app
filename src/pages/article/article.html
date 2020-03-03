@@ -30,13 +30,12 @@
           <div class="col-md-8 offset-md-2">
             <conduit-new-article-comment>
               <form>
-                <conduit-api-errors></conduit-api-errors>
                 <conduit-article-comment-text>
                   <textarea class="form-control" placeholder="Write a comment..." rows="3"></textarea>
-                  <conduit-in-error code="missing">Comment is required</conduit-in-error>
+                  <conduit-in-error code="missing">Comment is empty</conduit-in-error>
                 </conduit-article-comment-text>
                 <div class="card-footer">
-                  <img src="http://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
+                  <img class="comment-author-img" />
                   <button class="btn btn-sm btn-primary">
                     Post Comment
                   </button>
@@ -44,7 +43,9 @@
               </form>
             </conduit-new-article-comment>
 
-            <conduit-article-comments></conduit-article-comments>
+            <conduit-article-comments>
+              <conduit-api-errors></conduit-api-errors>
+            </conduit-article-comments>
           </div>
 
         </div>

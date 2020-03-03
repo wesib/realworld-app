@@ -1,11 +1,12 @@
 import { HierarchyContext } from '@wesib/generic';
 import { InputToForm, OnSubmit } from '@wesib/generic/input';
-import { Component, ComponentContext, StateProperty } from '@wesib/wesib';
+import { Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { InStatus, InSubmit, InSubmitError } from 'input-aspects';
 import { Conduit__NS } from '../../core';
 import { apiSubmit } from '../../core/api';
+import { AuthService, AuthUser, notAuthenticated, NotAuthenticated } from '../../core/auth';
 import { CommentService, CommentsSupport } from '../../core/comments';
-import { ConduitInputSupport, FillConduitForm } from '../../core/input';
+import { FillConduitForm } from '../../core/input';
 import { ArticleCommentTextComponent } from './article-comment-text.component';
 import { CurrentArticle, noArticle } from './current-article';
 
@@ -20,7 +21,6 @@ interface NewComment {
         needs: [
           ArticleCommentTextComponent,
           CommentsSupport,
-          ConduitInputSupport,
         ],
       },
     },
@@ -34,19 +34,40 @@ export class NewArticleCommentComponent {
 
   private readonly _commentService: CommentService;
 
-  @StateProperty()
   article: CurrentArticle = noArticle;
 
-  constructor(context: ComponentContext) {
-    this._commentService = context.get(CommentService);
+  @StateProperty()
+  user: AuthUser | NotAuthenticated = notAuthenticated;
 
-    const hierarchy = context.get(HierarchyContext);
+  constructor(private readonly _context: ComponentContext) {
+    this._commentService = _context.get(CommentService);
 
-    context.whenOn(supply => {
+    const authService = _context.get(AuthService);
+    const hierarchy = _context.get(HierarchyContext);
+
+    _context.whenOn(supply => {
+      authService.user
+          .tillOff(supply)(user => this.user = user)
+          .whenOff(() => this.user = notAuthenticated);
       hierarchy.get(CurrentArticle)
           .tillOff(supply)(article => this.article = article)
           .whenOff(() => this.article = noArticle);
     });
+  }
+
+  @Render()
+  render(): ElementRenderer {
+
+    const { element }: { element: Element } = this._context;
+    const image = element.querySelector('.comment-author-img');
+
+    return () => {
+      if (this.user.email && this.user.image) {
+        image?.setAttribute('src', this.user.image);
+      } else {
+        image?.removeAttribute('src');
+      }
+    };
   }
 
   @OnSubmit()
@@ -57,6 +78,7 @@ export class NewArticleCommentComponent {
     if (!article.slug) {
       return;
     }
+
     control.aspect(InStatus).markEdited();
     control.aspect(InSubmit)
         .submit(request => apiSubmit(this._commentService.addComment(article.slug, request.text)))

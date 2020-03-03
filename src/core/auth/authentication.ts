@@ -14,6 +14,8 @@ export interface NotAuthenticated {
   readonly failure?: ApiResponse.Failure;
 }
 
+export const notAuthenticated: NotAuthenticated = {};
+
 export type Authentication =
     | NotAuthenticated
     | AuthToken

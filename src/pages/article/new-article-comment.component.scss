@@ -1,5 +1,9 @@
 @use 'article-mixins';
 
+conduit-container:not(.authenticated#{$conduit-ns}) {
+  @extend .d-none;
+}
+
 conduit-new-article-comment {
   @include article-mixins.article-comment-card;
 
