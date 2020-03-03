@@ -1,5 +1,5 @@
 import { HierarchyContext } from '@wesib/generic';
-import { Component, ComponentContext } from '@wesib/wesib';
+import { Component, ComponentContext, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
 import { ArticleService } from '../../core/articles';
 import { RenderHTML } from '../../reusable';
@@ -8,7 +8,7 @@ import { CurrentArticle } from './current-article';
 @Component(['article-content', Conduit__NS])
 export class ArticleContentComponent {
 
-  @RenderHTML({ comment: 'ARTICLE(content)', offline: true })
+  @StateProperty()
   content?: Node;
 
   constructor(private readonly _context: ComponentContext) {
@@ -37,6 +37,11 @@ export class ArticleContentComponent {
         }
       });
     });
+  }
+
+  @RenderHTML({ comment: 'ARTICLE(content)' })
+  render(): Node | undefined {
+    return this.content;
   }
 
 }

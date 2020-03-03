@@ -28,7 +28,7 @@ export class ArticleCommentComponent {
   }
 
   @RenderHTML({ comment: 'COMMENT' })
-  get render(): string | undefined {
+  render(): string | undefined {
     if (!this.articleComment) {
       return;
     }

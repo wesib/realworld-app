@@ -9,35 +9,23 @@ import {
 } from '@wesib/wesib';
 import { StatePath } from 'fun-events';
 
-const HTMLContents__symbol = (/*#__PURE__*/ Symbol('HTML-contents'));
-
 export function RenderHTML<T extends ComponentClass>(
     def: {
       path?: StatePath;
       comment?: string;
       offline?: boolean;
     } = {},
-): ComponentPropertyDecorator<string | Node | null | undefined, T> {
-  return ComponentProperty(({ get, set: setValue, key }) => {
+): ComponentPropertyDecorator<() => string | Node | null | undefined, T> {
+  return ComponentProperty(({ get, key }) => {
 
     const {
       comment = String(key),
-      path = [HTMLContents__symbol, key],
+      path,
       offline,
     } = def;
 
     return {
       componentDef: Render({ path, offline }).As(renderHTML, key),
-      get,
-      set(component, value) {
-
-        const prev = get(component);
-
-        if (value !== prev) {
-          setValue(component, value);
-          ComponentContext.of(component).updateState(path, value, prev);
-        }
-      },
     };
 
     function renderHTML(this: InstanceType<T>): ElementRenderer {
@@ -55,7 +43,7 @@ export function RenderHTML<T extends ComponentClass>(
       return () => {
         range.deleteContents();
 
-        const html = get(this);
+        const html = get(this).call(this);
 
         if (!html) {
           return;

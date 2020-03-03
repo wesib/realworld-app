@@ -1,5 +1,5 @@
 import { HandleNavLinks, HierarchyContext } from '@wesib/generic';
-import { Component, ComponentContext, DomProperty, domPropertyPathTo, isElement } from '@wesib/wesib';
+import { Component, ComponentContext, DomProperty, isElement } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
 import { Article } from '../../core/articles';
 import { escapeHtml } from '../../core/util';
@@ -65,8 +65,8 @@ export class ArticlePreviewComponent {
     this._article.set(value);
   }
 
-  @RenderHTML({ path: domPropertyPathTo('article') })
-  get postMeta(): string | undefined {
+  @RenderHTML()
+  postMeta(): string | undefined {
     if (!this.article.slug) {
       return;
     }

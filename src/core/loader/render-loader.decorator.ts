@@ -65,8 +65,8 @@ export function RenderLoader<T extends ComponentClass>(
             },
           },
           Render({ path, offline }).As(updateClass, key),
-          RenderHTML({ path, offline, comment: `LOADER(${comment})` }).By(renderLoader, key),
-          RenderHTML({ path, offline, comment: `ERRORS(${comment})` }).By(renderErrors, key),
+          RenderHTML({ path, offline, comment: `LOADER(${comment})` }).As(renderLoader, key),
+          RenderHTML({ path, offline, comment: `ERRORS(${comment})` }).As(renderErrors, key),
       ),
       get,
       set(component, value) {
@@ -97,19 +97,19 @@ export function RenderLoader<T extends ComponentClass>(
       };
     }
 
-    function renderLoader(component: InstanceType<T>): Node | undefined {
+    function renderLoader(this: InstanceType<T>): Node | undefined {
 
-      const status = get(component);
+      const status = get(this);
 
       return !status ? document.createElement('conduit-loader') : undefined;
     }
 
-    function renderErrors(component: InstanceType<T>): Node | undefined {
+    function renderErrors(this: InstanceType<T>): Node | undefined {
 
-      const status = get(component);
+      const status = get(this);
 
       return status && !status.ok
-          ? ComponentContext.of(component).get(ApiErrorGenerator)(status.errors)
+          ? ComponentContext.of(this).get(ApiErrorGenerator)(status.errors)
           : undefined;
     }
 

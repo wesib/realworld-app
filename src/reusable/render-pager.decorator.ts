@@ -41,7 +41,7 @@ export function RenderPager<T extends ComponentClass>(): ComponentPropertyDecora
 
     return {
       componentDef: ComponentDef.all(
-          RenderHTML({ path, comment: `PAGER(${String(key)})` }).By(pagerContent, key),
+          RenderHTML({ path, comment: `PAGER(${String(key)})` }).As(pagerContent, key),
           HandleNavLinks(),
       ),
       get,
@@ -54,11 +54,11 @@ export function RenderPager<T extends ComponentClass>(): ComponentPropertyDecora
       },
     };
 
-    function pagerContent(component: InstanceType<T>): Node | undefined {
+    function pagerContent(this: InstanceType<T>): Node | undefined {
 
-      const context = ComponentContext.of(component);
+      const context = ComponentContext.of(this);
       const { document } = context.get(BootstrapWindow);
-      const pagingInfo = get(component);
+      const pagingInfo = get(this);
 
       if (!pagingInfo.totalPages || pagingInfo.totalPages <= 1) {
         return;

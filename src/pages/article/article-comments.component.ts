@@ -34,10 +34,7 @@ export class ArticleCommentsComponent {
       hierarchy.get(CurrentArticle).tillOff(supply).thru_(
           article => article.slug ? nextOnEvent(commentService.articleComments(article.slug)) : nextSkip,
       )(
-          comments => {
-            console.log(comments);
-            return this.comments = comments;
-          },
+          comments => this.comments = comments,
       );
     });
   }
