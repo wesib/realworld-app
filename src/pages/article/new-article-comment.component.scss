@@ -3,6 +3,10 @@
 conduit-new-article-comment {
   @include article-mixins.article-comment-card;
 
+  & > form {
+    display: contents;
+  }
+
   .card-block {
     padding:0;
 
