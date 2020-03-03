@@ -19,6 +19,7 @@ import { ArticleCommentsComponent } from './article-comments.component';
 import { ArticleContentComponent } from './article-content.component';
 import { ArticleMetaComponentsSupport } from './article-meta-components-support.feature';
 import { CurrentArticle, CurrentArticleTracker, noArticle } from './current-article';
+import { NewArticleCommentComponent } from './new-article-comment.component';
 
 @Component(
     ['article', Conduit__NS],
@@ -30,6 +31,7 @@ import { CurrentArticle, CurrentArticleTracker, noArticle } from './current-arti
           ArticleMetaComponentsSupport,
           ArticlesSupport,
           FollowAuthorComponent,
+          NewArticleCommentComponent,
         ],
       },
     },

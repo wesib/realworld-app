@@ -1,0 +1,26 @@
+@use 'article-mixins';
+
+conduit-new-article-comment {
+  @include article-mixins.article-comment-card;
+
+  .card-block {
+    padding:0;
+
+    textarea {
+      border: 0px;
+      padding: 1.25rem;
+    }
+  }
+
+  .card-footer {
+    .btn {
+      font-weight: 700;
+      float:right;
+    }
+
+    .comment-author-img {
+      height:30px;
+      width:30px;
+    }
+  }
+}

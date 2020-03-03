@@ -1,7 +1,9 @@
+@use 'article-mixins';
+
 conduit-article-comments:not(.loaded#{$conduit-ns}) conduit-article-comment {
   @extend .d-none;
 }
 
 conduit-article-comment {
-  @extend .card;
+  @include article-mixins.article-comment-card;
 }

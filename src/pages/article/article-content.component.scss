@@ -1,0 +1,14 @@
+conduit-article-content {
+  // General styles for post content
+  p {
+    font-family: 'Source Serif Pro', serif;
+    font-size: 1.2rem;
+    line-height:1.8rem;
+    margin-bottom:2rem;
+  }
+
+  h1,h2,h3,h4,h5,h6 {
+    font-weight:700 !important;
+    margin:1.6rem 0 1rem 0;
+  }
+}
