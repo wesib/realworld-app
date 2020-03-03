@@ -1,15 +1,16 @@
 import { HierarchyContext } from '@wesib/generic';
 import { inputFromControl } from '@wesib/generic/input';
-import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render } from '@wesib/wesib';
+import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { nextSkip } from 'call-thru';
 import { eventSupplyOf, nextOnEvent } from 'fun-events';
 import { inGroup } from 'input-aspects';
 import { Conduit__NS } from '../../core';
 import { ApiResponse } from '../../core/api';
-import { CommentList, CommentService, CommentsSupport } from '../../core/comments';
+import { Comment, CommentList, CommentService, CommentsSupport } from '../../core/comments';
 import { ConduitInputSupport } from '../../core/input';
 import { RenderLoader } from '../../core/loader';
 import { ArticleCommentComponent } from './article-comment.component';
+import { CommentEvent } from './comment-event';
 import { CurrentArticle } from './current-article';
 
 @Component(
@@ -27,7 +28,10 @@ import { CurrentArticle } from './current-article';
 export class ArticleCommentsComponent {
 
   @RenderLoader({ comment: 'COMMENTS' })
-  comments?: ApiResponse<CommentList>;
+  response?: ApiResponse<CommentList>;
+
+  @StateProperty()
+  comments: Comment[] = [];
 
   constructor(private readonly _context: ComponentContext) {
 
@@ -35,11 +39,22 @@ export class ArticleCommentsComponent {
     const hierarchy = this._context.get(HierarchyContext);
 
     this._context.whenOn(supply => {
+      this._context.on<CommentEvent>('conduit:comment')(({ detail: { added, removed } }) => {
+        if (added) {
+          this.comments = [added, ...this.comments];
+        } else {
+          this.comments = this.comments.filter(comment => comment.id !== removed);
+        }
+      });
+
       hierarchy.get(CurrentArticle).tillOff(supply).thru_(
           article => article.slug ? nextOnEvent(commentService.articleComments(article.slug)) : nextSkip,
-      )(
-          comments => this.comments = comments,
-      );
+      )(response => {
+        this.response = response;
+        if (response.ok) {
+          this.comments = response.body.comments;
+        }
+      });
 
       const group = inGroup({});
 
@@ -60,14 +75,16 @@ export class ArticleCommentsComponent {
 
     return () => {
       range.deleteContents();
-      if (!this.comments || !this.comments.ok) {
+
+      const { comments } = this;
+
+      if (!comments.length) {
         return;
       }
 
-      const comments = this.comments.body;
       const fragment = document.createDocumentFragment();
 
-      comments.comments.forEach(comment => {
+      comments.forEach(comment => {
 
         const commentEl = fragment.appendChild(document.createElement('conduit-article-comment'));
 

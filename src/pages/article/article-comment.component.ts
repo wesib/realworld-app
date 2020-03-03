@@ -9,6 +9,7 @@ import { AuthService, AuthUser, notAuthenticated, NotAuthenticated } from '../..
 import { Comment, CommentService } from '../../core/comments';
 import { escapeHtml } from '../../core/util';
 import { formatDate, RenderHTML } from '../../reusable';
+import { CommentEvent } from './comment-event';
 import { CurrentArticle, noArticle } from './current-article';
 
 @Component(['article-comment', Conduit__NS])
@@ -96,7 +97,15 @@ export class ArticleCommentComponent {
       new DomEventDispatcher(deleteBtn).on('click').just(() => {
         form.aspect(InSubmit)
             .submit(() => apiSubmit(commentService.deleteComment(slug, comment.id)))
-            .then(console.log)
+            .then(() => {
+              this._context.dispatchEvent(new CommentEvent(
+                  'conduit:comment',
+                  {
+                    bubbles: true,
+                    detail: { removed: comment.id },
+                  },
+              ));
+            })
             .catch(e => {
               if (e instanceof InSubmitError) {
                 console.error('Failed to remove comment', ...e.errors);

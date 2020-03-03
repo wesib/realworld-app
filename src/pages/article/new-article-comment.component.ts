@@ -8,6 +8,7 @@ import { AuthService, AuthUser, notAuthenticated, NotAuthenticated } from '../..
 import { CommentService, CommentsSupport } from '../../core/comments';
 import { FillConduitForm } from '../../core/input';
 import { ArticleCommentTextComponent } from './article-comment-text.component';
+import { CommentEvent } from './comment-event';
 import { CurrentArticle, noArticle } from './current-article';
 
 interface NewComment {
@@ -82,7 +83,18 @@ export class NewArticleCommentComponent {
     control.aspect(InStatus).markEdited();
     control.aspect(InSubmit)
         .submit(request => apiSubmit(this._commentService.addComment(article.slug, request.text)))
-        .then(console.log)
+        .then(added => {
+          control.it = { text: '' };
+          control.aspect(InStatus).markTouched(false);
+          control.aspect(InSubmit).reset();
+          this._context.dispatchEvent(new CommentEvent(
+              'conduit:comment',
+              {
+                bubbles: true,
+                detail: { added },
+              },
+          ));
+        })
         .catch(e => {
           if (e instanceof InSubmitError) {
             console.error('Failed to comment', ...e.errors);
