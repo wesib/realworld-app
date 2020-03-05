@@ -17,7 +17,7 @@ import { CurrentUserProfile, currentUserProfileBy, noUserProfile } from '../prof
 import { FollowAuthorComponent } from '../profile/follow-author.component';
 import { ArticleCommentsComponent } from './article-comments.component';
 import { ArticleContentComponent } from './article-content.component';
-import { ArticleMetaComponentsSupport } from './article-meta-components-support.feature';
+import { ArticleButtonsSupport } from './buttons';
 import { CurrentArticle, CurrentArticleTracker, noArticle } from './current-article';
 import { NewArticleCommentComponent } from './new-article-comment.component';
 
@@ -28,7 +28,7 @@ import { NewArticleCommentComponent } from './new-article-comment.component';
         needs: [
           ArticleCommentsComponent,
           ArticleContentComponent,
-          ArticleMetaComponentsSupport,
+          ArticleButtonsSupport,
           ArticlesSupport,
           FollowAuthorComponent,
           NewArticleCommentComponent,

@@ -1,4 +1,4 @@
-conduit-favorite-post {
+conduit-favorite-post-btn {
   @extend .btn;
   @extend .btn-sm;
 
@@ -10,7 +10,7 @@ conduit-favorite-post {
   }
 }
 
-conduit-article conduit-favorite-post {
+conduit-article conduit-favorite-post-btn {
   margin-left: 0.5rem;
   i {
     padding-right: 0.5rem;

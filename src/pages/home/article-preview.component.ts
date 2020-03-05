@@ -4,17 +4,15 @@ import { Conduit__NS } from '../../core';
 import { Article } from '../../core/articles';
 import { AuthService, AuthUser, notAuthenticated, NotAuthenticated } from '../../core/auth';
 import { RenderHTML } from '../../reusable';
-import { ArticleMetaComponentsSupport } from '../article/article-meta-components-support.feature';
+import { ArticleButtonsSupport } from '../article/buttons';
 import { CurrentArticle, CurrentArticleTracker, NoArticle } from '../article/current-article';
-import { ArticlePreviewModActionsComponent } from './article-preview-mod-actions.component';
 
 @Component(
     ['article-preview', Conduit__NS],
     {
       feature: {
         needs: [
-          ArticleMetaComponentsSupport,
-          ArticlePreviewModActionsComponent,
+          ArticleButtonsSupport,
         ],
       },
     },
@@ -88,9 +86,10 @@ export class ArticlePreviewComponent {
     meta.className = 'post-meta';
     meta.appendChild(document.createElement('conduit-article-author'));
     if (this.user.username === author.username) {
-      meta.appendChild(document.createElement('conduit-article-preview-mod-actions'));
+      meta.appendChild(document.createElement('conduit-edit-post-btn')).tabIndex = 0;
+      meta.appendChild(document.createElement('conduit-delete-post-btn')).tabIndex = 0;
     } else {
-      meta.appendChild(document.createElement('conduit-favorite-post'));
+      meta.appendChild(document.createElement('conduit-favorite-post-btn')).tabIndex = 0;
     }
 
     const previewLink = fragment.appendChild(document.createElement('a'));

@@ -1,18 +1,18 @@
 import { HierarchyContext } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
-import { Conduit__NS } from '../../core';
-import { ArticleService, ArticlesSupport } from '../../core/articles';
-import { CurrentArticle, noArticle } from './current-article';
+import { Conduit__NS } from '../../../core';
+import { ArticleService, ArticlesSupport } from '../../../core/articles';
+import { CurrentArticle, noArticle } from '../current-article';
 
 @Component(
-    ['favorite-post', Conduit__NS],
+    ['favorite-post-btn', Conduit__NS],
     {
       feature: {
         needs: ArticlesSupport,
       },
     },
 )
-export class FavoritePostComponent {
+export class FavoritePostBtnComponent {
 
   @StateProperty()
   article: CurrentArticle = noArticle;

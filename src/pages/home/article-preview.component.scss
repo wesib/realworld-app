@@ -24,7 +24,7 @@ conduit-article-preview {
     }
   }
 
-  conduit-favorite-post {
+  conduit-favorite-post-btn, conduit-delete-post-btn, conduit-edit-post-btn {
     @extend .float-right;
   }
 }
