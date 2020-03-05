@@ -7,15 +7,16 @@ conduit-article:not(.loaded#{$conduit-ns}) {
 conduit-article.loaded#{$conduit-ns} {
 
   .banner {
-    padding:3rem 0 2rem 0;
+    padding: 3rem 0 2rem 0;
 
     h1 {
-      font-size:2.8rem;
+      font-size: 2.8rem;
     }
 
     // Set follow/favorite buttons to lower opacity until hovered
     conduit-follow-author, conduit-favorite-post {
       opacity: 0.8;
+
       &:hover {
         transition: 0.1s all;
         opacity: 1;
@@ -24,10 +25,10 @@ conduit-article.loaded#{$conduit-ns} {
 
     // Post page style overrides for metadata
     .post-meta {
-      margin:2rem 0 0 0;
+      margin: 2rem 0 0 0;
 
       .author {
-        color:#fff;
+        color: #fff;
       }
     }
 
@@ -35,7 +36,7 @@ conduit-article.loaded#{$conduit-ns} {
 
   .post-actions {
     text-align: center;
-    margin:1.5rem 0 3rem 0;
+    margin: 1.5rem 0 3rem 0;
 
     .post-meta .info {
       text-align: left;
