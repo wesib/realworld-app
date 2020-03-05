@@ -1,8 +1,9 @@
 import { BootstrapContext, BootstrapWindow } from '@wesib/wesib';
+import { asis } from 'call-thru';
 import { OnEvent } from 'fun-events';
 import { ApiFetch, ApiRequest, ApiResponse } from '../api';
 import { Article } from './article';
-import { ArticleService } from './article-service';
+import { ArticleService, CreateArticleRequest } from './article-service';
 import marked from 'marked';
 import DOMPurify from 'dompurify';
 
@@ -74,6 +75,61 @@ export class ArticleService$ implements ArticleService {
         },
       },
       respondAs: 'article',
+      auth: true,
+    };
+
+    return this._apiFetch(apiRequest);
+  }
+
+  createArticle(request: CreateArticleRequest): OnEvent<[ApiResponse<Article>]> {
+
+    const apiRequest: ApiRequest<Article> = {
+      path: 'articles',
+      init: {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ article: request }),
+      },
+      respondAs: 'article',
+      auth: true,
+    };
+
+    return this._apiFetch(apiRequest);
+  }
+
+  updateArticle(slug: string, request: Partial<CreateArticleRequest>): OnEvent<[ApiResponse<Article>]> {
+
+    const apiRequest: ApiRequest<Article> = {
+      path: `articles/${encodeURIComponent(slug)}`,
+      init: {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ article: request }),
+      },
+      respondAs: 'article',
+      auth: true,
+    };
+
+    return this._apiFetch(apiRequest);
+  }
+
+  deleteArticle(slug: string): OnEvent<[ApiResponse<any>]> {
+
+    const apiRequest: ApiRequest<any> = {
+      path: `articles/${encodeURIComponent(slug)}`,
+      init: {
+        method: 'DELETE',
+        headers: {
+          Accept: 'application/json',
+        },
+      },
+      respondAs: asis,
       auth: true,
     };
 
