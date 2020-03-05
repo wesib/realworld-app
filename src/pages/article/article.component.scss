@@ -14,7 +14,10 @@ conduit-article.loaded#{$conduit-ns} {
     }
 
     // Set follow/favorite buttons to lower opacity until hovered
-    conduit-follow-author-btn, conduit-favorite-post-btn {
+    conduit-follow-author-btn,
+    conduit-favorite-post-btn,
+    conduit-edit-post-btn,
+    conduit-delete-port-btn {
       opacity: 0.8;
 
       &:hover {
@@ -40,6 +43,26 @@ conduit-article.loaded#{$conduit-ns} {
 
     .post-meta .info {
       text-align: left;
+    }
+  }
+}
+
+conduit-article {
+  .btn {
+    margin-right: 0.5em;
+  }
+
+  conduit-favorite-post-btn {
+    i {
+      padding-right: 0.5rem;
+    }
+    .counter:not(:empty) {
+      &::before {
+        content: '(';
+      }
+      &::after {
+        content: ')';
+      }
     }
   }
 }

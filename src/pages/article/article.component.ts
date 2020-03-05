@@ -11,10 +11,11 @@ import {
 import { trackValue } from 'fun-events';
 import { Conduit__NS } from '../../core';
 import { ApiResponse } from '../../core/api';
-import { Article, ArticleService, ArticlesSupport } from '../../core/articles';
+import { Article, ArticleService } from '../../core/articles';
 import { RenderLoader } from '../../core/loader';
 import { CurrentUserProfile, currentUserProfileBy, noUserProfile } from '../profile/current-user-profile';
 import { FollowAuthorBtnComponent } from '../profile/follow-author-btn.component';
+import { ArticleActionsComponent } from './article-actions.component';
 import { ArticleCommentsComponent } from './article-comments.component';
 import { ArticleContentComponent } from './article-content.component';
 import { ArticleButtonsSupport } from './buttons';
@@ -29,7 +30,7 @@ import { NewArticleCommentComponent } from './new-article-comment.component';
           ArticleCommentsComponent,
           ArticleContentComponent,
           ArticleButtonsSupport,
-          ArticlesSupport,
+          ArticleActionsComponent,
           FollowAuthorBtnComponent,
           NewArticleCommentComponent,
         ],
@@ -65,6 +66,11 @@ export class ArticleComponent {
         const slug = decodeURIComponent(page.get(PageHashURLParam).pathname.substring(1));
 
         return articleService.article(slug)(response => this.response = response);
+      });
+
+      _context.on('conduit:article').just(() => {
+        // Article removed. Open home page.
+        navigation.open('');
       });
     });
   }

@@ -9,18 +9,3 @@ conduit-favorite-post-btn {
     }
   }
 }
-
-conduit-article conduit-favorite-post-btn {
-  margin-left: 0.5rem;
-  i {
-    padding-right: 0.5rem;
-  }
-  .counter:not(:empty) {
-    &::before {
-      content: '(';
-    }
-    &::after {
-      content: ')';
-    }
-  }
-}
