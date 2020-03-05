@@ -11,7 +11,7 @@ import { ConduitInputSupport } from '../../core/input';
 import { RenderLoader } from '../../core/loader';
 import { ArticleCommentComponent } from './article-comment.component';
 import { CommentEvent } from './comment-event';
-import { CurrentArticle } from './current-article';
+import { CurrentArticle, noArticle } from './current-article';
 
 @Component(
     ['article-comments', Conduit__NS],
@@ -47,8 +47,18 @@ export class ArticleCommentsComponent {
         }
       });
 
+      let lastArticle: CurrentArticle = noArticle;
+
       hierarchy.get(CurrentArticle).tillOff(supply).thru_(
-          article => article.slug ? nextOnEvent(commentService.articleComments(article.slug)) : nextSkip,
+          article => {
+            if (!article.slug || article.slug === lastArticle.slug) {
+              return nextSkip;
+            }
+
+            lastArticle = article;
+
+            return nextOnEvent(commentService.articleComments(article.slug));
+          },
       )(response => {
         this.response = response;
         if (response.ok) {
