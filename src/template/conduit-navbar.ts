@@ -8,21 +8,31 @@ Handlebars.registerPartial(
     <a class="navbar-brand" href="">conduit</a>
     <ul class="nav navbar-nav pull-xs-right">
       <li class="nav-item">
-        <a class="nav-link" href="">Home</a>
+        <a class="nav-link" href="">
+          <i class="ion-home"></i>
+          Home
+        </a>
       </li>
       <li class="nav-item if-authenticated@conduit">
         <a class="nav-link" href="editor/">
-          <i class="ion-compose"></i>&nbsp;New Post
+          <i class="ion-compose"></i>
+          New Post
         </a>
       </li>
       <li class="nav-item unless-authenticated@conduit">
-        <a class="nav-link" href="login/">Sign in</a>
+        <a class="nav-link" href="login/">
+          <i class="ion-log-in"></i>
+          Sign in
+        </a>
       </li>
       <li class="nav-item unless-authenticated@conduit">
         <a class="nav-link" href="register/">Sign up</a>
       </li>
       <li class="nav-item if-authenticated@conduit">
-        <a class="nav-link" href="settings/">Settings</a>
+        <a class="nav-link" href="settings/">
+          <i class="ion-gear-a"></i>
+          Settings
+        </a>
       </li>
     </ul>
   </div>

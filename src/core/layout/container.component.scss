@@ -1,14 +1,10 @@
 // Authentication status
 conduit-container {
-  &.authenticated#{$conduit-ns} {
-    .unless-authenticated#{$conduit-ns} {
-      @extend .d-none;
-    }
+  &.authenticated#{$conduit-ns} *.unless-authenticated#{$conduit-ns} {
+    @extend .d-none;
   }
 
-  &:not(.authenticated#{$conduit-ns}) {
-    .if-authenticated#{$conduit-ns} {
-      @extend .d-none;
-    }
+  &:not(.authenticated#{$conduit-ns}) *.if-authenticated#{$conduit-ns} {
+    @extend .d-none;
   }
 }

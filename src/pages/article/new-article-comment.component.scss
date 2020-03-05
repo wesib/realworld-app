@@ -1,6 +1,6 @@
 @use 'article-mixins';
 
-conduit-container:not(.authenticated#{$conduit-ns}) {
+conduit-container:not(.authenticated#{$conduit-ns}) conduit-new-article-comment {
   @extend .d-none;
 }
 

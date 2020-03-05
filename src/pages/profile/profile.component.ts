@@ -2,7 +2,7 @@ import { HierarchyContext, Navigation } from '@wesib/generic';
 import { Component, ComponentContext } from '@wesib/wesib';
 import { trackValue } from 'fun-events';
 import { Conduit__NS } from '../../core';
-import { ApiResponse } from '../../core/api';
+import { ApiResponse, notAuthenticatedError } from '../../core/api';
 import { RenderLoader } from '../../core/loader';
 import { UserProfile, UserService, UserSupport } from '../../core/users';
 import { CurrentUserProfile, currentUserProfileBy, noUserProfile } from './current-user-profile';
@@ -53,7 +53,7 @@ export class ProfileComponent {
           .tillOff(supply)
           .consume(username => {
             if (!username) {
-              this._response.it = undefined;
+              this.response = { ok: false, errors: notAuthenticatedError() };
               return;
             }
             if (this.response && this.response.ok && this.response.body.username === username) {
