@@ -6,14 +6,14 @@ import { escapeHtml } from '../../core/util';
 import { CurrentUserProfile, noUserProfile } from './current-user-profile';
 
 @Component(
-    ['follow-author', Conduit__NS],
+    ['follow-author-btn', Conduit__NS],
     {
       feature: {
         needs: UserSupport,
       },
     },
 )
-export class FollowAuthorComponent {
+export class FollowAuthorBtnComponent {
 
   @StateProperty()
   private author: CurrentUserProfile = noUserProfile;

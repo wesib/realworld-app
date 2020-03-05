@@ -14,7 +14,7 @@ conduit-article.loaded#{$conduit-ns} {
     }
 
     // Set follow/favorite buttons to lower opacity until hovered
-    conduit-follow-author, conduit-favorite-post {
+    conduit-follow-author-btn, conduit-favorite-post-btn {
       opacity: 0.8;
 
       &:hover {

@@ -14,7 +14,7 @@ import { ApiResponse } from '../../core/api';
 import { Article, ArticleService, ArticlesSupport } from '../../core/articles';
 import { RenderLoader } from '../../core/loader';
 import { CurrentUserProfile, currentUserProfileBy, noUserProfile } from '../profile/current-user-profile';
-import { FollowAuthorComponent } from '../profile/follow-author.component';
+import { FollowAuthorBtnComponent } from '../profile/follow-author-btn.component';
 import { ArticleCommentsComponent } from './article-comments.component';
 import { ArticleContentComponent } from './article-content.component';
 import { ArticleButtonsSupport } from './buttons';
@@ -30,7 +30,7 @@ import { NewArticleCommentComponent } from './new-article-comment.component';
           ArticleContentComponent,
           ArticleButtonsSupport,
           ArticlesSupport,
-          FollowAuthorComponent,
+          FollowAuthorBtnComponent,
           NewArticleCommentComponent,
         ],
       },

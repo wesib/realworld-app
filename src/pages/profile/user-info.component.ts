@@ -1,14 +1,14 @@
 import { HierarchyContext } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
-import { FollowAuthorComponent } from './follow-author.component';
+import { FollowAuthorBtnComponent } from './follow-author-btn.component';
 import { CurrentUserProfile, noUserProfile } from './current-user-profile';
 
 @Component(
     ['user-info', Conduit__NS],
     {
       feature: {
-        needs: FollowAuthorComponent,
+        needs: FollowAuthorBtnComponent,
       },
     },
 )
