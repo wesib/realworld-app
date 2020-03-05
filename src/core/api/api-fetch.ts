@@ -47,10 +47,23 @@ export type ApiResponse<T> =
 
 export namespace ApiResponse {
 
-  export interface Ok<T = any> {
+  export type Any<T> =
+      | Success<T>
+      | None
+      | Failure;
+
+  export interface Success<T> {
     readonly ok: true;
-    readonly response: Response;
     readonly body: T;
+  }
+
+  export interface None {
+    readonly ok: true;
+    readonly body?: undefined;
+  }
+
+  export interface Ok<T> extends Success<T> {
+    readonly response: Response;
   }
 
   export interface Failure {
@@ -74,6 +87,12 @@ export const ApiFetch: ContextUpRef<ApiFetch, ApiFetch> = (
       byDefault: bootstrapDefault(newApiFetch),
     },
 ));
+
+export function notAuthenticatedError(): ApiResponse.Errors {
+  return {
+    authentication: ['absent'],
+  };
+}
 
 type RequestOrFailure =
     | { request: Request }
@@ -139,9 +158,7 @@ function authenticateApiRequest(
         if (!failure) {
           failure = {
             ok: false,
-            errors: {
-              api: ['Not authenticated'],
-            },
+            errors: notAuthenticatedError(),
           };
         }
         return { failure };

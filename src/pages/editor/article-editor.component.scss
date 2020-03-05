@@ -1,0 +1,17 @@
+conduit-article-editor {
+  display: contents;
+
+  &:not(.loaded#{$conduit-ns}) {
+    .page {
+      @extend .d-none;
+    }
+  }
+
+  .tag-list {
+    i {
+      font-size:0.6rem;
+      margin-right:5px;
+      cursor:pointer;
+    }
+  }
+}

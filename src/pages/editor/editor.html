@@ -7,26 +7,33 @@
 <conduit-container>
   {{>conduit-navbar}}
   <conduit-main>
-    <conduit-editor>
+    <conduit-article-editor>
       <div class="container page">
         <div class="row">
 
           <div class="col-md-10 offset-md-1 col-12">
-            <form>
-              <fieldset class="form-group">
-                <input class="form-control form-control-lg" type="text" placeholder="Post Title">
-              </fieldset>
-              <fieldset class="form-group">
+            <form novalidate>
+              <conduit-api-errors></conduit-api-errors>
+              <conduit-article-title>
+                <input class="form-control form-control-lg" type="text" placeholder="Post Title"/>
+                <conduit-in-error code="missing">Title is required</conduit-in-error>
+              </conduit-article-title>
+              <conduit-article-description>
+                <input class="form-control" type="text" placeholder="What's this article about?"/>
+                <conduit-in-error code="missing">Description is required</conduit-in-error>
+              </conduit-article-description>
+              <conduit-article-body>
                 <textarea class="form-control" rows="8" placeholder="Write your post (in markdown)"></textarea>
-              </fieldset>
-              <fieldset class="form-group">
+                <conduit-in-error code="missing">Empty post contents</conduit-in-error>
+              </conduit-article-body>
+              <conduit-article-tag-editor>
                 <input class="form-control" type="text" placeholder="Enter tags">
                 <div class="tag-list">
                   <span class="badge badge-pill badge-secondary"><i class="ion-close-round"></i> programming</span>
                   <span class="badge badge-pill badge-secondary"><i class="ion-close-round"></i> javascript</span>
                   <span class="badge badge-pill badge-secondary"><i class="ion-close-round"></i> webdev</span>
                 </div>
-              </fieldset>
+              </conduit-article-tag-editor>
               <button class="btn btn-lg btn-primary float-right">
                 Create Post
               </button>
@@ -35,7 +42,7 @@
 
         </div>
       </div>
-    </conduit-editor>
+    </conduit-article-editor>
   </conduit-main>
 </conduit-container>
 {{>conduit-footer}}

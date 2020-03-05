@@ -1,0 +1,5 @@
+conduit-article-description {
+  display: block;
+  @extend fieldset;
+  @extend .form-group;
+}

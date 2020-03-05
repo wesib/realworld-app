@@ -1,0 +1,5 @@
+conduit-article-title {
+  display: block;
+  @extend fieldset;
+  @extend .form-group;
+}

@@ -2,7 +2,7 @@ import { BootstrapContext, BootstrapWindow } from '@wesib/wesib';
 import { nextSkip } from 'call-thru';
 import { AfterEvent, afterSupplied, nextAfterEvent, OnEvent, trackValue, trackValueBy, ValueTracker } from 'fun-events';
 import { DomEventDispatcher } from 'fun-events/dom';
-import { ApiFetch, ApiRequest, ApiResponse } from '../api';
+import { ApiFetch, ApiRequest, ApiResponse, notAuthenticatedError } from '../api';
 import { AuthService, LoginRequest, RegisterRequest, UpdateSettingsRequest } from './auth-service';
 import { Authentication, AuthToken, AuthUser, NotAuthenticated } from './authentication';
 
@@ -39,7 +39,13 @@ export class AuthService$ extends AuthService {
     this.user = this._auth.read.keep.thru(
         auth => {
           if (!auth.token) {
-            return notAuthenticated; // No token. Can not authenticate
+            // No token. Can not authenticate.
+            return {
+              failure: {
+                ok: false,
+                errors: notAuthenticatedError(),
+              },
+            };
           }
           if (auth.email) {
             // User authenticated.
