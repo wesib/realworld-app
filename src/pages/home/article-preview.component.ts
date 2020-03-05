@@ -1,11 +1,12 @@
 import { HandleNavLinks, HierarchyContext } from '@wesib/generic';
-import { Component, ComponentContext, DomProperty, isElement } from '@wesib/wesib';
+import { BootstrapWindow, Component, ComponentContext, DomProperty, isElement, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
 import { Article } from '../../core/articles';
-import { escapeHtml } from '../../core/util';
+import { AuthService, AuthUser, notAuthenticated, NotAuthenticated } from '../../core/auth';
 import { RenderHTML } from '../../reusable';
 import { ArticleMetaComponentsSupport } from '../article/article-meta-components-support.feature';
 import { CurrentArticle, CurrentArticleTracker, NoArticle } from '../article/current-article';
+import { ArticlePreviewModActionsComponent } from './article-preview-mod-actions.component';
 
 @Component(
     ['article-preview', Conduit__NS],
@@ -13,6 +14,7 @@ import { CurrentArticle, CurrentArticleTracker, NoArticle } from '../article/cur
       feature: {
         needs: [
           ArticleMetaComponentsSupport,
+          ArticlePreviewModActionsComponent,
         ],
       },
     },
@@ -44,11 +46,18 @@ export class ArticlePreviewComponent {
 
   private readonly _article = new CurrentArticleTracker();
 
-  constructor(context: ComponentContext) {
+  @StateProperty()
+  user: AuthUser | NotAuthenticated = notAuthenticated;
 
-    const hierarchy = context.get(HierarchyContext);
+  constructor(private readonly _context: ComponentContext) {
 
-    context.whenOn(supply => {
+    const authService = _context.get(AuthService);
+    const hierarchy = _context.get(HierarchyContext);
+
+    _context.whenOn(supply => {
+      authService.user
+          .tillOff(supply)(user => this.user = user)
+          .whenOff(() => this.user = notAuthenticated);
 
       const off = hierarchy.provide({ a: CurrentArticle, is: this._article });
 
@@ -66,24 +75,42 @@ export class ArticlePreviewComponent {
   }
 
   @RenderHTML()
-  postMeta(): string | undefined {
+  postMeta(): Node | undefined {
     if (!this.article.slug) {
       return;
     }
 
-    const postURL = `article/#/${encodeURIComponent(this.article.slug)}`;
+    const { author } = this.article;
+    const { document } = this._context.get(BootstrapWindow);
+    const fragment = document.createDocumentFragment();
+    const meta = fragment.appendChild(document.createElement('div'));
 
-    return `
-<div class="post-meta">
-<conduit-article-author></conduit-article-author>
-<conduit-favorite-post></conduit-favorite-post>
-</div>
-<a href="${postURL}" class="preview-link">
-<h1>${escapeHtml(this.article.title)}</h1>
-<p class="post-content">${escapeHtml(this.article.description)}</p>
-<span>Read more...</span>
-</a>
-`;
+    meta.className = 'post-meta';
+    meta.appendChild(document.createElement('conduit-article-author'));
+    if (this.user.username === author.username) {
+      meta.appendChild(document.createElement('conduit-article-preview-mod-actions'));
+    } else {
+      meta.appendChild(document.createElement('conduit-favorite-post'));
+    }
+
+    const previewLink = fragment.appendChild(document.createElement('a'));
+
+    previewLink.className = 'preview-link';
+    previewLink.setAttribute('href', `article/#/${encodeURIComponent(this.article.slug)}`);
+
+    const title = previewLink.appendChild(document.createElement('h1'));
+
+    title.innerText = this.article.title;
+
+    const description = previewLink.appendChild(document.createElement('p'));
+
+    description.innerText = this.article.description;
+
+    const readMore = previewLink.appendChild(document.createElement('span'));
+
+    readMore.innerText = 'Read more...';
+
+    return fragment;
   }
 
 }

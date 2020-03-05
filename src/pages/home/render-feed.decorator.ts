@@ -57,6 +57,9 @@ class RenderFeedState {
                 return nextOnEvent(feedService.articles(request));
               },
           )(response => this.response.it = response);
+      context.on('conduit:article')(
+          () => this._request.it = { ...this._request.it }, // Reload articles
+      );
     });
   }
 

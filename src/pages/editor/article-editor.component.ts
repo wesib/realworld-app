@@ -1,6 +1,6 @@
 import { HierarchyContext, Navigation, PageHashURLParam } from '@wesib/generic';
 import { InputToForm, OnSubmit } from '@wesib/generic/input';
-import { Component, ComponentContext } from '@wesib/wesib';
+import { Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { afterAll, afterSent, afterThe, nextAfterEvent } from 'fun-events';
 import { InStatus, InSubmit, InSubmitError } from 'input-aspects';
 import { Conduit__NS } from '../../core';
@@ -43,19 +43,20 @@ export class ArticleEditorComponent {
   @RenderLoader()
   loadStatus?: LoadStatus;
 
-  private _article?: Article | NoArticle;
+  @StateProperty()
+  article: Article | NoArticle = noArticle;
 
-  constructor(context: ComponentContext) {
-    this._navigation = context.get(Navigation);
-    this._articleService = context.get(ArticleService);
+  constructor(private readonly _context: ComponentContext) {
+    this._navigation = _context.get(Navigation);
+    this._articleService = _context.get(ArticleService);
 
-    const authService = context.get(AuthService);
-    const hierarchy = context.get(HierarchyContext);
+    const authService = _context.get(AuthService);
+    const hierarchy = _context.get(HierarchyContext);
 
-    context.whenOn(supply => {
+    _context.whenOn(supply => {
       supply.whenOff(() => {
         this.loadStatus = undefined;
-        this._article = undefined;
+        this.article = noArticle;
       });
 
       this._navigation.read.tillOff(supply).keep.thru_(
@@ -64,11 +65,11 @@ export class ArticleEditorComponent {
           ),
           slug => nextAfterEvent(
               afterAll({
-                user: authService.user,
+                user: authService.requiredUser,
                 loaded: slug
-                    ? afterSent<[ApiResponse.Any<Article>]>(
+                    ? afterSent<[ApiResponse.Any<Article>?]>(
                         this._articleService.article(slug),
-                        () => [{ ok: true }],
+                        () => [],
                     )
                     : afterThe<[ApiResponse.Any<Article>]>({ ok: true }),
                 form: hierarchy.get(InputToForm),
@@ -80,8 +81,12 @@ export class ArticleEditorComponent {
             loaded: [loaded],
             form: [{ control: form }],
           }) => {
-            if (!user.username && user.failure) {
-              this.loadStatus = { ok: false, errors: user.failure.errors };
+            if (!user.username) {
+              this.loadStatus = user.failure ? { ok: false, errors: user.failure.errors } : undefined;
+              return;
+            }
+            if (!loaded) {
+              this.loadStatus = undefined;
               return;
             }
             if (!loaded.ok) {
@@ -89,7 +94,7 @@ export class ArticleEditorComponent {
               return;
             }
             this.loadStatus = loaded;
-            this._article = loaded.body ?? noArticle;
+            this.article = loaded.body ?? noArticle;
             if (form) {
               form.it = loaded.body ?? emptyArticleRequest();
             }
@@ -98,14 +103,25 @@ export class ArticleEditorComponent {
     });
   }
 
+  @Render()
+  render(): ElementRenderer {
+
+    const { element }: { element: Element } = this._context;
+    const button = element.querySelector('button')!;
+
+    return () => {
+      button.innerText = this.article.slug ? 'Update Post' : 'Create Post';
+    };
+  }
+
   @OnSubmit()
   submit({ control }: InputToForm<CreateArticleRequest>): void {
     control.aspect(InStatus).markEdited();
     control.aspect(InSubmit)
         .submit(
             request => apiSubmit<Article>(
-                this._article && this._article.slug
-                    ? this._articleService.updateArticle(this._article.slug, request)
+                this.article.slug
+                    ? this._articleService.updateArticle(this.article.slug, request)
                     : this._articleService.createArticle(request),
             ),
         )

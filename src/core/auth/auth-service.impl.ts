@@ -14,6 +14,7 @@ export class AuthService$ extends AuthService {
   private readonly _auth: ValueTracker<Authentication>;
   private readonly _token = trackValue<AuthToken | NotAuthenticated>(notAuthenticated);
   readonly user: AfterEvent<[AuthUser | NotAuthenticated]>;
+  readonly requiredUser: AfterEvent<[AuthUser | NotAuthenticated]>;
 
   get token(): AfterEvent<[AuthToken | NotAuthenticated]> {
     return this._token.read;
@@ -36,7 +37,7 @@ export class AuthService$ extends AuthService {
 
     let userRequest: [AuthToken | AuthUser, ValueTracker<AuthUser | NotAuthenticated>] | undefined;
 
-    this.user = this._auth.read.keep.thru(
+    this.requiredUser = this._auth.read.keep.thru(
         auth => {
           if (!auth.token) {
             // No token. Can not authenticate.
@@ -84,6 +85,7 @@ export class AuthService$ extends AuthService {
           return nextAfterEvent(tracker);
         },
     );
+    this.user = this.requiredUser.keep.thru(user => user.username ? user : notAuthenticated);
     this._auth.on(storeAuthToken);
     new DomEventDispatcher(window).on<StorageEvent>('storage')(({ key, newValue }) => {
       if (key === authTokenKey) {
