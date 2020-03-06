@@ -72,7 +72,7 @@ export class MultiInputComponent {
   @DomProperty()
   set values(values: readonly string[]) {
     this._values.clear();
-    this._values.delta(values);
+    this._values.delta(values || []);
   }
 
   get readonly(): boolean {
@@ -153,22 +153,32 @@ export class MultiInputComponent {
 
       return;
     };
+    const valueItem = (value: string): Element | undefined => {
+      for (const item of overArray(element.querySelectorAll('.item'))) {
+        if (item.textContent === value) {
+          return item;
+        }
+      }
+      return;
+    };
 
     return () => {
       this._values.redelta({
         add: value => {
+          if (!valueItem(value)) {
 
-          const item = document.createElement('div');
+            const item = document.createElement('div');
 
-          item.className = 'item';
-          item.textContent = value;
-          item.onclick = () => {
-            if (!this.readonly) {
-              this._delete(value);
-            }
-          };
+            item.className = 'item';
+            item.textContent = value;
+            item.onclick = () => {
+              if (!this.readonly) {
+                this._delete(value);
+              }
+            };
 
-          element.insertBefore(item, end);
+            element.insertBefore(item, end);
+          }
 
           // Remove value from datalist options.
           // Value is added back if an item is deleted (see _delete()).
@@ -176,11 +186,7 @@ export class MultiInputComponent {
         },
         delete: value => {
           // Remove item
-          for (const item of overArray(element.querySelectorAll('.item'))) {
-            if (item.textContent === value) {
-              item.remove();
-            }
-          }
+          valueItem(value)?.remove();
 
           // Add datalist option unless there is one already
           if (!valueOption(value)) {

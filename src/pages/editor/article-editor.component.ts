@@ -144,5 +144,6 @@ function emptyArticleRequest(): CreateArticleRequest {
     title: '',
     description: '',
     body: '',
+    tagList: [],
   };
 }
