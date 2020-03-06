@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
   <title>Conduit: Article</title>
-  <meta name="wesib-app-rev" content="1e2l7nvl3">
+  <meta name="wesib-app-rev" content="1e2np483a">
   <base href=".."/>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -65,12 +65,10 @@
                 <conduit-in-error code="missing">Empty post contents</conduit-in-error>
               </conduit-article-body>
               <conduit-article-tag-editor>
-                <input class="form-control" type="text" placeholder="Enter tags">
-                <div class="tag-list">
-                  <span class="badge badge-pill badge-secondary"><i class="ion-close-round"></i> programming</span>
-                  <span class="badge badge-pill badge-secondary"><i class="ion-close-round"></i> javascript</span>
-                  <span class="badge badge-pill badge-secondary"><i class="ion-close-round"></i> webdev</span>
-                </div>
+                <conduit-multi-input>
+                  <input class="form-control" type="text" placeholder="Enter tags" list="article:tag-list"/>
+                  <datalist id="article:tag-list"></datalist>
+                </conduit-multi-input>
               </conduit-article-tag-editor>
               <button class="btn btn-lg btn-primary float-right">
                 Post
@@ -91,5 +89,5 @@
     </span>
   </div>
 </conduit-footer>
-<script src="editor/main.e0689483.js" type="module"></script></body>
+<script src="editor/main.7a577ca8.js" type="module"></script></body>
 </html>
