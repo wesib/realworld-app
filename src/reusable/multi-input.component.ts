@@ -1,5 +1,5 @@
 import {
-  AttachShadow,
+  AttachShadow, AttributeChanged,
   BootstrapWindow,
   Component,
   ComponentContext,
@@ -75,6 +75,28 @@ export class MultiInputComponent {
     this._values.delta(values);
   }
 
+  get readonly(): boolean {
+    return this.input.disabled || this.input.readOnly;
+  }
+
+  @AttributeChanged('disabled')
+  setDisabled(value: string | null): void {
+    if (value != null) {
+      this.input.setAttribute('disabled', value);
+    } else {
+      this.input.removeAttribute('disabled');
+    }
+  }
+
+  @AttributeChanged('readonly')
+  setReadonly(value: string | null): void {
+    if (value != null) {
+      this.input.setAttribute('readonly', value);
+    } else {
+      this.input.removeAttribute('readonly');
+    }
+  }
+
   @Render()
   render(): ElementRenderer {
 
@@ -141,7 +163,9 @@ export class MultiInputComponent {
           item.className = 'item';
           item.textContent = value;
           item.onclick = () => {
-            this._delete(value);
+            if (!this.readonly) {
+              this._delete(value);
+            }
           };
 
           element.insertBefore(item, end);
