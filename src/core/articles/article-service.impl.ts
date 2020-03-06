@@ -1,6 +1,6 @@
 import { BootstrapContext, BootstrapWindow } from '@wesib/wesib';
 import { asis } from 'call-thru';
-import { OnEvent } from 'fun-events';
+import { afterThe, OnEvent } from 'fun-events';
 import { ApiFetch, ApiRequest, ApiResponse } from '../api';
 import { Article } from './article';
 import { ArticleService, CreateArticleRequest } from './article-service';
@@ -27,6 +27,9 @@ export class ArticleService$ implements ArticleService {
   }
 
   article(slug: string): OnEvent<[ApiResponse<Article>]> {
+    if (!slug) {
+      return afterThe<[ApiResponse.Failure]>({ ok: false, errors: { article: ['not found'] } });
+    }
 
     const apiRequest: ApiRequest<Article> = {
       path: `articles/${encodeURIComponent(slug)}`,
