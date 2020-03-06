@@ -1,0 +1,21 @@
+conduit-article-tags {
+  display: inline-block;
+  float: right;
+  max-width: 50%;
+  & > ul {
+    @extend .list-inline;
+    padding-left: 0 !important;
+    display: inline-block;
+    list-style: none !important;
+
+    & > li {
+      @extend .list-inline-item;
+
+      & > a {
+        @extend .badge;
+        @extend .badge-pill;
+        @extend .badge-light;
+      }
+    }
+  }
+}

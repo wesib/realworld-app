@@ -108,6 +108,7 @@ export class ArticlePreviewComponent {
     const readMore = previewLink.appendChild(document.createElement('span'));
 
     readMore.innerText = 'Read more...';
+    previewLink.appendChild(document.createElement('conduit-article-tags'));
 
     return fragment;
   }
