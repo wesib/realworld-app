@@ -1,0 +1,17 @@
+// This is a hack :^(.
+// ::slotted(input)::-webkit-calendar-picker-indicator doesn't work in any browser.
+// ::slotted() with ::after doesn't work in Safari.
+conduit-multi-input input::-webkit-calendar-picker-indicator {
+  display: none;
+}
+/* NB use of pointer-events to only allow events from the × icon */
+conduit-multi-input div.item::after {
+  color: black;
+  content: '×';
+  cursor: pointer;
+  font-size: 18px;
+  pointer-events: auto;
+  position: absolute;
+  right: 5px;
+  top: -1px;
+}

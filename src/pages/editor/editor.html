@@ -27,12 +27,10 @@
                 <conduit-in-error code="missing">Empty post contents</conduit-in-error>
               </conduit-article-body>
               <conduit-article-tag-editor>
-                <input class="form-control" type="text" placeholder="Enter tags">
-                <div class="tag-list">
-                  <span class="badge badge-pill badge-secondary"><i class="ion-close-round"></i> programming</span>
-                  <span class="badge badge-pill badge-secondary"><i class="ion-close-round"></i> javascript</span>
-                  <span class="badge badge-pill badge-secondary"><i class="ion-close-round"></i> webdev</span>
-                </div>
+                <conduit-multi-input>
+                  <input class="form-control" type="text" placeholder="Enter tags" list="article:tag-list"/>
+                  <datalist id="article:tag-list"></datalist>
+                </conduit-multi-input>
               </conduit-article-tag-editor>
               <button class="btn btn-lg btn-primary float-right">
                 Post
