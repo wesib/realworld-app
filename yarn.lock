@@ -76,11 +76,6 @@
   resolved "https://registry.yarnpkg.com/@types/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#1ee30d79544ca84d68d4b3cdb0af4f205663dd2d"
   integrity sha512-OCutwjDZ4aFS6PB1UZ988C4YgwlBHJd6wCeQqaLdmadZ/7e+w79+hbMUFC1QXDNCmdyoRfAFdm0RypzwR+Qpag==
 
-"@types/estree@*":
-  version "0.0.42"
-  resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.42.tgz#8d0c1f480339efedb3e46070e22dd63e0430dd11"
-  integrity sha512-K1DPVvnBCPxzD+G51/cxVIoc2X8uUVl1zpJeE6iKcgHMj4+tbat5Xu4TjV7v2QSDbIeAfLi2hIk+u2+s0MlpUQ==
-
 "@types/estree@0.0.39":
   version "0.0.39"
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.39.tgz#e177e699ee1b8c22d23174caaa7422644389509f"
@@ -97,9 +92,9 @@
   integrity sha512-WXdEKuT3azHxLTThd5dwnpLt2Q9QiC8iKj09KZRtVqro3pX8hhY+GbD8FZOae6SBBEJ22yKJn3c7ejL0aucAcA==
 
 "@types/node@*":
-  version "13.7.7"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.7.7.tgz#1628e6461ba8cc9b53196dfeaeec7b07fa6eea99"
-  integrity sha512-Uo4chgKbnPNlxQwoFmYIwctkQVkMMmsAoGGU4JKwLuvBefF0pCq4FybNSnfkfRCpC7ZW7kttcC/TrRtAJsvGtg==
+  version "13.9.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.9.0.tgz#5b6ee7a77faacddd7de719017d0bc12f52f81589"
+  integrity sha512-0ARSQootUG1RljH2HncpsY2TJBfGQIKOOi7kxzUY6z54ePu/ZD+wJA8zI2Q6v8rol2qpG/rvqsReco8zNMPvhQ==
 
 "@types/node@^12.12.25":
   version "12.12.29"
@@ -161,17 +156,17 @@
     semver "^6.3.0"
     tsutils "^3.17.1"
 
-"@wesib/generic@^1.0.0-alpha.91":
-  version "1.0.0-alpha.91"
-  resolved "https://registry.yarnpkg.com/@wesib/generic/-/generic-1.0.0-alpha.91.tgz#9e8281c03da36dea086371ad008bb08855966eb1"
-  integrity sha512-WSr1E/QEvMCzqGTRyIt8LtUp3BhNyqsb+pteEsl0+4VB+QRuY70CdXwXwUOuG6AuOsuzrthjpW6x12bw7Eg+wg==
+"@wesib/generic@^1.0.0-alpha.96":
+  version "1.0.0-alpha.96"
+  resolved "https://registry.yarnpkg.com/@wesib/generic/-/generic-1.0.0-alpha.96.tgz#7c83adece52a4570d4eda4ec11cbf2724e6625a4"
+  integrity sha512-zBOQgRKSC8eMDwjf7kujfkQjZSFT4b77bDdEah+TD5Ur6RwT3NA0bROaiJJId4OBivQuNfCM2P9JMqjUJQVOAw==
   dependencies:
     http-header-value "^2.0.2"
 
-"@wesib/wesib@^1.0.0-alpha.95":
-  version "1.0.0-alpha.95"
-  resolved "https://registry.yarnpkg.com/@wesib/wesib/-/wesib-1.0.0-alpha.95.tgz#a2dcf7bdb5585d59111f4539ec9f5ca2f503c19c"
-  integrity sha512-9bYKQ/mfHicAeqJeGLNjvyLt9GjiO5Lbv+oaB0mcDdW5claH8UjKtj4ZCJdadQNkdMJFgu/p7loLHeXwST6asg==
+"@wesib/wesib@^1.0.0-alpha.96":
+  version "1.0.0-alpha.96"
+  resolved "https://registry.yarnpkg.com/@wesib/wesib/-/wesib-1.0.0-alpha.96.tgz#e9f7edfe58f1c8648ffb62fd570546eb85b8b7b6"
+  integrity sha512-ytnSac20grN5hAX7Xeupg5yDxXA5/zgOlo1vx9FAgJ9610P2eEri7qx8AEyY/IW17q4mSR5IyNsbC2dDs6uqmw==
 
 a-iterable@^2.5.0:
   version "2.5.0"
@@ -811,10 +806,10 @@ fsevents@~2.1.2:
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.1.2.tgz#4c0a1fb34bc68e543b4b82a9ec392bfbda840805"
   integrity sha512-R4wDiBwZ0KzpgOWetKDug1FZcYhqYnUYKtfZYt4mD5SBz76q0KR4Q9o7GIPamsVPGmW3EYPPJ0dOOjvx32ldZA==
 
-fun-events@^7.4.4:
-  version "7.4.4"
-  resolved "https://registry.yarnpkg.com/fun-events/-/fun-events-7.4.4.tgz#a1b41b9d87bd9210e8005d664db4f8c4dc8fce16"
-  integrity sha512-6mJ1RDRXO+VdwtjgJqSBJY1xNT2OOGDpgaDul5naBNTN6zl8vPAMdCt2NBWUntWwz5XcWmgafbkjszmeG2RNjA==
+fun-events@^7.5.0:
+  version "7.5.0"
+  resolved "https://registry.yarnpkg.com/fun-events/-/fun-events-7.5.0.tgz#b3b57a196ddcfcdf0a4b89dca3a8cd737200c5f5"
+  integrity sha512-+Sy50ha3izucjkQhdCN7F4CQa9TpLamzp1OvJvVDZ0NcVD9ZMW1NYkg4SdCZIxrTFHLUHFOAFYJgVOHquDmhFQ==
 
 function-bind@^1.1.1:
   version "1.1.1"
@@ -1189,9 +1184,9 @@ lodash@^4.17.14, lodash@^4.17.15:
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
 
 magic-string@^0.25.2:
-  version "0.25.6"
-  resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.25.6.tgz#5586387d1242f919c6d223579cc938bf1420795e"
-  integrity sha512-3a5LOMSGoCTH5rbqobC2HuDNRtE2glHZ8J7pK+QZYppyWA36yuNpsX994rIY2nCuyP7CZYy7lQq/X2jygiZ89g==
+  version "0.25.7"
+  resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.25.7.tgz#3f497d6fd34c669c6798dcb821f2ef31f5445051"
+  integrity sha512-4CrMT5DOHTDk4HYDlzmwu4FVCcIYI8gauveasrdCu2IKIFOJ3f0v/8MDGJCDL9oD2ppz/Av1b0Nj345H9M+XIA==
   dependencies:
     sourcemap-codec "^1.4.4"
 
@@ -1647,14 +1642,12 @@ rollup-pluginutils@2.8.2, rollup-pluginutils@^2.8.2:
   dependencies:
     estree-walker "^0.6.1"
 
-rollup@^1.32.1:
-  version "1.32.1"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-1.32.1.tgz#4480e52d9d9e2ae4b46ba0d9ddeaf3163940f9c4"
-  integrity sha512-/2HA0Ec70TvQnXdzynFffkjA6XN+1e2pEv/uKS5Ulca40g2L7KuOE3riasHoNVHOsFD5KKZgDsMk1CP3Tw9s+A==
-  dependencies:
-    "@types/estree" "*"
-    "@types/node" "*"
-    acorn "^7.1.0"
+rollup@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.0.2.tgz#0f63aa02bb106802a387380ee88b90b5c0449eaa"
+  integrity sha512-99VIc2DHm+HEhdla2ASH/LaomWS3v7RDANamD65w24TQTNVs3vtRM+oiFsP4KvUCri5+p5Q5xoXscUnIdE8gJA==
+  optionalDependencies:
+    fsevents "~2.1.2"
 
 run-async@^2.4.0:
   version "2.4.0"
