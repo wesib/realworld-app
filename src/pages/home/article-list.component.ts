@@ -39,6 +39,7 @@ export class ArticleListComponent {
       if (!this.articles.articlesCount) {
         return;
       }
+      console.log('LIST');
 
       const fragment = document.createDocumentFragment();
 

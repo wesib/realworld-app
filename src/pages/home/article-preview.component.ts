@@ -78,6 +78,8 @@ export class ArticlePreviewComponent {
       return;
     }
 
+    console.log('[article', this.article.slug);
+
     const { author } = this.article;
     const { document } = this._context.get(BootstrapWindow);
     const fragment = document.createDocumentFragment();
@@ -109,6 +111,8 @@ export class ArticlePreviewComponent {
 
     readMore.innerText = 'Read more...';
     previewLink.appendChild(document.createElement('conduit-article-tags'));
+
+    console.log(']article', this.article.slug);
 
     return fragment;
   }

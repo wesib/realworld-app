@@ -54,6 +54,8 @@ export class ArticleAuthorComponent {
 
       const article = this.article;
 
+      console.log('[author', this.article.slug);
+
       let profileURL = '';
       let profileImage = '';
       let username = '';
@@ -84,6 +86,8 @@ export class ArticleAuthorComponent {
       } else {
         time.removeAttribute('datetime');
       }
+
+      console.log(']author', this.article.slug);
     };
   }
 
