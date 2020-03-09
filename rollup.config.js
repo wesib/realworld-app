@@ -30,9 +30,10 @@ export default {
       {},
   ),
   plugins: [
+    manualChunks, // Should be before any other resolution plugin!
     alias({
       entries: [
-        { find: 'marked', replacement: 'marked/lib/marked.esm.js' },
+        { find: 'marked', replacement: require.resolve('marked/lib/marked.esm.js') },
       ],
     }),
     ts({
@@ -44,7 +45,6 @@ export default {
     sourcemaps(),
     nodeResolve(),
     generateHtml,
-    manualChunks,
     terser({
       ecma: 6,
       module: true,

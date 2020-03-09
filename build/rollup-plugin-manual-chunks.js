@@ -1,38 +1,57 @@
 import path from 'path';
 import pkg from '../package.json';
 
-const chunksByDir = new Map();
+let chunksByDir;
 
 export default {
   name: 'manual-chunks',
-  buildStart() {
-    Object.keys(pkg.devDependencies).forEach(
-        dep => {
-          if (dep.startsWith('@types/')) {
-            return;
-          }
+  async resolveId() {
+    if (!chunksByDir) {
+      chunksByDir = new Map();
+      await Promise.all([
+        Object.keys(pkg.devDependencies)
+            .map(dep => {
+              if (dep.startsWith('@types/')) {
+                return Promise.resolve();
+              }
+              return this.resolve(dep, __filename, { skipSelf: true }).then(
+                  resolution => {
+                    if (!resolution) {
+                      return;
+                    }
 
-          const id = require.resolve(dep);
-          let dir = path.dirname(id);
+                    const { id } = resolution;
+                    let dir = path.dirname(id);
 
-          if (path.basename(dir) === 'dist') {
-            dir = path.dirname(dir);
-          }
+                    // Remove generic distribution sub-dirs
+                    if (path.basename(dir) === 'js') {
+                      dir = path.dirname(dir);
+                    }
+                    if (path.basename(dir) === 'lib') {
+                      dir = path.dirname(dir);
+                    }
+                    if (path.basename(dir) === 'dist') {
+                      dir = path.dirname(dir);
+                    }
 
-          let chunk;
+                    let chunk;
 
-          if (dep.startsWith('@')) {
+                    if (dep.startsWith('@')) {
 
-            const [group, module] = dep.split('/', 3);
+                      const [group, module] = dep.split('/', 3);
 
-            chunk = group.substring(1) + path.sep + module;
-          } else {
-            chunk = 'lib' + path.sep + dep;
-          }
+                      chunk = group.substring(1) + path.sep + module;
+                    } else {
+                      chunk = 'lib' + path.sep + dep;
+                    }
 
-          chunksByDir.set(dir + path.sep, chunk);
-        },
-    );
+                    chunksByDir.set(dir + path.sep, chunk);
+                  },
+              );
+            }),
+      ]);
+    }
+    return null;
   },
   options(options) {
     options.manualChunks = manualChunks;
@@ -41,8 +60,8 @@ export default {
 
     function manualChunks(id) {
       return helpersChunk()
-          || moduleChunk()
-          || coreChunk();
+          || coreChunk()
+          || moduleChunk();
 
       function helpersChunk() {
         return id.startsWith('\0') && 'helpers';
@@ -67,6 +86,9 @@ export default {
       }
 
       function moduleChunk() {
+        if (!chunksByDir) {
+          return;
+        }
         for (const [dir, chunk] of chunksByDir.entries()) {
           if (id.startsWith(dir)) {
             return chunk;
