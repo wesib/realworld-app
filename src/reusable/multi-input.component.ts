@@ -1,9 +1,11 @@
 import {
-  AttachShadow, AttributeChanged,
+  AttachShadow,
+  AttributeChanged,
   BootstrapWindow,
   Component,
   ComponentContext,
-  DomProperty, domPropertyPathTo,
+  DomProperty,
+  domPropertyPathTo,
   ElementRenderer,
   Render,
 } from '@wesib/wesib';
@@ -300,7 +302,7 @@ class MultiInputControl extends AbstractInElement<readonly string[], MultiInputC
   protected listenForInput(
       update: (input: InElement.Input<readonly string[]>) => void,
   ): void {
-    this.events.on<MultiInputEvent>('conduit:input')(event => {
+    this.events.on<MultiInputEvent>('conduit:input').to(event => {
       update({ event, value: event.detail });
     });
   }

@@ -53,8 +53,9 @@ export class ArticlePreviewComponent {
     const hierarchy = _context.get(HierarchyContext);
 
     _context.whenOn(supply => {
-      authService.user
-          .tillOff(supply)(user => this.user = user)
+      authService.user()
+          .tillOff(supply)
+          .to(user => this.user = user)
           .whenOff(() => this.user = notAuthenticated);
 
       const off = hierarchy.provide({ a: CurrentArticle, is: this._article });

@@ -25,7 +25,7 @@ export class ApiErrorsComponent {
                 return nextArgs(noApiErrors);
               }
               return nextAfterEvent(
-                  control.aspect(InValidation).read.keep.thru_(
+                  control.aspect(InValidation).read().keepThru_(
                       validity => validity.messages('api').reduce(
                           (prev, message) => ({
                             ...prev,
@@ -36,7 +36,8 @@ export class ApiErrorsComponent {
                   ),
               );
             },
-        )(errors => this.errors = errors);
+        )
+        .to(errors => this.errors = errors);
   }
 
   @Render()

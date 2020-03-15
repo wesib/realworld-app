@@ -12,7 +12,7 @@ export function UseConduitInput<T extends ComponentClass = Class>(
   return UseInputElement({
     ...def,
     makeControl(opts) {
-      return opts.context.get(HierarchyContext).get(InputToForm).keep.thru_(
+      return opts.context.get(HierarchyContext).get(InputToForm).keepThru_(
           ({ form }) => {
 
             const ctrl = def.makeControl(opts);
@@ -24,7 +24,7 @@ export function UseConduitInput<T extends ComponentClass = Class>(
               return augmentControl(ctrl);
             }
 
-            return nextAfterEvent(afterSupplied(ctrl).keep.thru_(
+            return nextAfterEvent(afterSupplied(ctrl).keepThru_(
                 (control, supply): NextCall<OnEventCallChain, [InControl<any>?, EventSupply?]> => {
                   if (!control) {
                     return nextArgs();

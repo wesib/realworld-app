@@ -3,8 +3,8 @@ import { BootstrapWindow, Component, ComponentContext, StateProperty } from '@we
 import { Conduit__NS } from '../../../core';
 import { ArticleService, ArticlesSupport } from '../../../core/articles';
 import { RenderHTML } from '../../../reusable';
-import { ArticleEvent } from './article-event';
 import { CurrentArticle, noArticle } from '../current-article';
+import { ArticleEvent } from './article-event';
 
 @Component(
     ['delete-post-btn', Conduit__NS],
@@ -26,7 +26,8 @@ export class DeletePostBtnComponent {
 
     _context.whenOn(supply => {
       hierarchy.get(CurrentArticle)
-          .tillOff(supply)(article => this.article = article)
+          .tillOff(supply)
+          .to(article => this.article = article)
           .whenOff(() => this.article = noArticle);
       _context.on('click').just(() => {
         if (this.article.slug) {

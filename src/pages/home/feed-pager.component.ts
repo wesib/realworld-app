@@ -21,7 +21,7 @@ export class FeedPagerComponent {
         param: hierarchy.get(FeedRequestPageParam),
         page: navigation,
         list: hierarchy.get(FeedArticleList),
-      }).tillOff(supply)(
+      }).tillOff(supply).to(
           ({
             param: [paramRef],
             page: [page],

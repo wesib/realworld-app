@@ -48,12 +48,12 @@ export class ArticleComponent {
     const navigation = _context.get(Navigation);
     const hierarchy = this._context.get(HierarchyContext);
     const article = new CurrentArticleTracker().byArticles(
-        this._response.read.keep.thru_(
+        this._response.read().keepThru_(
             response => response && response.ok ? response.body : noArticle,
         ),
     );
     const author = currentUserProfileBy(
-        this._response.read.keep.thru_(
+        this._response.read().keepThru_(
             response => response && response.ok ? response.body.author : noUserProfile,
         ),
     );
@@ -61,11 +61,11 @@ export class ArticleComponent {
     hierarchy.provide({ a: CurrentArticle, is: article });
     hierarchy.provide({ a: CurrentUserProfile, is: author });
     _context.whenOn(supply => {
-      navigation.read.tillOff(supply).consume(page => {
+      navigation.read().tillOff(supply).consume(page => {
 
         const slug = decodeURIComponent(page.get(PageHashURLParam).pathname.substring(1));
 
-        return articleService.article(slug)(response => this.response = response);
+        return articleService.article(slug).to(response => this.response = response);
       });
 
       _context.on('conduit:article').just(() => {

@@ -59,13 +59,13 @@ export class ArticleEditorComponent {
         this.article = noArticle;
       });
 
-      this._navigation.read.tillOff(supply).keep.thru_(
+      this._navigation.read().tillOff(supply).keepThru_(
           page => decodeURIComponent(
               page.get(PageHashURLParam).pathname.substring(1),
           ),
           slug => nextAfterEvent(
               afterAll({
-                user: authService.requiredUser,
+                user: authService.requireUser(),
                 loaded: slug
                     ? afterSent<[ApiResponse.Any<Article>?]>(
                         this._articleService.article(slug),
@@ -75,7 +75,7 @@ export class ArticleEditorComponent {
                 form: hierarchy.get(InputToForm),
               }),
           ),
-      )(
+      ).to(
           ({
             user: [user],
             loaded: [loaded],

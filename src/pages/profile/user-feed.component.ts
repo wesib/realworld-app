@@ -16,7 +16,7 @@ export class UserFeedComponent {
     const navigation = context.get(Navigation);
 
     context.whenOn(supply => {
-      navigation.read.tillOff(supply)(page => {
+      navigation.read().tillOff(supply).to(page => {
         this.request = page.get(PageUserProfileParam);
       });
     });

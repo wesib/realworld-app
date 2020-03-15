@@ -146,7 +146,7 @@ function authenticateApiRequest(
     auth?: true,
 ): AfterEvent<[RequestOrFailure]> {
   // Access by key to avoid circular dependencies during the build
-  return context.get(AuthService__key).token.keep.thru_(
+  return context.get(AuthService__key).token().keepThru_(
       ({ token, failure }) => {
         if (token) {
           request.headers.set('Authorization', `Token ${token}`);

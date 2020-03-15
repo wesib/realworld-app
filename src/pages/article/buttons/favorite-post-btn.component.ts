@@ -23,11 +23,11 @@ export class FavoritePostBtnComponent {
     const articleService = _context.get(ArticleService);
 
     _context.whenOn(supply => {
-      hierarchy.get(CurrentArticle).tillOff(supply)(article => {
+      hierarchy.get(CurrentArticle).tillOff(supply).to(article => {
         this.article = article;
       });
     });
-    _context.on('click')(() => {
+    _context.on('click').to(() => {
 
       const { article } = this;
 
@@ -39,7 +39,7 @@ export class FavoritePostBtnComponent {
           ...article,
           favorited: like,
         });
-        articleService.likeArticle(article.slug, like)(
+        articleService.likeArticle(article.slug, like).to(
             response => {
               if (this.article.slug) {
                 if (response.ok) {

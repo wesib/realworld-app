@@ -12,11 +12,11 @@ import { bootstrapCssError } from './bootstrap-css-error';
         ({ control: { control }, aspects, context }) => {
 
           const codes: AfterEvent<[string[]]> = trackAttribute(context, 'code')
-              .read.keep.thru_(
+              .read().keepThru_(
                   code => code ? code.trim().split(/\s+/) : [],
               );
 
-          return codes.keep.thru(
+          return codes.keepThru(
               when => control.convert(
                   InStyledElement.to(context.element),
                   aspects,

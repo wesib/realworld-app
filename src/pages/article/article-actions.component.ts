@@ -34,11 +34,13 @@ export class ArticleActionsComponent {
     const hierarchy = _context.get(HierarchyContext);
 
     _context.whenOn(supply => {
-      authService.user
-          .tillOff(supply)(user => this.user = user)
+      authService.user()
+          .tillOff(supply)
+          .to(user => this.user = user)
           .whenOff(() => this.user = notAuthenticated);
       hierarchy.get(CurrentArticle)
-          .tillOff(supply)(article => this.article = article)
+          .tillOff(supply)
+          .to(article => this.article = article)
           .whenOff(() => this.article = noArticle);
     });
   }

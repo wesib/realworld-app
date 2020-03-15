@@ -24,9 +24,10 @@ export class EditPostBtnComponent {
 
     _context.whenOn(supply => {
       hierarchy.get(CurrentArticle)
-          .tillOff(supply)(article => this.article = article)
+          .tillOff(supply)
+          .to(article => this.article = article)
           .whenOff(() => this.article = noArticle);
-      this._context.on('click')(() => {
+      this._context.on('click').to(() => {
         if (this.article.slug) {
           editArticle(this.article.slug);
         }

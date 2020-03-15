@@ -1,6 +1,6 @@
 import { BootstrapContext } from '@wesib/wesib';
 import { asis, nextArg, nextArgs, nextSkip } from 'call-thru';
-import { afterSupplied, OnEvent, onEventBy, trackValueBy } from 'fun-events';
+import { afterSupplied, EventReceiver, EventSupply, OnEvent, onEventBy, trackValueBy } from 'fun-events';
 import { ApiFetch, ApiRequest, ApiResponse } from '../api';
 import { FeedId, FeedRequest, feedRequestSearchParams } from './feed-request';
 import { ArticleList, FeedService } from './feed-service';
@@ -18,7 +18,6 @@ const feedSources: { readonly [id in FeedId]: FeedSource } = {
 export class FeedService$ implements FeedService {
 
   private readonly _apiFetch: ApiFetch;
-  private _tags?: OnEvent<string[]>;
 
   constructor(context: BootstrapContext) {
     this._apiFetch = context.get(ApiFetch);
@@ -43,14 +42,13 @@ export class FeedService$ implements FeedService {
     return this._apiFetch(apiRequest);
   }
 
-  tags(): OnEvent<string[]> {
-    if (this._tags) {
-      return this._tags;
-    }
+  tags(): OnEvent<string[]>;
+  tags(receiver: EventReceiver<string[]>): EventSupply;
+  tags(receiver?: EventReceiver<string[]>): OnEvent<string[]> | EventSupply {
 
     let onTags: OnEvent<string[]> | undefined;
 
-    return this._tags = onEventBy(receiver => {
+    return (this.tags = onEventBy(receiver => {
       if (!onTags) {
 
         const apiRequest: ApiRequest<string[]> = {
@@ -78,13 +76,13 @@ export class FeedService$ implements FeedService {
             afterSupplied<[string[]?]>(onTagsLoad, () => []),
         );
 
-        onTags = tags.read.thru_(
+        onTags = tags.read().thru_(
             tagList => tagList ? nextArgs(...tagList) : nextSkip,
         );
       }
 
-      onTags(receiver);
-    });
+      onTags.to(receiver);
+    }).F)(receiver);
   }
 
 }

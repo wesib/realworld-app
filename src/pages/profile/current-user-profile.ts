@@ -31,7 +31,7 @@ export function currentUserProfileBy(
 ): ValueTracker<CurrentUserProfile> {
 
   const currentProfile = trackValueBy<CurrentUserProfile>(
-      afterSupplied(source).keep.thru_(
+      afterSupplied(source).keepThru_(
           profile => {
             if (profile.username == null) {
               return profile;

@@ -42,22 +42,24 @@ class RenderFeedState {
     this.response.on((newResponse, oldResponse) => context.updateState(path, newResponse, oldResponse));
     context.get(HierarchyContext).provide({
       a: FeedArticleList,
-      is: this.response.read.keep.thru_(
+      is: this.response.read().keepThru_(
           response => response?.ok
               ? response.body
               : { articles: [], articlesCount: 0 },
       ),
     });
     context.whenOn(supply => {
-      this._request.read
+      this._request.read()
           .tillOff(supply)
           .thru_(
               request => {
                 this.response.it = undefined;
                 return nextOnEvent(feedService.articles(request));
               },
-          )(response => this.response.it = response);
-      context.on('conduit:article')(
+          ).to(
+              response => this.response.it = response,
+          );
+      context.on('conduit:article').to(
           () => this._request.it = { ...this._request.it }, // Reload articles
       );
     });

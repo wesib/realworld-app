@@ -32,14 +32,17 @@ export class ArticleCommentComponent {
     const hierarchy = _context.get(HierarchyContext);
 
     _context.whenOn(supply => {
-      authService.user
-          .tillOff(supply)(user => this.user = user)
+      authService.user()
+          .tillOff(supply)
+          .to(user => this.user = user)
           .whenOff(() => this.user = notAuthenticated);
       hierarchy.get(CurrentArticle)
-          .tillOff(supply)(article => this.article = article)
+          .tillOff(supply)
+          .to(article => this.article = article)
           .whenOff(() => this.article = noArticle);
       hierarchy.get(InputFromControl)
-          .tillOff(supply)(form => this.form = form)
+          .tillOff(supply)
+          .to(form => this.form = form)
           .whenOff(() => this.form = {});
     });
   }

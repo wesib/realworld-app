@@ -25,9 +25,9 @@ export class FeedToggleComponent {
 
     _context.whenOn(supply => {
       afterAll({
-        auth: authService.authentication,
+        auth: authService.authentication(),
         page: navigation,
-      }).tillOff(supply)(
+      }).tillOff(supply).to(
           ({
             auth: [{ token }],
             page: [page],

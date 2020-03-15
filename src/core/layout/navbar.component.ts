@@ -19,8 +19,9 @@ export class NavbarComponent {
     const authService = _context.get(AuthService);
 
     _context.whenOn(supply => {
-      authService.user
-          .tillOff(supply)(user => this.user = user)
+      authService.user()
+          .tillOff(supply)
+          .to(user => this.user = user)
           .whenOff(() => this.user = notAuthenticated);
     });
   }
@@ -46,7 +47,7 @@ export class NavbarComponent {
 
         const logout = createItem('', 'ion-log-out', '');
 
-        new DomEventDispatcher(logout).on('click')(() => {
+        new DomEventDispatcher(logout).on('click').to(() => {
           authService.logout();
         });
         range.insertNode(logout);

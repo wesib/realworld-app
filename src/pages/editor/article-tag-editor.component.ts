@@ -32,7 +32,8 @@ export class ArticleTagEditorComponent {
     _context.whenOn(supply => {
       _context.get(FeedService)
           .tags()
-          .tillOff(supply)((...tags) => this.tags = tags)
+          .tillOff(supply)
+          .to((...tags) => this.tags = tags)
           .whenOff(() => this.tags = []);
     });
   }

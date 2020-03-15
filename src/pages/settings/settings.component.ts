@@ -59,7 +59,7 @@ export class SettingsComponent {
     this._authService = _context.get(AuthService);
 
     this._context.whenOn(supply => {
-      this._authService.loadUser().tillOff(supply)(
+      this._authService.loadUser().tillOff(supply).to(
           response => {
             this.loadStatus = response;
             if (response && response.ok) {

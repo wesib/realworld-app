@@ -37,7 +37,7 @@ export class UserFeedToggleComponent {
       afterAll({
         page: navigation,
         links: context.get(ComponentNode).select('a', { all: true, deep: true }),
-      }).tillOff(supply)(
+      }).tillOff(supply).to(
           ({
             page: [page],
             links: [links],

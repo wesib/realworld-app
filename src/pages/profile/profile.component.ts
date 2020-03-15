@@ -34,14 +34,14 @@ export class ProfileComponent {
     const navigation = context.get(Navigation);
     const hierarchy = context.get(HierarchyContext);
     const profile = currentUserProfileBy(
-        this._response.read.keep.thru_(
+        this._response.read().keepThru_(
             response => response && response.ok ? response.body : noUserProfile,
         ),
     );
 
     hierarchy.provide({ a: CurrentUserProfile, is: profile });
     context.whenOn(supply => {
-      navigation.read
+      navigation.read()
           .thru_(
               page => {
 
@@ -59,7 +59,7 @@ export class ProfileComponent {
             if (this.response && this.response.ok && this.response.body.username === username) {
               return; // User didn't change
             }
-            return userService.userProfile(username)(response => this.response = response);
+            return userService.userProfile(username).to(response => this.response = response);
           });
     });
   }

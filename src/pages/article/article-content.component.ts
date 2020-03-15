@@ -18,7 +18,7 @@ export class ArticleContentComponent {
 
     _context.whenOn(supply => {
       supply.whenOff(() => this.content = undefined);
-      hierarchy.get(CurrentArticle).tillOff(supply)(article => {
+      hierarchy.get(CurrentArticle).tillOff(supply).to(article => {
         if (article.slug) {
           articleService.htmlContents(article)
               .then(content => {

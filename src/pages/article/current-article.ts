@@ -1,10 +1,12 @@
 import { SingleContextUpKey, SingleContextUpRef } from 'context-values/updatable';
 import {
+  EventReceiver,
   EventSupplier,
   EventSupply,
   EventSupply__symbol,
   eventSupplyOf,
-  OnEvent, onSupplied,
+  OnEvent,
+  onSupplied,
   trackValue,
   ValueTracker,
 } from 'fun-events';
@@ -36,10 +38,6 @@ export class CurrentArticleTracker extends ValueTracker<CurrentArticle> {
 
   private readonly _it = trackValue<CurrentArticle>(noArticle);
 
-  get on(): OnEvent<[CurrentArticle, CurrentArticle]> {
-    return this._it.on;
-  }
-
   get [EventSupply__symbol](): EventSupply {
     return eventSupplyOf(this._it);
   }
@@ -50,6 +48,14 @@ export class CurrentArticleTracker extends ValueTracker<CurrentArticle> {
 
   set it(value: CurrentArticle) {
     this._it.it = value;
+  }
+
+  on(): OnEvent<[CurrentArticle, CurrentArticle]>;
+  on(receiver: EventReceiver<[CurrentArticle, CurrentArticle]>): EventSupply;
+  on(
+      receiver?: EventReceiver<[CurrentArticle, CurrentArticle]>,
+  ): OnEvent<[CurrentArticle, CurrentArticle]> | EventSupply {
+    return (this.on = this._it.on().F)(receiver);
   }
 
   set(article: Article | NoArticle): void {

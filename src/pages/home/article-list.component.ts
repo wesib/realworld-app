@@ -22,7 +22,7 @@ export class ArticleListComponent {
     const hierarchy = _context.get(HierarchyContext);
 
     _context.whenOn(supply => {
-      hierarchy.get(FeedArticleList).tillOff(supply)(list => this.articles = list);
+      hierarchy.get(FeedArticleList).tillOff(supply).to(list => this.articles = list);
     });
   }
 

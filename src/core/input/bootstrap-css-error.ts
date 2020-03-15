@@ -18,7 +18,7 @@ export function bootstrapCssError(
     return afterAll({
       status: control.aspect(InStatus),
       validity: control.aspect(InValidation),
-    }).keep.thru(
+    }).keepThru(
         ({
           status: [{ touched, hasFocus }],
           validity: [validity],

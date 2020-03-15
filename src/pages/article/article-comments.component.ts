@@ -39,7 +39,7 @@ export class ArticleCommentsComponent {
     const hierarchy = this._context.get(HierarchyContext);
 
     this._context.whenOn(supply => {
-      this._context.on<CommentEvent>('conduit:comment')(({ detail: { added, removed } }) => {
+      this._context.on<CommentEvent>('conduit:comment').to(({ detail: { added, removed } }) => {
         if (added) {
           this.comments = [added, ...this.comments];
         } else {
@@ -59,7 +59,7 @@ export class ArticleCommentsComponent {
 
             return nextOnEvent(commentService.articleComments(article.slug));
           },
-      )(response => {
+      ).to(response => {
         this.response = response;
         if (response.ok) {
           this.comments = response.body.comments;

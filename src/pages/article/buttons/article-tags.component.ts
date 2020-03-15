@@ -21,7 +21,8 @@ export class ArticleTagsComponent {
 
     _context.whenOn(supply => {
       hierarchy.get(CurrentArticle)
-          .tillOff(supply)(article => this.tags = article.slug ? article.tagList : noTags)
+          .tillOff(supply)
+          .to(article => this.tags = article.slug ? article.tagList : noTags)
           .whenOff(() => this.tags = []);
     });
   }

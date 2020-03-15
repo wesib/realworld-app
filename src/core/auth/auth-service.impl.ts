@@ -1,6 +1,16 @@
 import { BootstrapContext, BootstrapWindow } from '@wesib/wesib';
-import { nextSkip } from 'call-thru';
-import { AfterEvent, afterSupplied, nextAfterEvent, OnEvent, trackValue, trackValueBy, ValueTracker } from 'fun-events';
+import { nextArg, nextSkip } from 'call-thru';
+import {
+  AfterEvent,
+  afterSent,
+  EventReceiver,
+  EventSupply,
+  nextAfterEvent,
+  OnEvent,
+  trackValue,
+  trackValueBy,
+  ValueTracker,
+} from 'fun-events';
 import { DomEventDispatcher } from 'fun-events/dom';
 import { ApiFetch, ApiRequest, ApiResponse, notAuthenticatedError } from '../api';
 import { AuthService, LoginRequest, RegisterRequest, UpdateSettingsRequest } from './auth-service';
@@ -13,16 +23,6 @@ export class AuthService$ extends AuthService {
 
   private readonly _auth: ValueTracker<Authentication>;
   private readonly _token = trackValue<AuthToken | NotAuthenticated>(notAuthenticated);
-  readonly user: AfterEvent<[AuthUser | NotAuthenticated]>;
-  readonly requiredUser: AfterEvent<[AuthUser | NotAuthenticated]>;
-
-  get token(): AfterEvent<[AuthToken | NotAuthenticated]> {
-    return this._token.read;
-  }
-
-  get authentication(): AfterEvent<[Authentication]> {
-    return this._auth.read;
-  }
 
   constructor(private readonly _context: BootstrapContext) {
     super();
@@ -31,22 +31,73 @@ export class AuthService$ extends AuthService {
     const storage = window.localStorage;
 
     this._auth = trackValue<Authentication>(toAuthentication(storage.getItem(authTokenKey)));
-    this._token.by(this._auth.read.thru_(
+    this._token.by(this.authentication().thru_(
         ({ token }) => this._token.it.token !== token ? { token } : nextSkip,
     ));
 
+    this._auth.on(storeAuthToken);
+    new DomEventDispatcher(window).on<StorageEvent>('storage').to(({ key, newValue }) => {
+      if (key === authTokenKey) {
+
+        const token = newValue || undefined;
+
+        if (this._auth.it.token !== token) {
+          this._auth.it = toAuthentication(token);
+        }
+      }
+    });
+
+    function storeAuthToken({ token }: Authentication): void {
+      if (token) {
+        storage.setItem(authTokenKey, token);
+      } else {
+        storage.removeItem(authTokenKey);
+      }
+    }
+  }
+
+  token(): AfterEvent<[AuthToken | NotAuthenticated]>;
+  token(receiver: EventReceiver<[AuthToken | NotAuthenticated]>): EventSupply;
+  token(
+      receiver?: EventReceiver<[AuthToken | NotAuthenticated]>,
+  ): AfterEvent<[AuthToken | NotAuthenticated]> | EventSupply {
+    return (this.token = this._token.read().F)(receiver);
+  }
+
+  authentication(): AfterEvent<[Authentication]>;
+  authentication(receiver: EventReceiver<[Authentication]>): EventSupply;
+  authentication(receiver?: EventReceiver<[Authentication]>): AfterEvent<[Authentication]> | EventSupply {
+    return (this.authentication = this._auth.read().F)(receiver);
+  }
+
+  user(): AfterEvent<[AuthUser | NotAuthenticated]>;
+  user(receiver: EventReceiver<[AuthUser | NotAuthenticated]>): EventSupply;
+  user(
+      receiver?: EventReceiver<[AuthUser | NotAuthenticated]>,
+  ): AfterEvent<[AuthUser | NotAuthenticated]> | EventSupply {
+    return (this.user = this.requireUser().keepThru(
+        user => user.username ? user : notAuthenticated,
+    ).F)(receiver);
+  }
+
+  requireUser(): AfterEvent<[AuthUser | NotAuthenticated]>;
+  requireUser(receiver: EventReceiver<[AuthUser | NotAuthenticated]>): EventSupply;
+  requireUser(
+      receiver?: EventReceiver<[AuthUser | NotAuthenticated]>,
+  ): AfterEvent<[AuthUser | NotAuthenticated]> | EventSupply {
+
     let userRequest: [AuthToken | AuthUser, ValueTracker<AuthUser | NotAuthenticated>] | undefined;
 
-    this.requiredUser = this._auth.read.keep.thru(
+    return (this.requireUser = this.authentication().keepThru(
         auth => {
           if (!auth.token) {
             // No token. Can not authenticate.
-            return {
+            return nextArg<NotAuthenticated>({
               failure: {
                 ok: false,
                 errors: notAuthenticatedError(),
               },
-            };
+            });
           }
           if (auth.email) {
             // User authenticated.
@@ -71,8 +122,8 @@ export class AuthService$ extends AuthService {
           }
 
           // Request user settings.
-          const tracker = trackValueBy(
-              afterSupplied<[AuthUser | NotAuthenticated]>(
+          const tracker = trackValueBy<AuthUser | NotAuthenticated>(
+              afterSent<[AuthUser | NotAuthenticated]>(
                   this.loadUser().thru_(
                       response => response.ok ? response.body : { failure: response },
                   ),
@@ -84,27 +135,7 @@ export class AuthService$ extends AuthService {
 
           return nextAfterEvent(tracker);
         },
-    );
-    this.user = this.requiredUser.keep.thru(user => user.username ? user : notAuthenticated);
-    this._auth.on(storeAuthToken);
-    new DomEventDispatcher(window).on<StorageEvent>('storage')(({ key, newValue }) => {
-      if (key === authTokenKey) {
-
-        const token = newValue || undefined;
-
-        if (this._auth.it.token !== token) {
-          this._auth.it = toAuthentication(token);
-        }
-      }
-    });
-
-    function storeAuthToken({ token }: Authentication): void {
-      if (token) {
-        storage.setItem(authTokenKey, token);
-      } else {
-        storage.removeItem(authTokenKey);
-      }
-    }
+    ).F)(receiver);
   }
 
   login(request: LoginRequest): OnEvent<[ApiResponse<AuthUser>]> {
