@@ -1,6 +1,6 @@
+import { inText, InValidation, requirePresent } from '@proc7ts/input-aspects';
 import { SetInputName } from '@wesib/generic/input';
 import { Component } from '@wesib/wesib';
-import { inText, InValidation, requirePresent } from 'input-aspects';
 import { Conduit__NS } from '../../core';
 import { UseConduitInput } from '../../core/input';
 

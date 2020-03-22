@@ -1,3 +1,4 @@
+import { StatePath } from '@proc7ts/fun-events';
 import { HandleNavLinks } from '@wesib/generic';
 import {
   BootstrapWindow,
@@ -7,7 +8,6 @@ import {
   ComponentProperty,
   ComponentPropertyDecorator,
 } from '@wesib/wesib';
-import { StatePath } from 'fun-events';
 import { RenderHTML } from './render-html.decorator';
 
 export type PagingInfo =

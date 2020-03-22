@@ -1,3 +1,7 @@
+import { overArray } from '@proc7ts/a-iterable';
+import { DeltaSet } from '@proc7ts/delta-set';
+import { AbstractInElement, InElement } from '@proc7ts/input-aspects';
+import { InConverter } from '@proc7ts/input-aspects/d.ts/converter';
 import {
   AttachShadow,
   AttributeChanged,
@@ -9,10 +13,6 @@ import {
   ElementRenderer,
   Render,
 } from '@wesib/wesib';
-import { overArray } from 'a-iterable';
-import { DeltaSet } from 'delta-set';
-import { AbstractInElement, InElement } from 'input-aspects';
-import { InConverter } from 'input-aspects/d.ts/converter';
 import { Conduit__NS } from '../core';
 
 export class MultiInputEvent extends CustomEvent<readonly string[]> {

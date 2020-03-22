@@ -1,5 +1,5 @@
+import { SingleContextUpKey, SingleContextUpRef } from '@proc7ts/context-values/updatable';
 import { PageParam } from '@wesib/generic';
-import { SingleContextUpKey, SingleContextUpRef } from 'context-values/updatable';
 import { FeedRequest } from '../../core/feed';
 import { PageFeedParam } from './page-feed-param';
 

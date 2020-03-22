@@ -1,6 +1,6 @@
+import { trackValue } from '@proc7ts/fun-events';
 import { HierarchyContext, Navigation } from '@wesib/generic';
 import { Component, ComponentContext } from '@wesib/wesib';
-import { trackValue } from 'fun-events';
 import { Conduit__NS } from '../../core';
 import { ApiResponse, notAuthenticatedError } from '../../core/api';
 import { RenderLoader } from '../../core/loader';

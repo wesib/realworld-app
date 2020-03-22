@@ -1,3 +1,6 @@
+import { StatePath } from '@proc7ts/fun-events';
+import { css__naming, QualifiedName } from '@proc7ts/namespace-aliaser';
+import { RenderExecution } from '@proc7ts/render-scheduler';
 import {
   ComponentClass,
   ComponentContext,
@@ -8,9 +11,6 @@ import {
   ElementRenderer,
   Render,
 } from '@wesib/wesib';
-import { StatePath } from 'fun-events';
-import { css__naming, QualifiedName } from 'namespace-aliaser';
-import { RenderExecution } from 'render-scheduler';
 import { ApiErrorGenerator, RenderHTML } from '../../reusable';
 import { ApiResponse } from '../api';
 import { Conduit__NS } from '../conduit.ns';

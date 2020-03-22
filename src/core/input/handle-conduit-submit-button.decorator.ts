@@ -1,8 +1,8 @@
+import { afterAll } from '@proc7ts/fun-events';
+import { inSubmitButton } from '@proc7ts/input-aspects';
 import { ComponentNode, ComponentTreeSupport, ElementPickMode, HierarchyContext } from '@wesib/generic';
 import { DefaultInAspects, InputToForm } from '@wesib/generic/input';
 import { Class, Component, ComponentClass, ComponentDecorator } from '@wesib/wesib';
-import { afterAll } from 'fun-events';
-import { inSubmitButton } from 'input-aspects';
 
 export function HandleConduitSubmitButton<T extends ComponentClass = Class>(
     {

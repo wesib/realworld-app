@@ -1,4 +1,4 @@
-import { SingleContextUpKey, SingleContextUpRef } from 'context-values/updatable';
+import { SingleContextUpKey, SingleContextUpRef } from '@proc7ts/context-values/updatable';
 import { ArticleList } from '../../core/feed';
 
 export type FeedArticleList = ArticleList;

@@ -1,7 +1,7 @@
+import { AfterEvent } from '@proc7ts/fun-events';
+import { InCssClasses, inCssInfo, InStyledElement } from '@proc7ts/input-aspects';
 import { ConvertInput } from '@wesib/generic/input';
 import { Attributes, Component, trackAttribute } from '@wesib/wesib';
-import { AfterEvent } from 'fun-events';
-import { InCssClasses, inCssInfo, InStyledElement } from 'input-aspects';
 import { Conduit__NS } from '../conduit.ns';
 import { bootstrapCssError } from './bootstrap-css-error';
 

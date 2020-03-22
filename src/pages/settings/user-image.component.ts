@@ -1,6 +1,6 @@
+import { inText } from '@proc7ts/input-aspects';
 import { SetInputName } from '@wesib/generic/input';
 import { Component } from '@wesib/wesib';
-import { inText } from 'input-aspects';
 import { Conduit__NS } from '../../core';
 import { UseConduitInput } from '../../core/input';
 

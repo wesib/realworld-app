@@ -1,6 +1,6 @@
+import { DomEventDispatcher } from '@proc7ts/fun-events/dom';
 import { ActivateNavLink, HandleNavLinks } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
-import { DomEventDispatcher } from 'fun-events/dom';
 import { AuthService, AuthUser, notAuthenticated, NotAuthenticated } from '../auth';
 import { Conduit__NS } from '../conduit.ns';
 

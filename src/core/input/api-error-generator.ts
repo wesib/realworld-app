@@ -1,6 +1,6 @@
+import { AIterable, overEntries } from '@proc7ts/a-iterable';
+import { FnContextKey, FnContextRef } from '@proc7ts/context-values/updatable';
 import { bootstrapDefault, BootstrapWindow } from '@wesib/wesib';
-import { AIterable, overEntries } from 'a-iterable';
-import { FnContextKey, FnContextRef } from 'context-values/updatable';
 import { ApiResponse } from '../api';
 
 export type ApiErrorGenerator = (this: void, errors: ApiResponse.Errors) => Element | undefined;

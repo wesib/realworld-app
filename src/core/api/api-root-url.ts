@@ -1,4 +1,4 @@
-import { SingleContextUpKey, SingleContextUpRef } from 'context-values/updatable';
+import { SingleContextUpKey, SingleContextUpRef } from '@proc7ts/context-values/updatable';
 
 export type ApiRootURL = URL;
 

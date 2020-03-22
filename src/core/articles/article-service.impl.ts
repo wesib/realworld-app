@@ -1,11 +1,11 @@
+import { asis } from '@proc7ts/call-thru';
+import { afterThe, OnEvent } from '@proc7ts/fun-events';
 import { BootstrapContext, BootstrapWindow } from '@wesib/wesib';
-import { asis } from 'call-thru';
-import { afterThe, OnEvent } from 'fun-events';
+import DOMPurify from 'dompurify';
+import marked from 'marked';
 import { ApiFetch, ApiRequest, ApiResponse } from '../api';
 import { Article } from './article';
 import { ArticleService, CreateArticleRequest } from './article-service';
-import marked from 'marked';
-import DOMPurify from 'dompurify';
 
 export class ArticleService$ implements ArticleService {
 

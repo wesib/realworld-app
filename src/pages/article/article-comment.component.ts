@@ -1,8 +1,8 @@
+import { DomEventDispatcher } from '@proc7ts/fun-events/dom';
+import { InSubmit, inSubmitButton, InSubmitError } from '@proc7ts/input-aspects';
 import { HierarchyContext } from '@wesib/generic';
 import { InputFromControl, NoInputFromControl } from '@wesib/generic/input';
 import { BootstrapWindow, Component, ComponentContext, DomProperty, StateProperty } from '@wesib/wesib';
-import { DomEventDispatcher } from 'fun-events/dom';
-import { InSubmit, inSubmitButton, InSubmitError } from 'input-aspects';
 import { Conduit__NS } from '../../core';
 import { apiSubmit } from '../../core/api';
 import { AuthService, AuthUser, notAuthenticated, NotAuthenticated } from '../../core/auth';

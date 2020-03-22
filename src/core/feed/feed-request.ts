@@ -1,5 +1,5 @@
-import { itsEach, thruIt } from 'a-iterable';
-import { NextSkip, nextSkip } from 'call-thru';
+import { itsEach, thruIt } from '@proc7ts/a-iterable';
+import { NextSkip, nextSkip } from '@proc7ts/call-thru';
 
 export type FeedId = '/personal-feed' | '/global-feed';
 

@@ -1,5 +1,4 @@
-import { BootstrapContext, BootstrapWindow } from '@wesib/wesib';
-import { nextArg, nextSkip } from 'call-thru';
+import { nextArg, nextSkip } from '@proc7ts/call-thru';
 import {
   AfterEvent,
   afterSent,
@@ -10,8 +9,9 @@ import {
   trackValue,
   trackValueBy,
   ValueTracker,
-} from 'fun-events';
-import { DomEventDispatcher } from 'fun-events/dom';
+} from '@proc7ts/fun-events';
+import { DomEventDispatcher } from '@proc7ts/fun-events/dom';
+import { BootstrapContext, BootstrapWindow } from '@wesib/wesib';
 import { ApiFetch, ApiRequest, ApiResponse, notAuthenticatedError } from '../api';
 import { AuthService, LoginRequest, RegisterRequest, UpdateSettingsRequest } from './auth-service';
 import { Authentication, AuthToken, AuthUser, NotAuthenticated } from './authentication';

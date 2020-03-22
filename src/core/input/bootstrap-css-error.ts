@@ -1,6 +1,6 @@
-import { nextArgs } from 'call-thru';
-import { afterAll, nextAfterEvent } from 'fun-events';
-import { InCssClasses, inCssError, InStatus, InValidation } from 'input-aspects';
+import { nextArgs } from '@proc7ts/call-thru';
+import { afterAll, nextAfterEvent } from '@proc7ts/fun-events';
+import { InCssClasses, inCssError, InStatus, InValidation } from '@proc7ts/input-aspects';
 
 export function bootstrapCssError(
     {

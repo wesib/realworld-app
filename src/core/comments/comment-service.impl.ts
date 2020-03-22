@@ -1,6 +1,6 @@
+import { asis } from '@proc7ts/call-thru';
+import { OnEvent } from '@proc7ts/fun-events';
 import { BootstrapContext } from '@wesib/wesib';
-import { asis } from 'call-thru';
-import { OnEvent } from 'fun-events';
 import { ApiFetch, ApiRequest, ApiResponse } from '../api';
 import { Comment } from './comment';
 import { CommentList, CommentService } from './comment-service';

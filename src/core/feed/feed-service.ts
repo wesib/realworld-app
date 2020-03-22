@@ -1,5 +1,5 @@
-import { ContextRef, SingleContextKey } from 'context-values';
-import { EventReceiver, EventSupply, OnEvent } from 'fun-events';
+import { ContextRef, SingleContextKey } from '@proc7ts/context-values';
+import { EventReceiver, EventSupply, OnEvent } from '@proc7ts/fun-events';
 import { ApiResponse } from '../api';
 import { Article } from '../articles';
 import { FeedRequest } from './feed-request';

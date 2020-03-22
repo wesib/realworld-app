@@ -11,6 +11,12 @@
 *.launch
 .settings/
 
+# Yarn cache
+/.yarn
+!.yarn/releases
+!.yarn/plugins
+.pnp.*
+
 # System Files
 .DS_Store
 Thumbs.db

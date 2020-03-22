@@ -1,7 +1,7 @@
+import { InStatus, InSubmit, InSubmitError } from '@proc7ts/input-aspects';
 import { HierarchyContext } from '@wesib/generic';
 import { InputToForm, OnSubmit } from '@wesib/generic/input';
 import { Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
-import { InStatus, InSubmit, InSubmitError } from 'input-aspects';
 import { Conduit__NS } from '../../core';
 import { apiSubmit } from '../../core/api';
 import { AuthService, AuthUser, notAuthenticated, NotAuthenticated } from '../../core/auth';

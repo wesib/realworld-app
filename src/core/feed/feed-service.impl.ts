@@ -1,6 +1,6 @@
+import { asis, nextArg, nextArgs, nextSkip } from '@proc7ts/call-thru';
+import { afterSupplied, EventReceiver, EventSupply, OnEvent, onEventBy, trackValueBy } from '@proc7ts/fun-events';
 import { BootstrapContext } from '@wesib/wesib';
-import { asis, nextArg, nextArgs, nextSkip } from 'call-thru';
-import { afterSupplied, EventReceiver, EventSupply, OnEvent, onEventBy, trackValueBy } from 'fun-events';
 import { ApiFetch, ApiRequest, ApiResponse } from '../api';
 import { FeedId, FeedRequest, feedRequestSearchParams } from './feed-request';
 import { ArticleList, FeedService } from './feed-service';

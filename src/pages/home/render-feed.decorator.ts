@@ -1,3 +1,6 @@
+import { noop } from '@proc7ts/call-thru';
+import { ContextKey, ContextKey__symbol, SingleContextKey } from '@proc7ts/context-values';
+import { nextOnEvent, StatePath, trackValue } from '@proc7ts/fun-events';
 import { HierarchyContext } from '@wesib/generic';
 import {
   BootstrapWindow,
@@ -9,9 +12,6 @@ import {
   ElementRenderer,
   Render,
 } from '@wesib/wesib';
-import { noop } from 'call-thru';
-import { ContextKey, ContextKey__symbol, SingleContextKey } from 'context-values';
-import { nextOnEvent, StatePath, trackValue } from 'fun-events';
 import { ApiResponse } from '../../core/api';
 import { ArticleList, FeedRequest, feedRequestsEqual, FeedService, FeedSupport } from '../../core/feed';
 import { LoadStatus, RenderLoader } from '../../core/loader';

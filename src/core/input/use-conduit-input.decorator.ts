@@ -1,9 +1,9 @@
+import { nextArgs, NextCall } from '@proc7ts/call-thru';
+import { afterSupplied, EventSupply, nextAfterEvent, OnEventCallChain } from '@proc7ts/fun-events';
+import { InControl, InCssClasses, inCssInfo, InMode } from '@proc7ts/input-aspects';
 import { HierarchyContext } from '@wesib/generic';
 import { InputToForm, UseInputElement, UseInputElementDef } from '@wesib/generic/input';
 import { Class, ComponentClass, ComponentDecorator } from '@wesib/wesib';
-import { nextArgs, NextCall } from 'call-thru';
-import { afterSupplied, EventSupply, nextAfterEvent, OnEventCallChain } from 'fun-events';
-import { InControl, InCssClasses, inCssInfo, InMode } from 'input-aspects';
 import { bootstrapCssError } from './bootstrap-css-error';
 
 export function UseConduitInput<T extends ComponentClass = Class>(

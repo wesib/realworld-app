@@ -1,6 +1,6 @@
+import { afterAll } from '@proc7ts/fun-events';
 import { HierarchyContext, Navigation } from '@wesib/generic';
 import { Component, ComponentContext } from '@wesib/wesib';
-import { afterAll } from 'fun-events';
 import { Conduit__NS } from '../../core';
 import { PagingInfo, RenderPager } from '../../reusable';
 import { FeedArticleList } from './feed-article-list';

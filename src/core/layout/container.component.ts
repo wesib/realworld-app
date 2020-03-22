@@ -1,3 +1,4 @@
+import { css__naming, QualifiedName } from '@proc7ts/namespace-aliaser';
 import {
   Component,
   ComponentContext,
@@ -6,7 +7,6 @@ import {
   Render,
   StateProperty,
 } from '@wesib/wesib';
-import { css__naming, QualifiedName } from 'namespace-aliaser';
 import { Authentication, AuthService } from '../auth';
 import { Conduit__NS } from '../conduit.ns';
 import { MainComponent } from './main.component';

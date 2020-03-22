@@ -1,5 +1,5 @@
-import { ContextKey, ContextKey__symbol } from 'context-values';
-import { AfterEvent, EventReceiver, EventSupply, OnEvent } from 'fun-events';
+import { ContextKey, ContextKey__symbol } from '@proc7ts/context-values';
+import { AfterEvent, EventReceiver, EventSupply, OnEvent } from '@proc7ts/fun-events';
 import { ApiResponse } from '../api';
 import { AuthService__key } from './auth-service.key.impl';
 import { Authentication, AuthToken, AuthUser, NotAuthenticated } from './authentication';

@@ -1,7 +1,7 @@
+import { ContextUpRef, FnContextKey } from '@proc7ts/context-values/updatable';
+import { OnEvent } from '@proc7ts/fun-events';
+import { InSubmit, InSubmitError } from '@proc7ts/input-aspects';
 import { BootstrapContext, bootstrapDefault } from '@wesib/wesib';
-import { ContextUpRef, FnContextKey } from 'context-values/updatable';
-import { OnEvent } from 'fun-events';
-import { InSubmit, InSubmitError } from 'input-aspects';
 import { ApiFetch, ApiRequest, ApiResponse } from './api-fetch';
 
 export type ApiSubmitter =

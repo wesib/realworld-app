@@ -1,5 +1,5 @@
+import { OnEvent } from '@proc7ts/fun-events';
 import { BootstrapContext } from '@wesib/wesib';
-import { OnEvent } from 'fun-events';
 import { ApiFetch, ApiRequest, ApiResponse } from '../api';
 import { UserProfile } from './user-profile';
 import { UserService } from './user-service';

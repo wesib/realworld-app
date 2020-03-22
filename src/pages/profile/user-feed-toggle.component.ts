@@ -1,3 +1,4 @@
+import { afterAll } from '@proc7ts/fun-events';
 import {
   ActivateNavLink,
   ComponentNode,
@@ -7,7 +8,6 @@ import {
   PageHashURLSupport,
 } from '@wesib/generic';
 import { Component, ComponentContext } from '@wesib/wesib';
-import { afterAll } from 'fun-events';
 import { Conduit__NS } from '../../core';
 import { FeedRequest } from '../../core/feed';
 import { PageUserProfileParam } from './page-user-profile-param';

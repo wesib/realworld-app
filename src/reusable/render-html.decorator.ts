@@ -1,3 +1,4 @@
+import { StatePath } from '@proc7ts/fun-events';
 import {
   BootstrapWindow,
   ComponentClass,
@@ -7,7 +8,6 @@ import {
   ElementRenderer,
   Render,
 } from '@wesib/wesib';
-import { StatePath } from 'fun-events';
 
 export function RenderHTML<T extends ComponentClass>(
     def: {

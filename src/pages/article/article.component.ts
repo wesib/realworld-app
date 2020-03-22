@@ -1,3 +1,4 @@
+import { trackValue } from '@proc7ts/fun-events';
 import { HandleNavLinks, HierarchyContext, Navigation, PageHashURLParam } from '@wesib/generic';
 import {
   BootstrapWindow,
@@ -8,7 +9,6 @@ import {
   StateProperty,
   statePropertyPathTo,
 } from '@wesib/wesib';
-import { trackValue } from 'fun-events';
 import { Conduit__NS } from '../../core';
 import { ApiResponse } from '../../core/api';
 import { Article, ArticleService } from '../../core/articles';
