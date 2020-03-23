@@ -36,7 +36,7 @@
     "dompurify": "^2.0.8",
     "eslint": "^6.8.0",
     "eslint-plugin-jest": "^23.8.2",
-    "fs-extra": "^8.1.0",
+    "fs-extra": "^9.0.0",
     "gh-pages": "^2.2.0",
     "glob": "^7.1.6",
     "handlebars": "^4.7.3",

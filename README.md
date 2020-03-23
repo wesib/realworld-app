@@ -27,4 +27,5 @@ Components implemented as custom elements. Wesib serves as a glue to make them w
 # Getting started
 
 1. `yarn install`
-2. `yarn start -o`
+2. `yarn build`
+3. `yarn start -o`
