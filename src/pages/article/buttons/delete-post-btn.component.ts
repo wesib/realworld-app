@@ -24,16 +24,13 @@ export class DeletePostBtnComponent {
     const articleService = _context.get(ArticleService);
     const hierarchy = _context.get(HierarchyContext);
 
-    _context.whenOn(supply => {
-      hierarchy.get(CurrentArticle)
-          .tillOff(supply)
-          .to(article => this.article = article)
-          .whenOff(() => this.article = noArticle);
-      _context.on('click').just(() => {
-        if (this.article.slug) {
-          deleteArticle(this.article.slug);
-        }
-      });
+    hierarchy.get(CurrentArticle)
+        .to(article => this.article = article)
+        .whenOff(() => this.article = noArticle);
+    _context.on('click').just(() => {
+      if (this.article.slug) {
+        deleteArticle(this.article.slug);
+      }
     });
 
     function deleteArticle(slug: string): void {

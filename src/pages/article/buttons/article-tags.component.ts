@@ -19,12 +19,9 @@ export class ArticleTagsComponent {
 
     const hierarchy = _context.get(HierarchyContext);
 
-    _context.whenOn(supply => {
-      hierarchy.get(CurrentArticle)
-          .tillOff(supply)
-          .to(article => this.tags = article.slug ? article.tagList : noTags)
-          .whenOff(() => this.tags = []);
-    });
+    hierarchy.get(CurrentArticle)
+        .to(article => this.tags = article.slug ? article.tagList : noTags)
+        .whenOff(() => this.tags = []);
   }
 
   @RenderHTML()

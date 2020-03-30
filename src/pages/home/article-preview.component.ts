@@ -52,16 +52,11 @@ export class ArticlePreviewComponent {
     const authService = _context.get(AuthService);
     const hierarchy = _context.get(HierarchyContext);
 
-    _context.whenOn(supply => {
-      authService.user()
-          .tillOff(supply)
-          .to(user => this.user = user)
-          .whenOff(() => this.user = notAuthenticated);
-
-      const off = hierarchy.provide({ a: CurrentArticle, is: this._article });
-
-      supply.whenOff(off);
-    });
+    authService.user()
+        .tillOff(_context)
+        .to(user => this.user = user)
+        .whenOff(() => this.user = notAuthenticated);
+    hierarchy.provide({ a: CurrentArticle, is: this._article });
   }
 
   get article(): Article | NoArticle {

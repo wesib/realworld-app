@@ -20,12 +20,12 @@ export function HandleConduitSubmitButton<T extends ComponentClass = Class>(
         const componentNode = context.get(ComponentNode);
         const hierarchy = context.get(HierarchyContext);
 
-        context.whenOn(supply => {
+        context.whenConnected(() => {
           afterAll({
             form: hierarchy.get(InputToForm),
             button: componentNode.select(select, pick).first(),
             aspects: context.get(DefaultInAspects),
-          }).tillOff(supply).consume(
+          }).tillOff(context).consume(
               ({
                 form: [{ control: form }],
                 button: [button],

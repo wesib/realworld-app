@@ -18,12 +18,10 @@ export class NavbarComponent {
 
     const authService = _context.get(AuthService);
 
-    _context.whenOn(supply => {
-      authService.user()
-          .tillOff(supply)
-          .to(user => this.user = user)
-          .whenOff(() => this.user = notAuthenticated);
-    });
+    authService.user()
+        .tillOff(_context)
+        .to(user => this.user = user)
+        .whenOff(() => this.user = notAuthenticated);
   }
 
   @Render()

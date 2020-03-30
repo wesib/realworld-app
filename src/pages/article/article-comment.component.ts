@@ -31,20 +31,18 @@ export class ArticleCommentComponent {
     const authService = _context.get(AuthService);
     const hierarchy = _context.get(HierarchyContext);
 
-    _context.whenOn(supply => {
-      authService.user()
-          .tillOff(supply)
-          .to(user => this.user = user)
-          .whenOff(() => this.user = notAuthenticated);
-      hierarchy.get(CurrentArticle)
-          .tillOff(supply)
-          .to(article => this.article = article)
-          .whenOff(() => this.article = noArticle);
-      hierarchy.get(InputFromControl)
-          .tillOff(supply)
-          .to(form => this.form = form)
-          .whenOff(() => this.form = {});
-    });
+    authService.user()
+        .tillOff(_context)
+        .to(user => this.user = user)
+        .whenOff(() => this.user = notAuthenticated);
+    hierarchy.get(CurrentArticle)
+        .tillOff(_context)
+        .to(article => this.article = article)
+        .whenOff(() => this.article = noArticle);
+    hierarchy.get(InputFromControl)
+        .tillOff(_context)
+        .to(form => this.form = form)
+        .whenOff(() => this.form = {});
   }
 
   @RenderHTML({ comment: 'COMMENT' })

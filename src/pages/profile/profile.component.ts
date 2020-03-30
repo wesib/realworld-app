@@ -40,7 +40,7 @@ export class ProfileComponent {
     );
 
     hierarchy.provide({ a: CurrentUserProfile, is: profile });
-    context.whenOn(supply => {
+    context.whenConnected(() => {
       navigation.read()
           .thru_(
               page => {
@@ -50,7 +50,7 @@ export class ProfileComponent {
                 return param.author || param.favorited;
               },
           )
-          .tillOff(supply)
+          .tillOff(context)
           .consume(username => {
             if (!username) {
               this.response = { ok: false, errors: notAuthenticatedError() };

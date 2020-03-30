@@ -21,9 +21,9 @@ export class FeedTagsComponent {
     const feedService = this._context.get(FeedService);
     const navigation = this._context.get(Navigation);
 
-    _context.whenOn(supply => {
-      navigation.read().tillOff(supply).to(page => this.page = page);
-      feedService.tags().tillOff(supply).to((...tags) => this.tags = tags);
+    _context.whenConnected(() => {
+      navigation.read().tillOff(_context).to(page => this.page = page);
+      feedService.tags().tillOff(_context).to((...tags) => this.tags = tags);
     });
   }
 

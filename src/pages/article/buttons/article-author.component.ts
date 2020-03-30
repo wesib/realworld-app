@@ -23,9 +23,7 @@ export class ArticleAuthorComponent {
 
     const hierarchy = _context.get(HierarchyContext);
 
-    _context.whenOn(supply => {
-      hierarchy.get(CurrentArticle).tillOff(supply).to(article => this.article = article);
-    });
+    hierarchy.get(CurrentArticle).to(article => this.article = article);
   }
 
   @Render()

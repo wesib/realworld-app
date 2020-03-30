@@ -60,8 +60,8 @@ export class ArticleComponent {
 
     hierarchy.provide({ a: CurrentArticle, is: article });
     hierarchy.provide({ a: CurrentUserProfile, is: author });
-    _context.whenOn(supply => {
-      navigation.read().tillOff(supply).consume(page => {
+    _context.whenConnected(() => {
+      navigation.read().tillOff(_context).consume(page => {
 
         const slug = decodeURIComponent(page.get(PageHashURLParam).pathname.substring(1));
 

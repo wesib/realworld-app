@@ -33,11 +33,11 @@ export class UserFeedToggleComponent {
 
     const navigation = context.get(Navigation);
 
-    context.whenOn(supply => {
+    context.whenConnected(() => {
       afterAll({
         page: navigation,
         links: context.get(ComponentNode).select('a', { all: true, deep: true }),
-      }).tillOff(supply).to(
+      }).tillOff(context).to(
           ({
             page: [page],
             links: [links],

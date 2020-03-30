@@ -23,11 +23,11 @@ export class FeedToggleComponent {
     const navigation = _context.get(Navigation);
     const authService = _context.get(AuthService);
 
-    _context.whenOn(supply => {
+    _context.whenConnected(() => {
       afterAll({
         auth: authService.authentication(),
         page: navigation,
-      }).tillOff(supply).to(
+      }).tillOff(_context).to(
           ({
             auth: [{ token }],
             page: [page],

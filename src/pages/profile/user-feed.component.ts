@@ -15,8 +15,8 @@ export class UserFeedComponent {
 
     const navigation = context.get(Navigation);
 
-    context.whenOn(supply => {
-      navigation.read().tillOff(supply).to(page => {
+    context.whenConnected(() => {
+      navigation.read().tillOff(context).to(page => {
         this.request = page.get(PageUserProfileParam);
       });
     });

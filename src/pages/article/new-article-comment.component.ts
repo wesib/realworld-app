@@ -46,16 +46,13 @@ export class NewArticleCommentComponent {
     const authService = _context.get(AuthService);
     const hierarchy = _context.get(HierarchyContext);
 
-    _context.whenOn(supply => {
-      authService.user()
-          .tillOff(supply)
-          .to(user => this.user = user)
-          .whenOff(() => this.user = notAuthenticated);
-      hierarchy.get(CurrentArticle)
-          .tillOff(supply)
-          .to(article => this.article = article)
-          .whenOff(() => this.article = noArticle);
-    });
+    authService.user()
+        .tillOff(_context)
+        .to(user => this.user = user)
+        .whenOff(() => this.user = notAuthenticated);
+    hierarchy.get(CurrentArticle)
+        .to(article => this.article = article)
+        .whenOff(() => this.article = noArticle);
   }
 
   @Render()

@@ -27,10 +27,8 @@ export class ContainerComponent {
   auth: Authentication = {};
 
   constructor(private readonly _context: ComponentContext) {
-    _context.whenOn(connectSupply => {
-      _context.get(AuthService).authentication().tillOff(connectSupply).to(auth => {
-        this.auth = auth;
-      });
+    _context.get(AuthService).authentication().tillOff(_context).to(auth => {
+      this.auth = auth;
     });
   }
 

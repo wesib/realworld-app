@@ -40,7 +40,6 @@ export function RenderLoader<T extends ComponentClass>(
     def: {
       loaded?: QualifiedName;
       path?: StatePath;
-      offline?: boolean;
       comment?: string;
     } = {},
 ): ComponentPropertyDecorator<LoadStatus | undefined, T> {
@@ -48,7 +47,6 @@ export function RenderLoader<T extends ComponentClass>(
 
     const {
       path = [LoadStatus__symbol, key],
-      offline,
       loaded = defaultLoadedClass,
       comment = String(key),
     } = def;
@@ -64,9 +62,9 @@ export function RenderLoader<T extends ComponentClass>(
               loadedClassName = css__naming.name(loaded, defContext.get(DefaultNamespaceAliaser));
             },
           },
-          Render({ path, offline }).As(updateClass, key),
-          RenderHTML({ path, offline, comment: `LOADER(${comment})` }).As(renderLoader, key),
-          RenderHTML({ path, offline, comment: `ERRORS(${comment})` }).As(renderErrors, key),
+          Render({ path }).As(updateClass, key),
+          RenderHTML({ path, comment: `LOADER(${comment})` }).As(renderLoader, key),
+          RenderHTML({ path, comment: `ERRORS(${comment})` }).As(renderErrors, key),
       ),
       get,
       set(component, value) {

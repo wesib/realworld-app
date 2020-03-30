@@ -9,6 +9,8 @@ export interface ArticleList {
   readonly articlesCount: number;
 }
 
+export const noArticles: ArticleList = { articles: [], articlesCount: 0 };
+
 export interface FeedService {
 
   articles(request: FeedRequest): OnEvent<[ApiResponse<ArticleList>]>;

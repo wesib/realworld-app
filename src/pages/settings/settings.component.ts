@@ -58,16 +58,14 @@ export class SettingsComponent {
   constructor(private readonly _context: ComponentContext) {
     this._authService = _context.get(AuthService);
 
-    this._context.whenOn(supply => {
-      this._authService.loadUser().tillOff(supply).to(
-          response => {
-            this.loadStatus = response;
-            if (response && response.ok) {
-              this.setUser(response.body);
-            }
-          },
-      );
-    });
+    this._authService.loadUser().tillOff(_context).to(
+        response => {
+          this.loadStatus = response;
+          if (response && response.ok) {
+            this.setUser(response.body);
+          }
+        },
+    );
   }
 
   @OnSubmit()

@@ -29,13 +29,11 @@ export class ArticleTagEditorComponent {
   private tags: string[] = [];
 
   constructor(private readonly _context: ComponentContext) {
-    _context.whenOn(supply => {
-      _context.get(FeedService)
-          .tags()
-          .tillOff(supply)
-          .to((...tags) => this.tags = tags)
-          .whenOff(() => this.tags = []);
-    });
+    _context.get(FeedService)
+        .tags()
+        .tillOff(_context)
+        .to((...tags) => this.tags = tags)
+        .whenOff(() => this.tags = []);
   }
 
   @Render()

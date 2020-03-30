@@ -22,16 +22,13 @@ export class EditPostBtnComponent {
     const navigation = _context.get(Navigation);
     const hierarchy = _context.get(HierarchyContext);
 
-    _context.whenOn(supply => {
-      hierarchy.get(CurrentArticle)
-          .tillOff(supply)
-          .to(article => this.article = article)
-          .whenOff(() => this.article = noArticle);
-      this._context.on('click').to(() => {
-        if (this.article.slug) {
-          editArticle(this.article.slug);
-        }
-      }).needs(supply);
+    hierarchy.get(CurrentArticle)
+        .to(article => this.article = article)
+        .whenOff(() => this.article = noArticle);
+    this._context.on('click').to(() => {
+      if (this.article.slug) {
+        editArticle(this.article.slug);
+      }
     });
 
     function editArticle(slug: string): void {

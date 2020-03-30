@@ -38,39 +38,37 @@ export class ArticleCommentsComponent {
     const commentService = _context.get(CommentService);
     const hierarchy = this._context.get(HierarchyContext);
 
-    this._context.whenOn(supply => {
-      this._context.on<CommentEvent>('conduit:comment').to(({ detail: { added, removed } }) => {
-        if (added) {
-          this.comments = [added, ...this.comments];
-        } else {
-          this.comments = this.comments.filter(comment => comment.id !== removed);
-        }
-      });
-
-      let lastArticle: CurrentArticle = noArticle;
-
-      hierarchy.get(CurrentArticle).tillOff(supply).thru_(
-          article => {
-            if (!article.slug || article.slug === lastArticle.slug) {
-              return nextSkip;
-            }
-
-            lastArticle = article;
-
-            return nextOnEvent(commentService.articleComments(article.slug));
-          },
-      ).to(response => {
-        this.response = response;
-        if (response.ok) {
-          this.comments = response.body.comments;
-        }
-      });
-
-      const group = inGroup({});
-
-      eventSupplyOf(group).needs(supply);
-      inputFromControl(_context, group);
+    this._context.on<CommentEvent>('conduit:comment').to(({ detail: { added, removed } }) => {
+      if (added) {
+        this.comments = [added, ...this.comments];
+      } else {
+        this.comments = this.comments.filter(comment => comment.id !== removed);
+      }
     });
+
+    let lastArticle: CurrentArticle = noArticle;
+
+    hierarchy.get(CurrentArticle).tillOff(_context).thru_(
+        article => {
+          if (!article.slug || article.slug === lastArticle.slug) {
+            return nextSkip;
+          }
+
+          lastArticle = article;
+
+          return nextOnEvent(commentService.articleComments(article.slug));
+        },
+    ).to(response => {
+      this.response = response;
+      if (response.ok) {
+        this.comments = response.body.comments;
+      }
+    });
+
+    const group = inGroup({});
+
+    eventSupplyOf(group).needs(_context);
+    inputFromControl(_context, group);
   }
 
   @Render()

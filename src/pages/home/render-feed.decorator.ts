@@ -1,6 +1,6 @@
 import { noop } from '@proc7ts/call-thru';
 import { ContextKey, ContextKey__symbol, SingleContextKey } from '@proc7ts/context-values';
-import { nextOnEvent, StatePath, trackValue } from '@proc7ts/fun-events';
+import { eventSupplyOf, nextOnEvent, StatePath, trackValue } from '@proc7ts/fun-events';
 import { HierarchyContext } from '@wesib/generic';
 import {
   BootstrapWindow,
@@ -36,6 +36,7 @@ class RenderFeedState {
       context: ComponentContext,
       path: StatePath,
   ) {
+    eventSupplyOf(context).cuts(this._request);
 
     const feedService = context.get(FeedService);
 
@@ -48,21 +49,18 @@ class RenderFeedState {
               : { articles: [], articlesCount: 0 },
       ),
     });
-    context.whenOn(supply => {
-      this._request.read()
-          .tillOff(supply)
-          .thru_(
-              request => {
-                this.response.it = undefined;
-                return nextOnEvent(feedService.articles(request));
-              },
-          ).to(
-              response => this.response.it = response,
-          );
-      context.on('conduit:article').to(
-          () => this._request.it = { ...this._request.it }, // Reload articles
-      );
-    });
+    this._request.read()
+        .thru_(
+            request => {
+              this.response.it = undefined;
+              return nextOnEvent(feedService.articles(request));
+            },
+        ).to(
+            response => this.response.it = response,
+        );
+    context.on('conduit:article').to(
+        () => this._request.it = { ...this._request.it }, // Reload articles
+    );
   }
 
   get request(): FeedRequest {
@@ -109,8 +107,8 @@ export function RenderFeed<T extends ComponentClass>(
               }
             },
           },
-          RenderLoader({ path, offline: true, comment: `FEED(${String(key)})` }).By(renderLoader, key),
-          Render({ path, offline: true }).As(renderFeed, key),
+          RenderLoader({ path, comment: `FEED(${String(key)})` }).By(renderLoader, key),
+          Render({ path }).As(renderFeed, key),
       ),
       get,
       set(component, value) {

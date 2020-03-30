@@ -1,6 +1,7 @@
 import { HierarchyContext } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
+import { noArticles } from '../../core/feed';
 import { ArticlePreviewComponent } from './article-preview.component';
 import { FeedArticleList } from './feed-article-list';
 
@@ -15,15 +16,15 @@ import { FeedArticleList } from './feed-article-list';
 export class ArticleListComponent {
 
   @StateProperty()
-  articles: FeedArticleList = { articles: [], articlesCount: 0 };
+  articles: FeedArticleList = noArticles;
 
   constructor(private readonly _context: ComponentContext) {
 
     const hierarchy = _context.get(HierarchyContext);
 
-    _context.whenOn(supply => {
-      hierarchy.get(FeedArticleList).tillOff(supply).to(list => this.articles = list);
-    });
+    hierarchy.get(FeedArticleList)
+        .to(list => this.articles = list)
+        .whenOff(() => this.articles = noArticles);
   }
 
   @Render()

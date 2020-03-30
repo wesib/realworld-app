@@ -16,12 +16,12 @@ export class FeedPagerComponent {
     const hierarchy = context.get(HierarchyContext);
     const navigation = context.get(Navigation);
 
-    context.whenOn(supply => {
+    context.whenConnected(() => {
       afterAll({
         param: hierarchy.get(FeedRequestPageParam),
         page: navigation,
         list: hierarchy.get(FeedArticleList),
-      }).tillOff(supply).to(
+      }).tillOff(context).to(
           ({
             param: [paramRef],
             page: [page],

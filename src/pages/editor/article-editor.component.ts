@@ -1,4 +1,4 @@
-import { afterAll, afterSent, afterThe, nextAfterEvent } from '@proc7ts/fun-events';
+import { afterAll, afterSent, afterThe, eventSupplyOf, nextAfterEvent } from '@proc7ts/fun-events';
 import { InStatus, InSubmit, InSubmitError } from '@proc7ts/input-aspects';
 import { HierarchyContext, Navigation, PageHashURLParam } from '@wesib/generic';
 import { InputToForm, OnSubmit } from '@wesib/generic/input';
@@ -53,13 +53,12 @@ export class ArticleEditorComponent {
     const authService = _context.get(AuthService);
     const hierarchy = _context.get(HierarchyContext);
 
-    _context.whenOn(supply => {
-      supply.whenOff(() => {
-        this.loadStatus = undefined;
-        this.article = noArticle;
-      });
-
-      this._navigation.read().tillOff(supply).keepThru_(
+    eventSupplyOf(_context).whenOff(() => {
+      this.loadStatus = undefined;
+      this.article = noArticle;
+    });
+    _context.whenConnected(() => {
+      this._navigation.read().tillOff(_context).keepThru_(
           page => decodeURIComponent(
               page.get(PageHashURLParam).pathname.substring(1),
           ),

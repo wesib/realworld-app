@@ -22,10 +22,8 @@ export class FavoritePostBtnComponent {
     const hierarchy = _context.get(HierarchyContext);
     const articleService = _context.get(ArticleService);
 
-    _context.whenOn(supply => {
-      hierarchy.get(CurrentArticle).tillOff(supply).to(article => {
-        this.article = article;
-      });
+    hierarchy.get(CurrentArticle).to(article => {
+      this.article = article;
     });
     _context.on('click').to(() => {
 
