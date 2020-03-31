@@ -3,6 +3,7 @@ import { BootstrapWindow, Component, ComponentContext, DomProperty, isElement, S
 import { Conduit__NS } from '../../core';
 import { Article } from '../../core/articles';
 import { AuthService, AuthUser, notAuthenticated, NotAuthenticated } from '../../core/auth';
+import { renderNow } from '../../core/util';
 import { RenderHTML } from '../../reusable';
 import { ArticleButtonsSupport } from '../article/buttons';
 import { CurrentArticle, CurrentArticleTracker, NoArticle } from '../article/current-article';
@@ -82,12 +83,27 @@ export class ArticlePreviewComponent {
     const meta = fragment.appendChild(document.createElement('div'));
 
     meta.className = 'post-meta';
-    meta.appendChild(document.createElement('conduit-article-author'));
+
+    const authorElt = meta.appendChild(document.createElement('conduit-article-author'));
+
+    renderNow(authorElt, this._context);
     if (this.user.username === author.username) {
-      meta.appendChild(document.createElement('conduit-edit-post-btn')).tabIndex = 0;
-      meta.appendChild(document.createElement('conduit-delete-post-btn')).tabIndex = 0;
+
+      const editBtn = meta.appendChild(document.createElement('conduit-edit-post-btn'));
+
+      editBtn.tabIndex = 0;
+      renderNow(editBtn, this._context);
+
+      const deleteBtn = meta.appendChild(document.createElement('conduit-delete-post-btn'));
+
+      deleteBtn.tabIndex = 0;
+      renderNow(deleteBtn, this._context);
     } else {
-      meta.appendChild(document.createElement('conduit-favorite-post-btn')).tabIndex = 0;
+
+      const favoriteBtn = meta.appendChild(document.createElement('conduit-favorite-post-btn'));
+
+      favoriteBtn.tabIndex = 0;
+      renderNow(favoriteBtn, this._context);
     }
 
     const previewLink = fragment.appendChild(document.createElement('a'));
@@ -106,7 +122,10 @@ export class ArticlePreviewComponent {
     const readMore = previewLink.appendChild(document.createElement('span'));
 
     readMore.innerText = 'Read more...';
-    previewLink.appendChild(document.createElement('conduit-article-tags'));
+
+    const tagsEl = previewLink.appendChild(document.createElement('conduit-article-tags'));
+
+    renderNow(tagsEl, this._context);
 
     console.log(']article', this.article.slug);
 

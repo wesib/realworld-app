@@ -2,6 +2,7 @@ import { HierarchyContext } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
 import { noArticles } from '../../core/feed';
+import { renderNow } from '../../core/util';
 import { ArticlePreviewComponent } from './article-preview.component';
 import { FeedArticleList } from './feed-article-list';
 
@@ -40,18 +41,21 @@ export class ArticleListComponent {
       if (!this.articles.articlesCount) {
         return;
       }
-      console.log('LIST');
+      console.log('[ARTICLES[');
 
       const fragment = document.createDocumentFragment();
 
       this.articles.articles.forEach(article => {
 
-        const element: any = fragment.appendChild(document.createElement('conduit-article-preview'));
+        const previewElt: any = fragment.appendChild(document.createElement('conduit-article-preview'));
 
-        element.feedArticle = article;
+        previewElt.feedArticle = article;
+        renderNow(previewElt, this._context);
       });
 
       range.insertNode(fragment);
+
+      console.log(']ARTICLES]');
     };
   }
 
