@@ -53,9 +53,9 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "all": "run-p build:all",
+    "all": "run-s build:all",
     "build": "rollup --config ./rollup.config.js",
-    "build:all": "run-p rebuild lint",
+    "build:all": "run-p --aggregate-output rebuild lint",
     "clean": "node ./build/clean",
     "lint": "eslint . --ext .js,.ts",
     "rebuild": "run-s clean build",
