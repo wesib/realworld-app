@@ -21,7 +21,7 @@
     "@proc7ts/fun-events": "^9.0.0",
     "@proc7ts/input-aspects": "^3.0.0",
     "@proc7ts/namespace-aliaser": "^2.0.3",
-    "@proc7ts/render-scheduler": "^1.1.0",
+    "@proc7ts/render-scheduler": "^1.2.0",
     "@rollup/plugin-alias": "^3.0.1",
     "@rollup/plugin-commonjs": "^11.0.2",
     "@rollup/plugin-node-resolve": "^7.1.1",
