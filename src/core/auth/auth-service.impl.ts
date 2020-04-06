@@ -14,10 +14,9 @@ import { DomEventDispatcher } from '@proc7ts/fun-events/dom';
 import { BootstrapContext, BootstrapWindow } from '@wesib/wesib';
 import { ApiFetch, ApiRequest, ApiResponse, notAuthenticatedError } from '../api';
 import { AuthService, LoginRequest, RegisterRequest, UpdateSettingsRequest } from './auth-service';
-import { Authentication, AuthToken, AuthUser, NotAuthenticated } from './authentication';
+import { Authentication, AuthToken, AuthUser, notAuthenticated, NotAuthenticated } from './authentication';
 
 const authTokenKey = 'wesib-conduit:auth';
-const notAuthenticated: NotAuthenticated = {};
 
 export class AuthService$ extends AuthService {
 

@@ -26,6 +26,7 @@
     "@rollup/plugin-commonjs": "^11.0.2",
     "@rollup/plugin-node-resolve": "^7.1.1",
     "@types/dompurify": "^2.0.1",
+    "@types/jest": "^25.2.1",
     "@types/marked": "^0.7.3",
     "@types/node": "^12.12.31",
     "@typescript-eslint/eslint-plugin": "^2.26.0",
@@ -41,6 +42,8 @@
     "glob": "^7.1.6",
     "handlebars": "^4.7.6",
     "http-server": "^0.12.1",
+    "jest": "^25.2.7",
+    "jest-junit": "^10.0.0",
     "marked": "^0.8.0",
     "npm-run-all": "^4.1.5",
     "rollup": "^2.3.3",
@@ -48,19 +51,23 @@
     "rollup-plugin-terser": "^5.3.0",
     "rollup-plugin-typescript2": "^0.27.0",
     "sass": "^1.26.3",
+    "ts-jest": "^25.3.1",
     "ts-node": "^8.8.2",
     "tslib": "^1.11.1",
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "all": "run-s build:all",
+    "all": "run-p --aggregate-output build:all test",
     "build": "rollup --config ./rollup.config.js",
     "build:all": "run-p --aggregate-output rebuild lint",
+    "ci:all": "run-p --aggregate-output build:all ci:test",
+    "ci:test": "jest --ci --runInBand",
     "clean": "node ./build/clean",
     "lint": "eslint . --ext .js,.ts",
     "rebuild": "run-s clean build",
     "site:gh-pages": "gh-pages --dist dist --dotfiles",
     "site:publish": "run-s all \"site:gh-pages {@}\" --",
-    "start": "http-server ./dist -d false -p 4200"
+    "start": "http-server ./dist -d false -p 4200",
+    "test": "jest"
   }
 }

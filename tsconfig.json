@@ -17,6 +17,9 @@
       "dom",
       "es2017"
     ],
+    "types": [
+      "jest"
+    ],
     "outDir": "target/js",
     "sourceMap": true,
     "newLine": "LF"
