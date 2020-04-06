@@ -1,11 +1,12 @@
 # ![RealWorld Example App](logo.png)
-
+[![Build Status][build-status-img]][build-status-link]
 > ### [Wesib] codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the
 > [RealWorld] spec and API.
 
 [Wesib]: https://github.com/wesib/wesib
 [RealWorld]: https://github.com/gothinkster/realworld
-
+[build-status-img]: https://github.com/wesib/realworld-app/workflows/Build/badge.svg
+[build-status-link]: https://github.com/wesib/realworld-app/actions?query=workflow%3ABuild
 
 ### [Demo]&nbsp;&nbsp;&nbsp;&nbsp;[RealWorld]
 
