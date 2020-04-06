@@ -39,4 +39,4 @@ jobs:
     - name: Install dependencies
       run: yarn
     - name: Build the project
-      run: run ci:all
+      run: yarn ci:all
