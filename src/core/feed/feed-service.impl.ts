@@ -66,11 +66,10 @@ export class FeedService$ implements FeedService {
           if (response.ok) {
             return nextArg(response.body);
           }
-          if (response.ok === false) {
-            console.log('Failed to load tags', response.errors);
-            return nextArg([]);
-          }
-          return nextSkip;
+
+          console.error('Failed to load tags', response.errors);
+
+          return nextArg([]);
         });
         const tags = trackValueBy<string[] | undefined>(
             afterSupplied<[string[]?]>(onTagsLoad, () => []),

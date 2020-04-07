@@ -75,8 +75,6 @@ export class ArticlePreviewComponent {
       return;
     }
 
-    console.log('[article', this.article.slug);
-
     const { author } = this.article;
     const { document } = this._context.get(BootstrapWindow);
     const fragment = document.createDocumentFragment();
@@ -126,8 +124,6 @@ export class ArticlePreviewComponent {
     const tagsEl = previewLink.appendChild(document.createElement('conduit-article-tags'));
 
     renderNow(tagsEl, this._context);
-
-    console.log(']article', this.article.slug);
 
     return fragment;
   }

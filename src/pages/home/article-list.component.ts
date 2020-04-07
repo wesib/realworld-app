@@ -41,7 +41,6 @@ export class ArticleListComponent {
       if (!this.articles.articlesCount) {
         return;
       }
-      console.log('[ARTICLES[');
 
       const fragment = document.createDocumentFragment();
 
@@ -54,8 +53,6 @@ export class ArticleListComponent {
       });
 
       range.insertNode(fragment);
-
-      console.log(']ARTICLES]');
     };
   }
 
