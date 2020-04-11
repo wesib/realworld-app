@@ -42,7 +42,7 @@ export class UserFeedToggleComponent {
             page: [page],
             links: [links],
           }) => {
-            links.forEach(node => {
+            for (const node of links) {
 
               const element = node.element as HTMLAnchorElement;
               const profileParam = page.get(PageUserProfileParam);
@@ -69,7 +69,7 @@ export class UserFeedToggleComponent {
                   element.replaceWith(clone);
                 }
               }
-            });
+            }
           },
       );
     });

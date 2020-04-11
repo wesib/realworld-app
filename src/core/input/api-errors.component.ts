@@ -4,9 +4,9 @@ import { InValidation } from '@proc7ts/input-aspects';
 import { HierarchyContext } from '@wesib/generic';
 import { InputFromControl } from '@wesib/generic/input';
 import { Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
+import { ApiErrorGenerator } from '../../reusable';
 import { ApiResponse } from '../api';
 import { Conduit__NS } from '../conduit.ns';
-import { ApiErrorGenerator } from './api-error-generator';
 
 const noApiErrors: ApiResponse.Errors = {};
 

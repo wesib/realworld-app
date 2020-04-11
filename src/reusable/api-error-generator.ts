@@ -1,4 +1,4 @@
-import { AIterable, overEntries } from '@proc7ts/a-iterable';
+import { overEntries } from '@proc7ts/a-iterable';
 import { FnContextKey, FnContextRef } from '@proc7ts/context-values/updatable';
 import { bootstrapDefault, BootstrapWindow } from '@wesib/wesib';
 import { ApiResponse } from '../core/api';
@@ -17,24 +17,22 @@ export const ApiErrorGenerator: FnContextRef<[ApiResponse.Errors], Element | und
 
               let list: Element | undefined;
 
-              AIterable.from(overEntries(errors)).forEach(
-                  ([key, messages]) => {
-                    if (!list) {
-                      list = document.createElement('ul');
-                      list.classList.add('error-messages');
-                    }
+              for (const [key, messages] of overEntries(errors)) {
+                if (!list) {
+                  list = document.createElement('ul');
+                  list.classList.add('error-messages');
+                }
 
-                    const ul = list;
+                const ul = list;
 
-                    messages.forEach(message => {
+                messages.forEach(message => {
 
-                      const li = document.createElement('li');
+                  const li = document.createElement('li');
 
-                      li.innerText = `${key} ${message}`;
-                      ul.appendChild(li);
-                    });
-                  },
-              );
+                  li.innerText = `${key} ${message}`;
+                  ul.appendChild(li);
+                });
+              }
 
               return list;
             };
