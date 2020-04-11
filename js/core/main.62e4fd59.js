@@ -1,0 +1,1 @@
+import{F as s,b as o}from"../wesib/wesib.2306ec70.js";import{_ as e}from"../helpers.920c7f83.js";import{A as r}from"./auth.675216b2.js";import{C as a}from"./layout.064e6499.js";let t=class{};t=e([s({needs:[r,a]})],t);const m=o(t);export{m as c};//# sourceMappingURL=main.62e4fd59.js.map
