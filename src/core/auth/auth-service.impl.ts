@@ -230,11 +230,7 @@ export class AuthService$ extends AuthService {
 
     return apiFetch(apiRequest).thru_(
         response => {
-          if (response.ok) {
-            this._auth.it = response.body;
-          } else if (response.ok === false) {
-            this._auth.it = { failure: response };
-          }
+          this._auth.it = response.ok ? response.body : { failure: response };
           return response;
         },
     );
