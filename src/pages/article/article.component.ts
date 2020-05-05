@@ -70,7 +70,7 @@ export class ArticleComponent {
 
       _context.on('conduit:article').just(() => {
         // Article removed. Open home page.
-        navigation.open('');
+        navigation.open('').catch(console.error);
       });
     });
   }
