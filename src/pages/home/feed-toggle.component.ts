@@ -1,7 +1,15 @@
 import { noop } from '@proc7ts/call-thru';
 import { afterAll } from '@proc7ts/fun-events';
 import { ActivateNavLink, HandleNavLinks, Navigation } from '@wesib/generic';
-import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
+import {
+  BootstrapWindow,
+  Component,
+  ComponentContext,
+  ElementRenderer,
+  Render,
+  StateProperty,
+  StatePropertyPath__root,
+} from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
 import { AuthService } from '../../core/auth';
 import { FeedRequest } from '../../core/feed';
@@ -55,7 +63,7 @@ export class FeedToggleComponent {
     });
   }
 
-  @Render()
+  @Render({ path: StatePropertyPath__root })
   render(): ElementRenderer {
 
     const navigation = this._context.get(Navigation);
