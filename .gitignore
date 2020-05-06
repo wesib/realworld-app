@@ -17,6 +17,10 @@
 !.yarn/plugins
 .pnp.*
 
+# Lock files as this is part of Yarn worktree
+yarn.lock
+package-lock.json
+
 # System Files
 .DS_Store
 Thumbs.db
