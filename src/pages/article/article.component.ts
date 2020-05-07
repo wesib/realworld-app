@@ -85,7 +85,7 @@ export class ArticleComponent {
     this._response.it = value;
   }
 
-  @Render({ path: statePropertyPathTo('response') })
+  @Render({ on: statePropertyPathTo('response') })
   render(): ElementRenderer {
 
     const { document } = this._context.get(BootstrapWindow);

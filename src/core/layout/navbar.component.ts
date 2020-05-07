@@ -1,14 +1,6 @@
 import { DomEventDispatcher } from '@proc7ts/fun-events/dom';
 import { ActivateNavLink, HandleNavLinks } from '@wesib/generic';
-import {
-  BootstrapWindow,
-  Component,
-  ComponentContext,
-  ElementRenderer,
-  Render,
-  StateProperty,
-  StatePropertyPath__root,
-} from '@wesib/wesib';
+import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { AuthService, AuthUser, notAuthenticated, NotAuthenticated } from '../auth';
 import { Conduit__NS } from '../conduit.ns';
 
@@ -32,7 +24,7 @@ export class NavbarComponent {
         .whenOff(() => this.user = notAuthenticated);
   }
 
-  @Render({ path: StatePropertyPath__root })
+  @Render()
   render(): ElementRenderer {
 
     const authService = this._context.get(AuthService);

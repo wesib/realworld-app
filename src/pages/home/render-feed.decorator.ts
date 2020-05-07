@@ -11,6 +11,7 @@ import {
   ComponentPropertyDecorator,
   ElementRenderer,
   Render,
+  RenderDef,
 } from '@wesib/wesib';
 import { ApiResponse } from '../../core/api';
 import { ArticleList, FeedRequest, feedRequestsEqual, FeedService, FeedSupport } from '../../core/feed';
@@ -79,11 +80,15 @@ class RenderFeedState {
 }
 
 export function RenderFeed<T extends ComponentClass>(
-    { requestParam }: RenderFeedDef = {},
+    def: RenderFeedDef = {},
 ): ComponentPropertyDecorator<FeedRequest, T> {
+
+  const { requestParam, render: renderOptions } = def;
+
   return ComponentProperty(({ get, set: setValue, key }) => {
 
     const path: StatePath = [RenderFeedState__symbol, key];
+    const render: RenderDef.Spec = RenderDef.fulfill({ on: path }, renderOptions);
 
     return {
       componentDef: ComponentDef.all(
@@ -107,8 +112,8 @@ export function RenderFeed<T extends ComponentClass>(
               }
             },
           },
-          RenderLoader({ path, comment: `FEED(${String(key)})` }).By(renderLoader, key),
-          Render({ path }).As(renderFeed, key),
+          RenderLoader({ render, comment: `FEED(${String(key)})` }).By(renderLoader, key),
+          Render(render).As(renderFeed, key),
       ),
       get,
       set(component, value) {
@@ -137,4 +142,5 @@ export function RenderFeed<T extends ComponentClass>(
 
 export interface RenderFeedDef {
   readonly requestParam?: FeedRequestPageParam;
+  readonly render?: RenderDef.Options;
 }

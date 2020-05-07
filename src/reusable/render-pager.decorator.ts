@@ -7,6 +7,7 @@ import {
   ComponentDef,
   ComponentProperty,
   ComponentPropertyDecorator,
+  RenderDef,
 } from '@wesib/wesib';
 import { RenderHTML } from './render-html.decorator';
 
@@ -34,14 +35,22 @@ export namespace PagingInfo {
 
 const PagingInfo__symbol = (/*#__PURE__*/ Symbol('paging-info'));
 
-export function RenderPager<T extends ComponentClass>(): ComponentPropertyDecorator<PagingInfo, T> {
+export function RenderPager<T extends ComponentClass>(
+    def: {
+      render?: RenderDef.Options;
+    } = {},
+): ComponentPropertyDecorator<PagingInfo, T> {
+
+  const { render: renderOptions } = def;
+
   return ComponentProperty(({ get, set, key }) => {
 
     const path: StatePath = [PagingInfo__symbol, key];
+    const render = RenderDef.fulfill({ on: path }, renderOptions);
 
     return {
       componentDef: ComponentDef.all(
-          RenderHTML({ path, comment: `PAGER(${String(key)})` }).As(pagerContent, key),
+          RenderHTML({ render, comment: `PAGER(${String(key)})` }).As(pagerContent, key),
           HandleNavLinks(),
       ),
       get,

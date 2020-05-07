@@ -1,4 +1,3 @@
-import { StatePath } from '@proc7ts/fun-events';
 import {
   BootstrapWindow,
   ComponentClass,
@@ -7,11 +6,12 @@ import {
   ComponentPropertyDecorator,
   ElementRenderer,
   Render,
+  RenderDef,
 } from '@wesib/wesib';
 
 export function RenderHTML<T extends ComponentClass>(
     def: {
-      path?: StatePath;
+      render?: RenderDef;
       comment?: string;
     } = {},
 ): ComponentPropertyDecorator<() => string | Node | null | undefined, T> {
@@ -19,11 +19,11 @@ export function RenderHTML<T extends ComponentClass>(
 
     const {
       comment = String(key),
-      path,
+      render,
     } = def;
 
     return {
-      componentDef: Render({ path }).As(renderHTML, key),
+      componentDef: Render(render).As(renderHTML, key),
     };
 
     function renderHTML(this: InstanceType<T>): ElementRenderer {

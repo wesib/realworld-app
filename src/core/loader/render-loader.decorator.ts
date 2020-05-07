@@ -1,4 +1,3 @@
-import { StatePath } from '@proc7ts/fun-events';
 import { css__naming, QualifiedName } from '@proc7ts/namespace-aliaser';
 import { RenderExecution } from '@proc7ts/render-scheduler';
 import {
@@ -10,6 +9,8 @@ import {
   DefaultNamespaceAliaser,
   ElementRenderer,
   Render,
+  RenderDef,
+  RenderPath__root,
 } from '@wesib/wesib';
 import { ApiErrorGenerator, RenderHTML } from '../../reusable';
 import { ApiResponse } from '../api';
@@ -39,18 +40,20 @@ const defaultLoadedClass: QualifiedName = ['loaded', Conduit__NS];
 export function RenderLoader<T extends ComponentClass>(
     def: {
       loaded?: QualifiedName;
-      path?: StatePath;
+      render?: RenderDef.Spec;
       comment?: string;
     } = {},
 ): ComponentPropertyDecorator<LoadStatus | undefined, T> {
   return ComponentProperty(({ get, set: setValue, key }) => {
 
     const {
-      path = [LoadStatus__symbol, key],
+      render: renderSpec = {},
       loaded = defaultLoadedClass,
       comment = String(key),
     } = def;
+    const path = [RenderPath__root, LoadStatus__symbol, key];
     let loadedClassName: string;
+    const render = RenderDef.fulfill({ on: path }, renderSpec);
 
     return {
       componentDef: ComponentDef.all(
@@ -60,11 +63,17 @@ export function RenderLoader<T extends ComponentClass>(
             },
             define(defContext) {
               loadedClassName = css__naming.name(loaded, defContext.get(DefaultNamespaceAliaser));
+              if (renderSpec.on) {
+                defContext.whenComponent(context => {
+                  RenderDef.trigger(context, renderSpec)
+                      .to(() => context.updateState(path, 'new', 'old'));
+                });
+              }
             },
           },
-          Render({ path }).As(updateClass, key),
-          RenderHTML({ path, comment: `LOADER(${comment})` }).As(renderLoader, key),
-          RenderHTML({ path, comment: `ERRORS(${comment})` }).As(renderErrors, key),
+          Render(render).As(updateClass, key),
+          RenderHTML({ render, comment: `LOADER(${comment})` }).As(renderLoader, key),
+          RenderHTML({ render, comment: `ERRORS(${comment})` }).As(renderErrors, key),
       ),
       get,
       set(component, value) {
