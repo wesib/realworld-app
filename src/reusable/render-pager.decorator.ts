@@ -8,6 +8,7 @@ import {
   ComponentProperty,
   ComponentPropertyDecorator,
   RenderDef,
+  RenderPath__root,
 } from '@wesib/wesib';
 import { RenderHTML } from './render-html.decorator';
 
@@ -45,7 +46,7 @@ export function RenderPager<T extends ComponentClass>(
 
   return ComponentProperty(({ get, set, key }) => {
 
-    const path: StatePath = [PagingInfo__symbol, key];
+    const path: StatePath = [RenderPath__root, PagingInfo__symbol, key];
     const render = RenderDef.fulfill({ on: path }, renderOptions);
 
     return {
