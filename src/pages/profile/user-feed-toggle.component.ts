@@ -1,12 +1,5 @@
 import { afterAll } from '@proc7ts/fun-events';
-import {
-  ActivateNavLink,
-  ComponentNode,
-  ComponentTreeSupport,
-  HandleNavLinks,
-  Navigation,
-  PageHashURLSupport,
-} from '@wesib/generic';
+import { ActivateNavLink, ComponentNode, HandleNavLinks, Navigation, PageHashURLSupport } from '@wesib/generic';
 import { Component, ComponentContext } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
 import { FeedRequest } from '../../core/feed';
@@ -18,10 +11,7 @@ const favoriteURLPattern = /#\/.+\/favorite$/;
     ['user-feed-toggle', Conduit__NS],
     {
       feature: {
-        needs: [
-          ComponentTreeSupport,
-          PageHashURLSupport,
-        ],
+        needs: PageHashURLSupport,
       },
     },
     ActivateNavLink({ active: 'active' }),

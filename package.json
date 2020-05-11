@@ -1,6 +1,6 @@
 {
   "name": "@wesib/realworld-app",
-  "version": "1.0.0-beta.7",
+  "version": "1.0.0-beta.8",
   "description": "Wesib: RealWorld example application",
   "repository": {
     "type": "git",
@@ -31,8 +31,8 @@
     "@types/node": "^12.12.31",
     "@typescript-eslint/eslint-plugin": "^2.31.0",
     "@typescript-eslint/parser": "^2.31.0",
-    "@wesib/generic": "^1.0.0-beta.7",
-    "@wesib/wesib": "^1.0.0-beta.7",
+    "@wesib/generic": "^1.0.0-beta.8",
+    "@wesib/wesib": "^1.0.0-beta.8",
     "bootstrap": "^4.4.1",
     "dompurify": "^2.0.11",
     "eslint": "^7.0.0",
