@@ -48,6 +48,8 @@ conduit-article.loaded#{$conduit-ns} {
 }
 
 conduit-article {
+  overflow-wrap: break-word;
+
   .btn {
     margin-right: 0.5em;
   }

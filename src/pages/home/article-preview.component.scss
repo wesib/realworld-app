@@ -2,26 +2,31 @@
 conduit-article-preview {
   display: block;
   clear: both;
-  border-top:1px solid rgba(0,0,0,.1);
-  padding:1.5rem 0;
+  border-top: 1px solid rgba(0, 0, 0, .1);
+  padding: 1.5rem 0;
 
   .post-meta {
-    margin:0 0 1rem 0;
+    margin: 0 0 1rem 0;
   }
+
   .preview-link {
+    overflow-wrap: break-word;
+
     h1 {
-      font-weight:700 !important;
-      font-size:2rem !important;
+      font-weight: 700 !important;
+      font-size: 2rem !important;
     }
+
     p {
       font-family: 'Source Serif Pro', serif;
-      margin-bottom:0;
+      margin-bottom: 0;
     }
+
     // "Read more" span
     span {
-      font-size:0.8rem;
-      font-weight:300;
-      color:#bbb;
+      font-size: 0.8rem;
+      font-weight: 300;
+      color: #bbb;
     }
   }
 
@@ -42,32 +47,33 @@ conduit-article-preview {
 
 // Generic author information/date container
 .post-meta {
-  display:block;
-  position:relative;
+  display: block;
+  position: relative;
   font-weight: 300;
 
   img {
-    display:inline-block;
+    display: inline-block;
     vertical-align: middle;
-    height:32px;
-    width:32px;
-    border-radius:30px;
+    height: 32px;
+    width: 32px;
+    border-radius: 30px;
   }
 
   .info {
-    margin:0 1.5rem 0 0.3rem;
-    display:inline-block;
+    margin: 0 1.5rem 0 0.3rem;
+    display: inline-block;
     vertical-align: middle;
     line-height: 1rem;
 
     .author {
-      display:block;
+      display: block;
       font-weight: 500 !important;
     }
+
     time {
-      color:#bbb;
-      font-size:0.8rem;
-      display:block;
+      color: #bbb;
+      font-size: 0.8rem;
+      display: block;
     }
 
   }
