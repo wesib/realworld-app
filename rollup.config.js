@@ -1,10 +1,10 @@
-import 'ts-node/register';
 import alias from '@rollup/plugin-alias';
 import commonjs from '@rollup/plugin-commonjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import sourcemaps from 'rollup-plugin-sourcemaps';
 import { terser } from 'rollup-plugin-terser';
 import ts from 'rollup-plugin-typescript2';
+import 'ts-node/register';
 import typescript from 'typescript';
 
 import cleanup from './build/rollup-plugin-cleanup';
@@ -56,7 +56,7 @@ export default {
     }),
   ],
   output: {
-    format: module ? 'esm' : 'system',
+    format: 'esm',
     dir: './dist',
     sourcemap: true,
     compact: true,
