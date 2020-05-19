@@ -46,7 +46,7 @@ export default {
     nodeResolve(),
     generateHtml,
     terser({
-      ecma: 6,
+      ecma: 2018,
       module: true,
       toplevel: true,
       output: {
