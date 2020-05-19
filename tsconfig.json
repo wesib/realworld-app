@@ -2,7 +2,7 @@
   "compilerOptions": {
     "moduleResolution": "node",
     "module": "es2015",
-    "target": "es2017",
+    "target": "es2018",
     "strict": true,
     "experimentalDecorators": true,
     "noFallthroughCasesInSwitch": true,
@@ -15,7 +15,7 @@
     "allowSyntheticDefaultImports": true,
     "lib": [
       "dom",
-      "es2017"
+      "es2018"
     ],
     "types": [
       "jest"
