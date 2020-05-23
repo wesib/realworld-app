@@ -32,7 +32,7 @@ export class FeedTagsComponent {
 
     const { document } = this._context.get(BootstrapWindow);
     const range = document.createRange();
-    const { contentRoot }: { contentRoot: Element } = this._context;
+    const { contentRoot } = this._context;
 
     range.selectNodeContents(contentRoot);
     range.setStartAfter(contentRoot.childNodes[contentRoot.childNodes.length - 1]);

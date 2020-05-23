@@ -213,6 +213,6 @@ function handleApiResponse<T>(
 
 function httpError(response: Response): ApiResponse.Errors {
   return {
-    HTTP: ['ERROR ' + response.status + (response.statusText ? ': ' + response.statusText : '')],
+    HTTP: [`ERROR ${response.status}${response.statusText ? ': ' + response.statusText : ''}`],
   };
 }

@@ -1,5 +1,5 @@
 import { HierarchyContext } from '@wesib/generic';
-import { Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
+import { Component, ComponentContext, ContentRoot, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
 import { UserService, UserSupport } from '../../core/users';
 import { escapeHtml } from '../../core/util';
@@ -57,11 +57,11 @@ export class FollowAuthorBtnComponent {
   @Render()
   render(): ElementRenderer {
 
-    const { contentRoot }: { contentRoot: Element } = this._context;
+    const { contentRoot, element } = this._context as { contentRoot: ContentRoot, element: Element };
 
     return () => {
       if (this.author.username) {
-        contentRoot.className = this.author.following ? 'btn-secondary' : 'btn-outline-secondary';
+        element.className = this.author.following ? 'btn-secondary' : 'btn-outline-secondary';
         contentRoot.innerHTML = `<i class="ion-plus-round"></i> Follow ${escapeHtml(this.author.username)}`;
       } else {
         contentRoot.innerHTML = '';

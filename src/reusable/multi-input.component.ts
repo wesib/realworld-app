@@ -8,6 +8,7 @@ import {
   BootstrapWindow,
   Component,
   ComponentContext,
+  ContentRoot,
   DomProperty,
   domPropertyPathTo,
   ElementRenderer,
@@ -44,7 +45,7 @@ export class MultiInputComponent {
       return this._input;
     }
 
-    const { element }: { element: Element } = this._context;
+    const { element } = this._context as { element: Element };
 
     this._input = element.querySelector('input')!;
     this._input.onblur = this._input.onchange = this._handleBlur.bind(this);
@@ -60,7 +61,7 @@ export class MultiInputComponent {
       return this._datalist;
     }
 
-    const { element }: { element: Element } = this._context;
+    const { element } = this._context as { element: Element };
 
     this._datalist = element.querySelector('datalist')!;
 
@@ -102,7 +103,7 @@ export class MultiInputComponent {
   @Render()
   render(): ElementRenderer {
 
-    const { contentRoot, element }: { contentRoot: Node & InnerHTML; element: Element } = this._context;
+    const { contentRoot, element } = this._context as { contentRoot: ContentRoot; element: Element };
     const { document } = this._context.get(BootstrapWindow);
 
     contentRoot.innerHTML = `<style>
@@ -294,7 +295,7 @@ class MultiInputControl extends AbstractInElement<readonly string[], MultiInputC
         {
           aspects,
           get: () => element.values,
-          set: values => element.values = values,
+          set: (values: readonly string[]) => element.values = values,
         },
     );
   }

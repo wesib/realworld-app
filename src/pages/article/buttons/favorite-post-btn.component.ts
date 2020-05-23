@@ -1,5 +1,13 @@
 import { HierarchyContext } from '@wesib/generic';
-import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
+import {
+  BootstrapWindow,
+  Component,
+  ComponentContext,
+  ContentRoot,
+  ElementRenderer,
+  Render,
+  StateProperty,
+} from '@wesib/wesib';
 import { Conduit__NS } from '../../../core';
 import { ArticleService, ArticlesSupport } from '../../../core/articles';
 import { CurrentArticle, noArticle } from '../current-article';
@@ -56,7 +64,7 @@ export class FavoritePostBtnComponent {
   @Render()
   render(): ElementRenderer {
 
-    const { contentRoot }: { contentRoot: HTMLElement } = this._context;
+    const { contentRoot, element } = this._context as { contentRoot: ContentRoot, element: Element };
     const { document } = this._context.get(BootstrapWindow);
     const icon = document.createElement('i');
 
@@ -69,7 +77,7 @@ export class FavoritePostBtnComponent {
     return () => {
       icon.className = this.article.slug && this.article.favorited ? 'ion-heart' : 'ion-ios-heart-outline';
       counter.innerText = this.article.slug && this.article.favoritesCount ? String(this.article.favoritesCount) : '';
-      contentRoot.className = this.article.slug && this.article.favorited ? 'btn-success' : 'btn-outline-success';
+      element.className = this.article.slug && this.article.favorited ? 'btn-success' : 'btn-outline-success';
     };
   }
 
