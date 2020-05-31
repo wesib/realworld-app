@@ -1,5 +1,5 @@
-import { asis } from '@proc7ts/call-thru';
 import { OnEvent } from '@proc7ts/fun-events';
+import { asis } from '@proc7ts/primitives';
 import { BootstrapContext } from '@wesib/wesib';
 import { ApiFetch, ApiRequest, ApiResponse } from '../api';
 import { Comment } from './comment';

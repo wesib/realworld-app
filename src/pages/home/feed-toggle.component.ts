@@ -1,5 +1,5 @@
-import { noop } from '@proc7ts/call-thru';
 import { afterAll } from '@proc7ts/fun-events';
+import { noop } from '@proc7ts/primitives';
 import { ActivateNavLink, HandleNavLinks, Navigation } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';

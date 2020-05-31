@@ -1,6 +1,6 @@
-import { noop } from '@proc7ts/call-thru';
 import { ContextKey, ContextKey__symbol, SingleContextKey } from '@proc7ts/context-values';
 import { eventSupplyOf, nextOnEvent, StatePath, trackValue } from '@proc7ts/fun-events';
+import { noop } from '@proc7ts/primitives';
 import { HierarchyContext } from '@wesib/generic';
 import {
   BootstrapWindow,

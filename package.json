@@ -1,6 +1,6 @@
 {
   "name": "@wesib/realworld-app",
-  "version": "1.0.0-beta.12",
+  "version": "1.0.0-beta.15",
   "description": "Wesib: RealWorld example application",
   "repository": {
     "type": "git",
@@ -16,15 +16,19 @@
     "node": ">=12.10.0",
     "yarn": "^1.22.0"
   },
+  "dependencies": {
+    "http-server": "^0.12.3"
+  },
   "devDependencies": {
-    "@proc7ts/a-iterable": "^2.5.2",
-    "@proc7ts/call-thru": "^3.0.2",
-    "@proc7ts/context-values": "^4.1.0",
+    "@proc7ts/a-iterable": "^2.6.1",
+    "@proc7ts/call-thru": "^4.0.0",
+    "@proc7ts/context-values": "^4.2.0",
     "@proc7ts/delta-set": "^1.2.0",
     "@proc7ts/eslint-config": "^2.0.0",
-    "@proc7ts/fun-events": "^9.1.1",
-    "@proc7ts/input-aspects": "^3.1.0",
+    "@proc7ts/fun-events": "^9.2.0",
+    "@proc7ts/input-aspects": "^3.2.0",
     "@proc7ts/namespace-aliaser": "^2.0.3",
+    "@proc7ts/primitives": "^1.0.2",
     "@proc7ts/render-scheduler": "^1.2.0",
     "@rollup/plugin-alias": "^3.1.0",
     "@rollup/plugin-commonjs": "^12.0.0",
@@ -35,8 +39,8 @@
     "@types/node": "^12.12.42",
     "@typescript-eslint/eslint-plugin": "^3.0.2",
     "@typescript-eslint/parser": "^3.0.2",
-    "@wesib/generic": "^1.0.0-beta.12",
-    "@wesib/wesib": "^1.0.0-beta.12",
+    "@wesib/generic": "^1.0.0-beta.15",
+    "@wesib/wesib": "^1.0.0-beta.15",
     "bootstrap": "^4.5.0",
     "dompurify": "^2.0.11",
     "eslint": "^7.1.0",
@@ -45,7 +49,6 @@
     "gh-pages": "^3.0.0",
     "glob": "^7.1.6",
     "handlebars": "^4.7.6",
-    "http-server": "^0.12.3",
     "jest": "^26.0.1",
     "jest-junit": "^10.0.0",
     "marked": "^1.1.0",

@@ -1,5 +1,5 @@
-import { noop } from '@proc7ts/call-thru';
 import { EventEmitter, OnEvent } from '@proc7ts/fun-events';
+import { noop } from '@proc7ts/primitives';
 import { bootstrapComponents, BootstrapContext, Feature } from '@wesib/wesib';
 import { ApiFetch, ApiRequest, ApiResponse } from '../api';
 import { AuthService } from './auth-service';

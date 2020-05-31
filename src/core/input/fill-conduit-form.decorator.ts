@@ -7,8 +7,9 @@ import {
   InMode,
   inModeByValidity,
 } from '@proc7ts/input-aspects';
+import { Class } from '@proc7ts/primitives';
 import { FillInputForm, FillInputFormDef } from '@wesib/generic/input';
-import { Class, Component, ComponentClass, ComponentDecorator } from '@wesib/wesib';
+import { Component, ComponentClass, ComponentDecorator } from '@wesib/wesib';
 import { HandleConduitSubmitButton, HandleConduitSubmitButtonDef } from './handle-conduit-submit-button.decorator';
 
 export function FillConduitForm<Model extends object = any, T extends ComponentClass = Class>(

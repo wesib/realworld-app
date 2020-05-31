@@ -1,5 +1,5 @@
-import { asis } from '@proc7ts/call-thru';
 import { afterThe, OnEvent } from '@proc7ts/fun-events';
+import { asis } from '@proc7ts/primitives';
 import { BootstrapContext, BootstrapWindow } from '@wesib/wesib';
 import DOMPurify from 'dompurify';
 import marked from 'marked';
