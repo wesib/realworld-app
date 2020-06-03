@@ -20,7 +20,7 @@
     "http-server": "^0.12.3"
   },
   "devDependencies": {
-    "@proc7ts/a-iterable": "^2.6.1",
+    "@proc7ts/a-iterable": "^2.7.0",
     "@proc7ts/call-thru": "^4.0.0",
     "@proc7ts/context-values": "^4.2.0",
     "@proc7ts/delta-set": "^1.2.0",
