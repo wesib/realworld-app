@@ -80,4 +80,5 @@ For more information on how to this works with other frontends/backends, head ov
 
 1. `yarn install`
 2. `yarn build`
-3. `yarn start -o`
+3. `yarn start`
+4. Open <http://localhost:4200/>

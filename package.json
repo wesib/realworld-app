@@ -16,10 +16,11 @@
     "node": ">=12.10.0",
     "yarn": "^1.22.0"
   },
-  "dependencies": {
-    "http-server": "^0.12.3"
-  },
   "devDependencies": {
+    "@hatsy/hatsy": "^1.0.0-dev.0",
+    "@hatsy/route-match": "^1.0.0-dev.4",
+    "@hatsy/router": "^1.0.0-dev.0",
+    "@hatsy/serve-static": "^1.0.0-dev.0",
     "@proc7ts/a-iterable": "^2.7.0",
     "@proc7ts/call-thru": "^4.0.0",
     "@proc7ts/context-values": "^4.2.0",
@@ -45,6 +46,7 @@
     "dompurify": "^2.0.11",
     "eslint": "^7.3.0",
     "eslint-plugin-jest": "^23.14.0",
+    "esm": "^3.2.25",
     "fs-extra": "^9.0.1",
     "gh-pages": "^3.1.0",
     "glob": "^7.1.6",
@@ -75,7 +77,7 @@
     "rebuild": "run-s clean build",
     "site:gh-pages": "gh-pages --dist dist --dotfiles",
     "site:publish": "run-s all \"site:gh-pages {@}\" --",
-    "start": "http-server ./dist -d false -p 4200",
+    "start": "node -r esm ./build/server.js",
     "test": "jest"
   }
 }
