@@ -17,9 +17,9 @@
     "yarn": "^1.22.0"
   },
   "devDependencies": {
-    "@hatsy/hatsy": "^1.0.0-dev.0",
-    "@hatsy/router": "^1.0.0-dev.0",
-    "@hatsy/serve-static": "^1.0.0-dev.0",
+    "@hatsy/hatsy": "^1.0.0",
+    "@hatsy/router": "^1.0.0",
+    "@hatsy/serve-static": "^1.0.0",
     "@proc7ts/a-iterable": "^2.7.0",
     "@proc7ts/call-thru": "^4.0.0",
     "@proc7ts/context-values": "^4.2.0",
