@@ -57,7 +57,7 @@ export class FollowAuthorBtnComponent {
   @Render()
   render(): ElementRenderer {
 
-    const { contentRoot, element } = this._context as { contentRoot: ContentRoot, element: Element };
+    const { contentRoot, element } = this._context as { contentRoot: ContentRoot; element: Element };
 
     return () => {
       if (this.author.username) {

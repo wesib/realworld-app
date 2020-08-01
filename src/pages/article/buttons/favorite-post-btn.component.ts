@@ -64,7 +64,7 @@ export class FavoritePostBtnComponent {
   @Render()
   render(): ElementRenderer {
 
-    const { contentRoot, element } = this._context as { contentRoot: ContentRoot, element: Element };
+    const { contentRoot, element } = this._context as { contentRoot: ContentRoot; element: Element };
     const { document } = this._context.get(BootstrapWindow);
     const icon = document.createElement('i');
 
