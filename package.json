@@ -24,7 +24,7 @@
     "@proc7ts/call-thru": "^4.0.0",
     "@proc7ts/context-values": "^4.2.0",
     "@proc7ts/delta-set": "^1.2.0",
-    "@proc7ts/eslint-config": "^2.0.3",
+    "@proc7ts/eslint-config": "^2.0.4",
     "@proc7ts/fun-events": "^9.2.0",
     "@proc7ts/input-aspects": "^3.2.0",
     "@proc7ts/namespace-aliaser": "^2.0.3",

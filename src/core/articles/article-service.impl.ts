@@ -61,9 +61,7 @@ export class ArticleService$ implements ArticleService {
 
     return this._purify.sanitize(
         html, {
-          // eslint-disable-next-line @typescript-eslint/naming-convention
           RETURN_DOM_FRAGMENT: true,
-          // eslint-disable-next-line @typescript-eslint/naming-convention
           RETURN_DOM_IMPORT: true,
         },
     );
