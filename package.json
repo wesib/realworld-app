@@ -42,7 +42,7 @@
     "@wesib/generic": "^1.0.0-beta.16",
     "@wesib/wesib": "^1.0.0-beta.16",
     "bootstrap": "^4.5.2",
-    "dompurify": "^2.0.12",
+    "dompurify": "^2.0.14",
     "eslint": "^7.7.0",
     "eslint-plugin-jest": "^23.20.0",
     "esm": "^3.2.25",
