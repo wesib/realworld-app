@@ -53,11 +53,11 @@
     "jest": "^26.4.2",
     "jest-junit": "^11.1.0",
     "marked": "^1.1.1",
-    "npm-run-all": "^4.1.5",
     "rollup": "^2.26.6",
     "rollup-plugin-sourcemaps": "^0.6.2",
     "rollup-plugin-terser": "^7.0.0",
     "rollup-plugin-typescript2": "^0.27.2",
+    "run-z": "^1.0.0-dev.9",
     "sass": "^1.26.10",
     "shx": "^0.3.2",
     "ts-jest": "^26.3.0",
@@ -66,17 +66,14 @@
     "typescript": "^4.0.2"
   },
   "scripts": {
-    "all": "run-p --aggregate-output build:all test",
-    "build": "rollup --config ./rollup.config.js",
-    "build:all": "run-p --aggregate-output rebuild lint",
-    "ci:all": "run-p --aggregate-output build:all ci:test",
-    "ci:test": "jest --ci --runInBand",
-    "clean": "shx rm -rf dist target",
-    "lint": "eslint . --ext .js,.ts",
-    "rebuild": "run-s clean build",
-    "site:gh-pages": "gh-pages --dist dist --dotfiles",
-    "site:publish": "run-s all \"site:gh-pages {@}\" --",
-    "start": "node -r esm ./build/server.js",
-    "test": "jest"
+    "all": "run-z +z build,lint,test",
+    "build": "run-z +z --then rollup --config ./rollup.config.js",
+    "ci:all": "run-z all +test/--ci/--runInBand",
+    "clean": "run-z +z --then shx rm -rf dist target",
+    "lint": "run-z +z --then eslint . --ext .js,.ts",
+    "site:publish": "run-z +z all --then gh-pages --dist dist --dotfiles",
+    "start": "run-z +z build --then node -r esm ./build/server.js",
+    "test": "run-z +z --then jest",
+    "z": "run-z +build,+lint,+test"
   }
 }
