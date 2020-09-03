@@ -79,6 +79,5 @@ For more information on how to this works with other frontends/backends, head ov
 # Getting started
 
 1. `yarn install`
-2. `yarn build`
-3. `yarn start`
-4. Open <http://localhost:4200/>
+2. `yarn start`
+3. Open <http://localhost:4200/>
