@@ -17,12 +17,12 @@ class PageUserProfileParam$ extends PageParam<FeedRequest, FeedRequest> {
       get() {
 
         const { searchParams: params, pathname } = page.get(PageHashURLParam);
-        const slashIdx = pathname.indexOf('/', 1);
+        const slashIdx: number = pathname.indexOf('/', 1);
         const user = decodeURIComponent(slashIdx < 0 ? pathname.substring(1) : pathname.substring(1, slashIdx));
         let author: string | undefined;
         let favorited: string | undefined;
 
-        if (slashIdx > 0 && pathname.substring(slashIdx + 1) === 'favorite') {
+        if (slashIdx > 0 && pathname.substr(slashIdx + 1) === 'favorite') {
           favorited = user;
         } else {
           author = user;
