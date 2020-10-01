@@ -1,5 +1,5 @@
-import { overEntries } from '@proc7ts/a-iterable';
 import { FnContextKey, FnContextRef } from '@proc7ts/context-values/updatable';
+import { overEntries } from '@proc7ts/push-iterator';
 import { bootstrapDefault, BootstrapWindow } from '@wesib/wesib';
 import { ApiResponse } from '../core/api';
 
