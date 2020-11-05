@@ -1,3 +1,4 @@
+import { escapeHTML } from '@hatsy/hten';
 import { DomEventDispatcher } from '@proc7ts/fun-events/dom';
 import { InSubmit, inSubmitButton, InSubmitError } from '@proc7ts/input-aspects';
 import { HierarchyContext } from '@wesib/generic';
@@ -7,7 +8,6 @@ import { Conduit__NS } from '../../core';
 import { apiSubmit } from '../../core/api';
 import { AuthService, AuthUser, notAuthenticated, NotAuthenticated } from '../../core/auth';
 import { Comment, CommentService } from '../../core/comments';
-import { escapeHtml } from '../../core/util';
 import { formatDate, RenderHTML } from '../../reusable';
 import { CommentEvent } from './comment-event';
 import { CurrentArticle, noArticle } from './current-article';
@@ -76,7 +76,7 @@ export class ArticleCommentComponent {
 
     cardFooter.innerHTML = `
 <a href="${authorLink}" class="comment-author">${authorImage}</a>
-<a href="${authorLink}" class="comment-author">${escapeHtml(author.username)}</a>
+<a href="${authorLink}" class="comment-author">${escapeHTML(author.username)}</a>
 <span class="date-posted">${date}</span>`;
 
     const { control: form } = this.form;

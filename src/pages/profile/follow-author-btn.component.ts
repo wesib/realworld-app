@@ -1,8 +1,8 @@
+import { escapeHTML } from '@hatsy/hten';
 import { HierarchyContext } from '@wesib/generic';
 import { Component, ComponentContext, ContentRoot, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
 import { UserService, UserSupport } from '../../core/users';
-import { escapeHtml } from '../../core/util';
 import { CurrentUserProfile, noUserProfile } from './current-user-profile';
 
 @Component(
@@ -62,7 +62,7 @@ export class FollowAuthorBtnComponent {
     return () => {
       if (this.author.username) {
         element.className = this.author.following ? 'btn-secondary' : 'btn-outline-secondary';
-        contentRoot.innerHTML = `<i class="ion-plus-round"></i> Follow ${escapeHtml(this.author.username)}`;
+        contentRoot.innerHTML = `<i class="ion-plus-round"></i> Follow ${escapeHTML(this.author.username)}`;
       } else {
         contentRoot.innerHTML = '';
       }
