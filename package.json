@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "@hatsy/hatsy": "^1.7.0",
-    "@hatsy/hten": "^1.0.0",
+    "@hatsy/hten": "^1.1.0",
     "@hatsy/router": "^1.6.1",
     "@hatsy/serve-static": "^1.6.0",
     "@proc7ts/call-thru": "^4.1.0",
