@@ -44,7 +44,7 @@
     "@wesib/wesib": "^1.0.0-beta.19",
     "bootstrap": "^4.5.3",
     "dompurify": "^2.2.2",
-    "eslint": "^7.12.1",
+    "eslint": "^7.13.0",
     "eslint-plugin-jest": "^24.1.0",
     "esm": "^3.2.25",
     "fs-extra": "^9.0.1",
