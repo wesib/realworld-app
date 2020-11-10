@@ -23,7 +23,7 @@
     "@hatsy/router": "^2.0.0",
     "@hatsy/serve-static": "^2.0.0",
     "@proc7ts/call-thru": "^4.2.0",
-    "@proc7ts/context-values": "^4.6.1",
+    "@proc7ts/context-values": "^4.7.0",
     "@proc7ts/delta-set": "^1.4.0",
     "@proc7ts/eslint-config": "^2.0.5",
     "@proc7ts/fun-events": "^9.4.0",
