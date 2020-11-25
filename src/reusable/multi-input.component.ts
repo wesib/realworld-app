@@ -1,6 +1,5 @@
 import { DeltaSet } from '@proc7ts/delta-set';
-import { AbstractInElement, InElement } from '@proc7ts/input-aspects';
-import { InConverter } from '@proc7ts/input-aspects/d.ts/converter';
+import { AbstractInElement, InConverter, InElement } from '@proc7ts/input-aspects';
 import { overArray } from '@proc7ts/push-iterator';
 import {
   AttachShadow,
