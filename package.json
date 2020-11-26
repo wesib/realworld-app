@@ -18,11 +18,11 @@
     "yarn": "^1.22.0"
   },
   "devDependencies": {
-    "@hatsy/hatsy": "^2.0.1",
-    "@hatsy/hten": "^1.1.1",
-    "@hatsy/log-z-request": "^2.0.1",
-    "@hatsy/router": "^2.0.1",
-    "@hatsy/serve-static": "^2.0.1",
+    "@hatsy/hatsy": "^2.0.2",
+    "@hatsy/hten": "^1.1.2",
+    "@hatsy/log-z-request": "^2.0.2",
+    "@hatsy/router": "^2.0.2",
+    "@hatsy/serve-static": "^2.0.2",
     "@proc7ts/call-thru": "^4.3.1",
     "@proc7ts/context-values": "^4.7.1",
     "@proc7ts/delta-set": "^1.4.2",
