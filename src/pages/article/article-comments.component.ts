@@ -9,7 +9,7 @@ import { ApiResponse } from '../../core/api';
 import { Comment, CommentList, CommentService, CommentsSupport } from '../../core/comments';
 import { ConduitInputSupport } from '../../core/input';
 import { RenderLoader } from '../../core/loader';
-import { ArticleCommentComponent } from './article-comment.component';
+import { ArticleCommentComponent, ArticleCommentEl } from './article-comment.component';
 import { CommentEvent } from './comment-event';
 import { CurrentArticle, noArticle } from './current-article';
 
@@ -94,9 +94,9 @@ export class ArticleCommentsComponent {
 
       comments.forEach(comment => {
 
-        const commentEl = fragment.appendChild(document.createElement('conduit-article-comment'));
+        const commentEl = fragment.appendChild(document.createElement('conduit-article-comment') as ArticleCommentEl);
 
-        (commentEl as any).articleComment = comment;
+        commentEl.articleComment = comment;
       });
 
       range.insertNode(fragment);

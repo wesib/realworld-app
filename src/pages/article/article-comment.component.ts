@@ -12,6 +12,10 @@ import { formatDate, RenderHTML } from '../../reusable';
 import { CommentEvent } from './comment-event';
 import { CurrentArticle, noArticle } from './current-article';
 
+export interface ArticleCommentEl extends HTMLElement {
+  articleComment?: Comment;
+}
+
 @Component(['article-comment', Conduit__NS])
 export class ArticleCommentComponent {
 

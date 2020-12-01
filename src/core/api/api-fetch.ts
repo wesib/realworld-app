@@ -188,7 +188,7 @@ function parseApiResponse(
 function handleApiResponse<T>(
     { respondAs }: ApiRequest<T>,
     responseOfFailure: ResponseOrFailure,
-    json?: any,
+    json: { errors?: ApiResponse.Failure['errors'] } & Record<string, any>,
 ): ApiResponse<T> {
   if (!responseOfFailure.response) {
     return responseOfFailure.failure;

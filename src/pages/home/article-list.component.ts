@@ -3,7 +3,7 @@ import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, 
 import { Conduit__NS } from '../../core';
 import { noArticles } from '../../core/feed';
 import { renderNow } from '../../core/util';
-import { ArticlePreviewComponent } from './article-preview.component';
+import { ArticlePreviewComponent, ArticlePreviewEl } from './article-preview.component';
 import { FeedArticleList } from './feed-article-list';
 
 @Component(
@@ -46,7 +46,7 @@ export class ArticleListComponent {
 
       this.articles.articles.forEach(article => {
 
-        const previewElt: any = fragment.appendChild(document.createElement('conduit-article-preview'));
+        const previewElt = fragment.appendChild(document.createElement('conduit-article-preview') as ArticlePreviewEl);
 
         previewElt.feedArticle = article;
         renderNow(previewElt, this._context);

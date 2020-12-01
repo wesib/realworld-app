@@ -8,6 +8,10 @@ import { RenderHTML } from '../../reusable';
 import { ArticleButtonsSupport } from '../article/buttons';
 import { CurrentArticle, CurrentArticleTracker, NoArticle } from '../article/current-article';
 
+export interface ArticlePreviewEl extends HTMLElement {
+  feedArticle?: Article;
+}
+
 @Component(
     ['article-preview', Conduit__NS],
     {
