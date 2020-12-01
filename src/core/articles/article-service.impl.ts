@@ -19,8 +19,11 @@ export class ArticleService$ implements ArticleService {
     const window = context.get(BootstrapWindow);
 
     this._purify = DOMPurify(window);
-    if ((window as any).requestIdleCallback) {
-      this._schedule = task => (window as any).requestIdleCallback(task, { timeout: 750 });
+
+    const { requestIdleCallback } = window;
+
+    if (requestIdleCallback) {
+      this._schedule = task => requestIdleCallback(task, { timeout: 750 });
     } else {
       this._schedule = task => window.setTimeout(task);
     }
@@ -139,4 +142,10 @@ export class ArticleService$ implements ArticleService {
     return this._apiFetch(apiRequest);
   }
 
+}
+
+declare global {
+  interface Window {
+    requestIdleCallback?(this: void, task: () => void, options?: { timeout: number }): void;
+  }
 }
