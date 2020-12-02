@@ -1,4 +1,4 @@
-import { escapeHTML } from '@hatsy/hten';
+import { escapeHTML } from '@frontmeans/httongue';
 import { HierarchyContext } from '@wesib/generic';
 import { Component, ComponentContext, ContentRoot, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';

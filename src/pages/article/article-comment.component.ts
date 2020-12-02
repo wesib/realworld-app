@@ -1,4 +1,4 @@
-import { escapeHTML } from '@hatsy/hten';
+import { escapeHTML } from '@frontmeans/httongue';
 import { DomEventDispatcher } from '@proc7ts/fun-events/dom';
 import { InSubmit, inSubmitButton, InSubmitError } from '@proc7ts/input-aspects';
 import { HierarchyContext } from '@wesib/generic';
