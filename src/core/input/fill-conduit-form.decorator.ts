@@ -6,7 +6,7 @@ import {
   InGroup,
   InMode,
   inModeByValidity,
-} from '@proc7ts/input-aspects';
+} from '@frontmeans/input-aspects';
 import { Class } from '@proc7ts/primitives';
 import { FillInputForm, FillInputFormDef } from '@wesib/generic/input';
 import { Component, ComponentClass, ComponentDecorator } from '@wesib/wesib';

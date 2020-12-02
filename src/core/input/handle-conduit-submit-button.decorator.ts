@@ -1,5 +1,5 @@
+import { inSubmitButton } from '@frontmeans/input-aspects';
 import { afterAll } from '@proc7ts/fun-events';
-import { inSubmitButton } from '@proc7ts/input-aspects';
 import { Class } from '@proc7ts/primitives';
 import { ComponentNode, ElementPickMode, HierarchyContext } from '@wesib/generic';
 import { DefaultInAspects, InputToForm } from '@wesib/generic/input';

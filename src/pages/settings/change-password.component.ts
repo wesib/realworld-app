@@ -1,4 +1,4 @@
-import { InMode, InStyledElement, inText } from '@proc7ts/input-aspects';
+import { InMode, InStyledElement, inText } from '@frontmeans/input-aspects';
 import { SetInputName } from '@wesib/generic/input';
 import { Component } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';

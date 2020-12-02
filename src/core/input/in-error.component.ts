@@ -1,5 +1,5 @@
+import { InCssClasses, inCssInfo, InStyledElement } from '@frontmeans/input-aspects';
 import { AfterEvent } from '@proc7ts/fun-events';
-import { InCssClasses, inCssInfo, InStyledElement } from '@proc7ts/input-aspects';
 import { ConvertInput } from '@wesib/generic/input';
 import { Attributes, Component, trackAttribute } from '@wesib/wesib';
 import { Conduit__NS } from '../conduit.ns';

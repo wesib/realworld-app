@@ -1,6 +1,6 @@
+import { InStatus, InSubmit, InSubmitError } from '@frontmeans/input-aspects';
+import { css__naming, QualifiedName } from '@frontmeans/namespace-aliaser';
 import { AfterEvent } from '@proc7ts/fun-events';
-import { InStatus, InSubmit, InSubmitError } from '@proc7ts/input-aspects';
-import { css__naming, QualifiedName } from '@proc7ts/namespace-aliaser';
 import { HierarchyContext } from '@wesib/generic';
 import { InputToForm, NoInputToForm, OnSubmit } from '@wesib/generic/input';
 import {

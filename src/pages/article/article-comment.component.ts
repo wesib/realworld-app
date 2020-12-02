@@ -1,6 +1,6 @@
 import { escapeHTML } from '@frontmeans/httongue';
+import { InSubmit, inSubmitButton, InSubmitError } from '@frontmeans/input-aspects';
 import { DomEventDispatcher } from '@proc7ts/fun-events/dom';
-import { InSubmit, inSubmitButton, InSubmitError } from '@proc7ts/input-aspects';
 import { HierarchyContext } from '@wesib/generic';
 import { InputFromControl, NoInputFromControl } from '@wesib/generic/input';
 import { BootstrapWindow, Component, ComponentContext, DomProperty, StateProperty } from '@wesib/wesib';

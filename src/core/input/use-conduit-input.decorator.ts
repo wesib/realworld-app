@@ -1,6 +1,6 @@
+import { InControl, InCssClasses, inCssInfo, InMode } from '@frontmeans/input-aspects';
 import { nextArgs, NextCall } from '@proc7ts/call-thru';
 import { afterSupplied, EventSupply, nextAfterEvent, OnEventCallChain } from '@proc7ts/fun-events';
-import { InControl, InCssClasses, inCssInfo, InMode } from '@proc7ts/input-aspects';
 import { Class } from '@proc7ts/primitives';
 import { HierarchyContext } from '@wesib/generic';
 import { InputToForm, UseInputElement, UseInputElementDef } from '@wesib/generic/input';

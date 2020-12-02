@@ -1,5 +1,5 @@
+import { InStatus, InSubmit, InSubmitError } from '@frontmeans/input-aspects';
 import { afterAll, afterSent, afterThe, eventSupplyOf, nextAfterEvent } from '@proc7ts/fun-events';
-import { InStatus, InSubmit, InSubmitError } from '@proc7ts/input-aspects';
 import { HierarchyContext, Navigation, PageHashURLParam } from '@wesib/generic';
 import { InputToForm, OnSubmit } from '@wesib/generic/input';
 import { Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';

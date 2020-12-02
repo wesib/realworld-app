@@ -1,5 +1,5 @@
-import { css__naming, QualifiedName } from '@proc7ts/namespace-aliaser';
-import { RenderExecution } from '@proc7ts/render-scheduler';
+import { css__naming, QualifiedName } from '@frontmeans/namespace-aliaser';
+import { RenderExecution } from '@frontmeans/render-scheduler';
 import {
   ComponentClass,
   ComponentContext,

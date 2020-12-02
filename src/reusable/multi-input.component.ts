@@ -1,5 +1,5 @@
+import { AbstractInElement, InConverter, InElement } from '@frontmeans/input-aspects';
 import { DeltaSet } from '@proc7ts/delta-set';
-import { AbstractInElement, InConverter, InElement } from '@proc7ts/input-aspects';
 import { overArray } from '@proc7ts/push-iterator';
 import {
   AttachShadow,

@@ -1,4 +1,4 @@
-import { css__naming, QualifiedName } from '@proc7ts/namespace-aliaser';
+import { css__naming, QualifiedName } from '@frontmeans/namespace-aliaser';
 import {
   Component,
   ComponentContext,

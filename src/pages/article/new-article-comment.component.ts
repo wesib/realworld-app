@@ -1,4 +1,4 @@
-import { InStatus, InSubmit, InSubmitError } from '@proc7ts/input-aspects';
+import { InStatus, InSubmit, InSubmitError } from '@frontmeans/input-aspects';
 import { HierarchyContext } from '@wesib/generic';
 import { InputToForm, OnSubmit } from '@wesib/generic/input';
 import { Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';

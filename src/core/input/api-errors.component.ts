@@ -1,6 +1,6 @@
+import { InValidation } from '@frontmeans/input-aspects';
 import { nextArgs, NextCall } from '@proc7ts/call-thru';
 import { nextAfterEvent, OnEventCallChain } from '@proc7ts/fun-events';
-import { InValidation } from '@proc7ts/input-aspects';
 import { HierarchyContext } from '@wesib/generic';
 import { InputFromControl } from '@wesib/generic/input';
 import { Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
