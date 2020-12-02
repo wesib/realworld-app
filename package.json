@@ -18,8 +18,8 @@
     "yarn": "^1.22.0"
   },
   "devDependencies": {
-    "@hatsy/hatsy": "^2.0.2",
     "@frontmeans/httongue": "^2.0.0",
+    "@hatsy/hatsy": "^2.0.2",
     "@hatsy/log-z-request": "^2.0.3",
     "@hatsy/router": "^2.0.4",
     "@hatsy/serve-static": "^2.0.3",
@@ -38,7 +38,7 @@
     "@run-z/eslint-config": "^1.1.0",
     "@run-z/log-z": "^1.2.1",
     "@types/dompurify": "^2.0.4",
-    "@types/jest": "^26.0.15",
+    "@types/jest": "^26.0.16",
     "@types/marked": "^1.2.0",
     "@types/node": "^12.19.8",
     "@typescript-eslint/eslint-plugin": "^4.9.0",
