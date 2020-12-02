@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@frontmeans/httongue": "^2.0.0",
-    "@hatsy/hatsy": "^2.0.2",
+    "@hatsy/hatsy": "^2.1.0",
     "@hatsy/log-z-request": "^2.0.3",
     "@hatsy/router": "^2.0.4",
     "@hatsy/serve-static": "^2.0.3",
