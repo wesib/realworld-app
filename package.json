@@ -39,7 +39,7 @@
     "@run-z/log-z": "^1.2.1",
     "@types/dompurify": "^2.0.4",
     "@types/jest": "^26.0.16",
-    "@types/marked": "^1.2.0",
+    "@types/marked": "^1.2.1",
     "@types/node": "^12.19.8",
     "@typescript-eslint/eslint-plugin": "^4.9.0",
     "@typescript-eslint/parser": "^4.9.0",
