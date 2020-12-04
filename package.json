@@ -18,7 +18,7 @@
     "yarn": "^1.22.0"
   },
   "devDependencies": {
-    "@frontmeans/httongue": "^2.1.0",
+    "@frontmeans/httongue": "^2.2.0",
     "@frontmeans/input-aspects": "^3.6.0",
     "@frontmeans/namespace-aliaser": "^2.3.0",
     "@frontmeans/render-scheduler": "^1.5.0",
