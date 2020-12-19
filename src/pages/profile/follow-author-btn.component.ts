@@ -23,10 +23,10 @@ export class FollowAuthorBtnComponent {
     const hierarchy = _context.get(HierarchyContext);
     const userService = _context.get(UserService);
 
-    hierarchy.get(CurrentUserProfile).to(profile => {
+    hierarchy.get(CurrentUserProfile)(profile => {
       this.author = profile;
     });
-    _context.on('click').to(() => {
+    _context.on('click')(() => {
 
       const { author } = this;
 
@@ -38,7 +38,7 @@ export class FollowAuthorBtnComponent {
           ...author,
           following: follow,
         });
-        userService.followUser(author.username, follow).to(
+        userService.followUser(author.username, follow)(
             response => {
               if (this.author.username) {
                 if (response.ok) {

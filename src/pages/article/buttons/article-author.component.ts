@@ -23,7 +23,9 @@ export class ArticleAuthorComponent {
 
     const hierarchy = _context.get(HierarchyContext);
 
-    hierarchy.get(CurrentArticle).to(article => this.article = article);
+    hierarchy.get(CurrentArticle)(
+        article => this.article = article,
+    );
   }
 
   @Render()

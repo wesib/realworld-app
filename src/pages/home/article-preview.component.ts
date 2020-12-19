@@ -1,3 +1,4 @@
+import { supplyAfter } from '@proc7ts/fun-events';
 import { HandleNavLinks, HierarchyContext } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, DomProperty, isElement, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
@@ -57,10 +58,13 @@ export class ArticlePreviewComponent {
     const authService = _context.get(AuthService);
     const hierarchy = _context.get(HierarchyContext);
 
-    authService.user()
-        .tillOff(_context)
-        .to(user => this.user = user)
-        .whenOff(() => this.user = notAuthenticated);
+    authService.user
+        .do(supplyAfter(_context))(
+            user => this.user = user,
+        )
+        .whenOff(
+            () => this.user = notAuthenticated,
+        );
     hierarchy.provide({ a: CurrentArticle, is: this._article });
   }
 

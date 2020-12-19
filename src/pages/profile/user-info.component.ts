@@ -21,7 +21,7 @@ export class UserInfoComponent {
 
     const hierarchy = _context.get(HierarchyContext);
 
-    hierarchy.get(CurrentUserProfile).to(
+    hierarchy.get(CurrentUserProfile)(
         profile => this.profile = profile,
     );
   }

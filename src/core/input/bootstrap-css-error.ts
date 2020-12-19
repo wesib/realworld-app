@@ -1,6 +1,5 @@
 import { InCssClasses, inCssError, InStatus, InValidation } from '@frontmeans/input-aspects';
-import { nextArgs } from '@proc7ts/call-thru';
-import { afterAll, nextAfterEvent } from '@proc7ts/fun-events';
+import { afterAll, afterThe, digAfter } from '@proc7ts/fun-events';
 
 export function bootstrapCssError(
     {
@@ -18,8 +17,8 @@ export function bootstrapCssError(
     return afterAll({
       status: control.aspect(InStatus),
       validity: control.aspect(InValidation),
-    }).keepThru(
-        ({
+    }).do(
+        digAfter(({
           status: [{ touched, hasFocus }],
           validity: [validity],
         }) => {
@@ -27,9 +26,9 @@ export function bootstrapCssError(
           const incomplete = validity.has('incomplete') || validity.has('missing');
 
           return touched && !(hasFocus && incomplete)
-              ? nextAfterEvent(cssClasses.specs(inCssError({ mark, when })))
-              : nextArgs();
-        },
+              ? cssClasses.specs(inCssError({ mark, when }))
+              : afterThe();
+        }),
     );
   };
 }

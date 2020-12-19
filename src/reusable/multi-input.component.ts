@@ -302,7 +302,7 @@ class MultiInputControl extends AbstractInElement<readonly string[], MultiInputC
   protected listenForInput(
       update: (input: InElement.Input<readonly string[]>) => void,
   ): void {
-    this.events.on<MultiInputEvent>('conduit:input').to(event => {
+    this.events.on<MultiInputEvent>('conduit:input')(event => {
       update({ event, value: event.detail });
     });
   }

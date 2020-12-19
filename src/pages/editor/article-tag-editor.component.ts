@@ -1,3 +1,4 @@
+import { supplyOn } from '@proc7ts/fun-events';
 import { SetInputName } from '@wesib/generic/input';
 import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
@@ -29,11 +30,11 @@ export class ArticleTagEditorComponent {
   private tags: string[] = [];
 
   constructor(private readonly _context: ComponentContext) {
-    _context.get(FeedService)
-        .tags()
-        .tillOff(_context)
-        .to((...tags) => this.tags = tags)
-        .whenOff(() => this.tags = []);
+    _context.get(FeedService).tags.do(supplyOn(_context))(
+        (...tags) => this.tags = tags,
+    ).whenOff(
+        () => this.tags = [],
+    );
   }
 
   @Render()

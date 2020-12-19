@@ -1,5 +1,4 @@
-import { nextArg, nextArgs, nextSkip } from '@proc7ts/call-thru';
-import { afterSupplied, EventReceiver, EventSupply, OnEvent, onEventBy, trackValueBy } from '@proc7ts/fun-events';
+import { afterSupplied, mapOn_, OnEvent, onEventBy, trackValueBy, translateOn_ } from '@proc7ts/fun-events';
 import { asis } from '@proc7ts/primitives';
 import { BootstrapContext } from '@wesib/wesib';
 import { ApiFetch, ApiRequest, ApiResponse } from '../api';
@@ -18,10 +17,50 @@ const feedSources: { readonly [id in FeedId]: FeedSource } = {
 
 export class FeedService$ implements FeedService {
 
+  readonly tags: OnEvent<string[]>;
   private readonly _apiFetch: ApiFetch;
 
   constructor(context: BootstrapContext) {
     this._apiFetch = context.get(ApiFetch);
+
+    let onTags: OnEvent<string[]> | undefined;
+
+    this.tags = onEventBy(receiver => {
+      if (!onTags) {
+
+        const apiRequest: ApiRequest<string[]> = {
+          path: 'tags',
+          init: {
+            method: 'GET',
+            headers: {
+              Accept: 'application/json',
+            },
+          },
+          respondAs: 'tags',
+          auth: false,
+        };
+        const onTagsLoad: OnEvent<[string[]]> = this._apiFetch(apiRequest).do(
+            mapOn_(response => {
+              if (response.ok) {
+                return response.body;
+              }
+
+              console.error('Failed to load tags', response.errors);
+
+              return [];
+            }),
+        );
+        const tags = trackValueBy<string[] | undefined>(
+            afterSupplied<[string[]?]>(onTagsLoad, () => []),
+        );
+
+        onTags = tags.read.do(
+            translateOn_((send, tagList) => tagList && send(...tagList)),
+        );
+      }
+
+      onTags(receiver);
+    });
   }
 
   articles(request: FeedRequest): OnEvent<[ApiResponse<ArticleList>]> {
@@ -41,48 +80,6 @@ export class FeedService$ implements FeedService {
     };
 
     return this._apiFetch(apiRequest);
-  }
-
-  tags(): OnEvent<string[]>;
-  tags(receiver: EventReceiver<string[]>): EventSupply;
-  tags(receiver?: EventReceiver<string[]>): OnEvent<string[]> | EventSupply {
-
-    let onTags: OnEvent<string[]> | undefined;
-
-    return (this.tags = onEventBy(receiver => {
-      if (!onTags) {
-
-        const apiRequest: ApiRequest<string[]> = {
-          path: 'tags',
-          init: {
-            method: 'GET',
-            headers: {
-              Accept: 'application/json',
-            },
-          },
-          respondAs: 'tags',
-          auth: false,
-        };
-        const onTagsLoad: OnEvent<[string[]]> = this._apiFetch(apiRequest).thru_(response => {
-          if (response.ok) {
-            return nextArg(response.body);
-          }
-
-          console.error('Failed to load tags', response.errors);
-
-          return nextArg([]);
-        });
-        const tags = trackValueBy<string[] | undefined>(
-            afterSupplied<[string[]?]>(onTagsLoad, () => []),
-        );
-
-        onTags = tags.read().thru_(
-            tagList => tagList ? nextArgs(...tagList) : nextSkip,
-        );
-      }
-
-      onTags.to(receiver);
-    }).F)(receiver);
   }
 
 }

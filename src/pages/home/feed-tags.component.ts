@@ -1,3 +1,4 @@
+import { supplyAfter, supplyOn } from '@proc7ts/fun-events';
 import { HandleNavLinks, Navigation, Page } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
@@ -22,8 +23,8 @@ export class FeedTagsComponent {
     const navigation = this._context.get(Navigation);
 
     _context.whenConnected(() => {
-      navigation.read().tillOff(_context).to(page => this.page = page);
-      feedService.tags().tillOff(_context).to((...tags) => this.tags = tags);
+      navigation.read.do(supplyAfter(_context))(page => this.page = page);
+      feedService.tags.do(supplyOn(_context))((...tags) => this.tags = tags);
     });
   }
 

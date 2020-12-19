@@ -1,6 +1,5 @@
 import { InControl, InCssClasses, inCssInfo, InMode } from '@frontmeans/input-aspects';
-import { nextArgs, NextCall } from '@proc7ts/call-thru';
-import { afterSupplied, EventSupply, nextAfterEvent, OnEventCallChain } from '@proc7ts/fun-events';
+import { afterSupplied, afterThe, digAfter_, translateAfter_ } from '@proc7ts/fun-events';
 import { Class } from '@proc7ts/primitives';
 import { HierarchyContext } from '@wesib/generic';
 import { InputToForm, UseInputElement, UseInputElementDef } from '@wesib/generic/input';
@@ -13,29 +12,29 @@ export function UseConduitInput<T extends ComponentClass = Class>(
   return UseInputElement({
     ...def,
     makeControl(opts) {
-      return opts.context.get(HierarchyContext).get(InputToForm).keepThru_(
-          ({ form }) => {
+      return opts.context.get(HierarchyContext).get(InputToForm).do(
+          digAfter_(({ form }) => {
 
             const ctrl = def.makeControl(opts);
 
             if (!ctrl) {
-              return nextArgs();
+              return afterThe();
             }
             if (ctrl instanceof InControl) {
-              return augmentControl(ctrl);
+              return afterThe(augmentControl(ctrl));
             }
 
-            return nextAfterEvent(afterSupplied(ctrl).keepThru_(
-                (control, supply): NextCall<OnEventCallChain, [InControl<any>?, EventSupply?]> => {
+            return afterSupplied(ctrl).do(
+                translateAfter_((send, control, supply): void => {
                   if (!control) {
-                    return nextArgs();
+                    return send();
                   }
 
                   augmentControl(control);
 
-                  return supply ? nextArgs(control, supply) : nextArgs(control);
-                },
-            ));
+                  return supply ? send(control, supply) : send(control);
+                }),
+            );
 
             function augmentControl(control: InControl<any>): InControl<any> {
               if (form) {
@@ -49,7 +48,7 @@ export function UseConduitInput<T extends ComponentClass = Class>(
 
               return control;
             }
-          },
+          }),
       );
     },
   });

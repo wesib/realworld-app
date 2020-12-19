@@ -1,4 +1,5 @@
 import { InStatus, InSubmit, InSubmitError } from '@frontmeans/input-aspects';
+import { supplyAfter } from '@proc7ts/fun-events';
 import { HierarchyContext } from '@wesib/generic';
 import { InputToForm, OnSubmit } from '@wesib/generic/input';
 import { Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
@@ -46,13 +47,16 @@ export class NewArticleCommentComponent {
     const authService = _context.get(AuthService);
     const hierarchy = _context.get(HierarchyContext);
 
-    authService.user()
-        .tillOff(_context)
-        .to(user => this.user = user)
-        .whenOff(() => this.user = notAuthenticated);
-    hierarchy.get(CurrentArticle)
-        .to(article => this.article = article)
-        .whenOff(() => this.article = noArticle);
+    authService.user.do(supplyAfter(_context))(
+        user => this.user = user,
+    ).whenOff(
+        () => this.user = notAuthenticated,
+    );
+    hierarchy.get(CurrentArticle)(
+        article => this.article = article,
+    ).whenOff(
+        () => this.article = noArticle,
+    );
   }
 
   @Render()

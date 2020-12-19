@@ -1,5 +1,5 @@
 import { SingleContextUpKey, SingleContextUpRef } from '@proc7ts/context-values/updatable';
-import { afterSupplied, EventKeeper, trackValueBy, ValueTracker } from '@proc7ts/fun-events';
+import { afterSupplied, EventKeeper, mapAfter_, trackValueBy, ValueTracker } from '@proc7ts/fun-events';
 import { UserProfile } from '../../core/users';
 
 export interface UpdatableUserProfile extends UserProfile {
@@ -31,8 +31,8 @@ export function currentUserProfileBy(
 ): ValueTracker<CurrentUserProfile> {
 
   const currentProfile = trackValueBy<CurrentUserProfile>(
-      afterSupplied(source).keepThru_(
-          profile => {
+      afterSupplied(source).do(
+          mapAfter_(profile => {
             if (profile.username == null) {
               return profile;
             }
@@ -48,7 +48,7 @@ export function currentUserProfileBy(
               ...profile,
               update,
             };
-          },
+          }),
       ),
   );
 

@@ -1,6 +1,7 @@
+import { DomEventDispatcher, stopDomEvents } from '@frontmeans/dom-events';
 import { escapeHTML } from '@frontmeans/httongue';
 import { InSubmit, inSubmitButton, InSubmitError } from '@frontmeans/input-aspects';
-import { DomEventDispatcher } from '@proc7ts/fun-events/dom';
+import { supplyAfter } from '@proc7ts/fun-events';
 import { HierarchyContext } from '@wesib/generic';
 import { InputFromControl, NoInputFromControl } from '@wesib/generic/input';
 import { BootstrapWindow, Component, ComponentContext, DomProperty, StateProperty } from '@wesib/wesib';
@@ -35,18 +36,27 @@ export class ArticleCommentComponent {
     const authService = _context.get(AuthService);
     const hierarchy = _context.get(HierarchyContext);
 
-    authService.user()
-        .tillOff(_context)
-        .to(user => this.user = user)
-        .whenOff(() => this.user = notAuthenticated);
+    authService.user
+        .do(supplyAfter(_context))(
+            user => this.user = user,
+        )
+        .whenOff(
+            () => this.user = notAuthenticated,
+        );
     hierarchy.get(CurrentArticle)
-        .tillOff(_context)
-        .to(article => this.article = article)
-        .whenOff(() => this.article = noArticle);
+        .do(supplyAfter(_context))(
+            article => this.article = article,
+        )
+        .whenOff(
+            () => this.article = noArticle,
+        );
     hierarchy.get(InputFromControl)
-        .tillOff(_context)
-        .to(form => this.form = form)
-        .whenOff(() => this.form = {});
+        .do(supplyAfter(_context))(
+            form => this.form = form,
+        )
+        .whenOff(
+            () => this.form = {},
+        );
   }
 
   @RenderHTML({ comment: 'COMMENT' })
@@ -99,7 +109,7 @@ export class ArticleCommentComponent {
       deleteBtn.innerHTML = '<i class="ion-trash-a"></i>';
       inSubmitButton(deleteBtn, { form });
 
-      new DomEventDispatcher(deleteBtn).on('click').just(() => {
+      new DomEventDispatcher(deleteBtn).on('click').do(stopDomEvents)(() => {
         form.aspect(InSubmit)
             .submit(() => apiSubmit(commentService.deleteComment(slug, comment.id)))
             .then(() => {

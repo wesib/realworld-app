@@ -1,3 +1,4 @@
+import { supplyAfter } from '@proc7ts/fun-events';
 import { Navigation } from '@wesib/generic';
 import { Component, ComponentContext } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
@@ -16,7 +17,7 @@ export class FeedComponent {
     const navigation = context.get(Navigation);
 
     context.whenConnected(() => {
-      navigation.read().tillOff(context).to(page => {
+      navigation.read.do(supplyAfter(context))(page => {
         this.request = page.get(PageFeedParam);
       });
     });

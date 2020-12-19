@@ -1,6 +1,6 @@
 import { InSubmit, InSubmitError } from '@frontmeans/input-aspects';
 import { ContextUpRef, FnContextKey } from '@proc7ts/context-values/updatable';
-import { OnEvent } from '@proc7ts/fun-events';
+import { onceOn, OnEvent } from '@proc7ts/fun-events';
 import { BootstrapContext, bootstrapDefault } from '@wesib/wesib';
 import { ApiFetch, ApiRequest, ApiResponse } from './api-fetch';
 
@@ -50,7 +50,7 @@ function newApiSubmitter(
 
 export function apiSubmit<Result>(onFetch: OnEvent<[ApiResponse<Result>]>): Promise<Result> {
   return new Promise((resolve, reject) => {
-    onFetch.once(
+    onFetch.do(onceOn)(
         (response: ApiResponse<Result>) => {
           if (response.ok) {
             resolve(response.body);

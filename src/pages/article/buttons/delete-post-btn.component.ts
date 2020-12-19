@@ -1,3 +1,5 @@
+import { stopDomEvents } from '@frontmeans/dom-events';
+import { onceOn } from '@proc7ts/fun-events';
 import { HierarchyContext } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../../core';
@@ -24,10 +26,12 @@ export class DeletePostBtnComponent {
     const articleService = _context.get(ArticleService);
     const hierarchy = _context.get(HierarchyContext);
 
-    hierarchy.get(CurrentArticle)
-        .to(article => this.article = article)
-        .whenOff(() => this.article = noArticle);
-    _context.on('click').just(() => {
+    hierarchy.get(CurrentArticle)(
+        article => this.article = article,
+    ).whenOff(
+        () => this.article = noArticle,
+    );
+    _context.on('click').do(stopDomEvents)(() => {
       if (this.article.slug) {
         deleteArticle(this.article.slug);
       }
@@ -37,7 +41,7 @@ export class DeletePostBtnComponent {
       if (!confirm('Are you sure you want to delete this article?')) {
         return;
       }
-      articleService.deleteArticle(slug).once(response => {
+      articleService.deleteArticle(slug).do(onceOn)(response => {
         if (response.ok) {
           _context.dispatchEvent(new ArticleEvent(
               'conduit:article',

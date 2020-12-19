@@ -1,6 +1,5 @@
-import { nextArgs, NextCall } from '@proc7ts/call-thru';
 import { ContextUpRef, FnContextKey } from '@proc7ts/context-values/updatable';
-import { AfterEvent, nextOnEvent, onAsync, OnEvent, OnEventCallChain } from '@proc7ts/fun-events';
+import { AfterEvent, afterThe, digOn_, mapAfter_, mapOn_, OnEvent, resolveOnOrdered } from '@proc7ts/fun-events';
 import { HttpFetch } from '@wesib/generic';
 import { BootstrapContext, bootstrapDefault } from '@wesib/wesib';
 import { AuthService__key } from '../auth/auth-service.key.impl';
@@ -112,20 +111,21 @@ function newApiFetch(context: BootstrapContext): ApiFetch {
   return request => {
 
     const { path, init, auth } = request;
-    const onResponse: OnEvent<[ResponseOrFailure]> = apiRootURL.thru_(
-        baseURL => new URL(path, baseURL),
-        url => buildApiRequest(url, init),
-    ).thru_(
-        (request: Request): NextCall<OnEventCallChain, [RequestOrFailure]> => auth === false
-            ? nextArgs({ request })
-            : nextOnEvent(authenticateApiRequest(context, request, auth)),
-        (requestOrFailure): NextCall<OnEventCallChain, [ResponseOrFailure]> => requestOrFailure.request
-            ? nextOnEvent(httpFetch(requestOrFailure.request).thru_(response => ({ response })))
-            : nextArgs({ failure: requestOrFailure.failure }),
+    const onResponse: OnEvent<[ResponseOrFailure]> = apiRootURL.do(
+        mapAfter_(baseURL => new URL(path, baseURL)),
+        mapAfter_(url => buildApiRequest(url, init)),
+        digOn_((request: Request): OnEvent<[RequestOrFailure]> => auth === false
+            ? afterThe({ request })
+            : authenticateApiRequest(context, request, auth)),
+        digOn_((requestOrFailure): OnEvent<[ResponseOrFailure]> => requestOrFailure.request
+            ? httpFetch(requestOrFailure.request).do(mapOn_(response => ({ response })))
+            : afterThe({ failure: requestOrFailure.failure })),
     );
 
-    return onAsync(onResponse.thru_(parseApiResponse)).thru_(
-        ([responseOrFailure, json]) => handleApiResponse(request, responseOrFailure, json),
+    return onResponse.do(
+        mapOn_(parseApiResponse),
+        resolveOnOrdered,
+        mapOn_(([responseOrFailure, json]) => handleApiResponse(request, responseOrFailure, json)),
     );
   };
 }
@@ -146,8 +146,8 @@ function authenticateApiRequest(
     auth?: true,
 ): AfterEvent<[RequestOrFailure]> {
   // Access by key to avoid circular dependencies during the build
-  return context.get(AuthService__key).token().keepThru_(
-      ({ token, failure }) => {
+  return context.get(AuthService__key).token.do(
+      mapAfter_(({ token, failure }) => {
         if (token) {
           request.headers.set('Authorization', `Token ${token}`);
           return { request };
@@ -162,7 +162,7 @@ function authenticateApiRequest(
           };
         }
         return { failure };
-      },
+      }),
   );
 }
 

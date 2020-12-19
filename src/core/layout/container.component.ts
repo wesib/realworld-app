@@ -1,4 +1,5 @@
 import { css__naming, QualifiedName } from '@frontmeans/namespace-aliaser';
+import { supplyAfter } from '@proc7ts/fun-events';
 import {
   Component,
   ComponentContext,
@@ -27,9 +28,9 @@ export class ContainerComponent {
   auth: Authentication = {};
 
   constructor(private readonly _context: ComponentContext) {
-    _context.get(AuthService).authentication().tillOff(_context).to(auth => {
-      this.auth = auth;
-    });
+    _context.get(AuthService).authentication.do(supplyAfter(_context))(
+        auth => this.auth = auth,
+    );
   }
 
   @Render()

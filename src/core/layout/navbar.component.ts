@@ -1,4 +1,5 @@
-import { DomEventDispatcher } from '@proc7ts/fun-events/dom';
+import { DomEventDispatcher } from '@frontmeans/dom-events';
+import { supplyAfter } from '@proc7ts/fun-events';
 import { ActivateNavLink, HandleNavLinks } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { AuthService, AuthUser, notAuthenticated, NotAuthenticated } from '../auth';
@@ -18,10 +19,11 @@ export class NavbarComponent {
 
     const authService = _context.get(AuthService);
 
-    authService.user()
-        .tillOff(_context)
-        .to(user => this.user = user)
-        .whenOff(() => this.user = notAuthenticated);
+    authService.user.do(supplyAfter(_context))(
+        user => this.user = user,
+    ).whenOff(
+        () => this.user = notAuthenticated,
+    );
   }
 
   @Render()
@@ -45,7 +47,7 @@ export class NavbarComponent {
 
         const logout = createItem('', 'ion-log-out', '');
 
-        new DomEventDispatcher(logout).on('click').to(() => {
+        new DomEventDispatcher(logout).on('click')(() => {
           authService.logout();
         });
         range.insertNode(logout);

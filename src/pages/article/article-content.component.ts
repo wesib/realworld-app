@@ -1,4 +1,4 @@
-import { eventSupplyOf } from '@proc7ts/fun-events';
+import { supplyAfter } from '@proc7ts/fun-events';
 import { HierarchyContext } from '@wesib/generic';
 import { Component, ComponentContext, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
@@ -17,8 +17,8 @@ export class ArticleContentComponent {
     const articleService = _context.get(ArticleService);
     const hierarchy = this._context.get(HierarchyContext);
 
-    eventSupplyOf(_context).whenOff(() => this.content = undefined);
-    hierarchy.get(CurrentArticle).tillOff(_context).to(article => {
+    _context.supply.whenOff(() => this.content = undefined);
+    hierarchy.get(CurrentArticle).do(supplyAfter(_context))(article => {
       if (article.slug) {
         articleService.htmlContents(article)
             .then(content => {
