@@ -12,13 +12,13 @@ import { FillInputForm, FillInputFormDef } from '@wesib/generic/input';
 import { Component, ComponentClass, ComponentDecorator } from '@wesib/wesib';
 import { HandleConduitSubmitButton, HandleConduitSubmitButtonDef } from './handle-conduit-submit-button.decorator';
 
-export function FillConduitForm<Model extends object = any, T extends ComponentClass = Class>(
+export function FillConduitForm<TModel extends object = any, T extends ComponentClass = Class>(
     {
-        emptyModel = {} as Model,
+        emptyModel = {} as TModel,
         form = {
           makeForm({ node, aspects }) {
 
-            const group: InGroup<Model> = inGroup<Model>(emptyModel)
+            const group: InGroup<TModel> = inGroup<TModel>(emptyModel)
                 .setup(InCssClasses, classes => classes.add(inCssInfo()))
                 .setup(InMode, mode => mode.derive(inModeByValidity()));
             const form = inFormElement(node.element, { form: group, aspects })
@@ -28,7 +28,7 @@ export function FillConduitForm<Model extends object = any, T extends ComponentC
           },
         },
         button,
-    }: FillConduitFormDef<Model> = {},
+    }: FillConduitFormDef<TModel> = {},
 ): ComponentDecorator<T> {
   return Component(
       FillInputForm(form),
@@ -36,8 +36,8 @@ export function FillConduitForm<Model extends object = any, T extends ComponentC
   );
 }
 
-export interface FillConduitFormDef<Model extends object> {
-  readonly emptyModel?: Model;
+export interface FillConduitFormDef<TModel extends object> {
+  readonly emptyModel?: TModel;
   readonly form?: FillInputFormDef;
   readonly button?: HandleConduitSubmitButtonDef;
 }

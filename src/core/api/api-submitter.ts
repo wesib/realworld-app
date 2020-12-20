@@ -5,7 +5,7 @@ import { BootstrapContext, bootstrapDefault } from '@wesib/wesib';
 import { ApiFetch, ApiRequest, ApiResponse } from './api-fetch';
 
 export type ApiSubmitter =
-    <Value = any, Result = any>(this: void, request: ApiRequest<Result>) => InSubmit.Submitter<Value, Result>;
+    <TValue = any, TResult = any>(this: void, request: ApiRequest<TResult>) => InSubmit.Submitter<TValue, TResult>;
 
 export const ApiSubmitter: ContextUpRef<ApiSubmitter, ApiSubmitter> = (
     /*#__PURE__*/ new FnContextKey<[ApiRequest<any>], InSubmit.Submitter<any, any>>(
@@ -18,18 +18,18 @@ export const ApiSubmitter: ContextUpRef<ApiSubmitter, ApiSubmitter> = (
 
 function newApiSubmitter(
     context: BootstrapContext,
-): <Value, Result>(this: void, request: ApiRequest<Result>) => InSubmit.Submitter<Value, Result> {
+): <TValue, TResult>(this: void, request: ApiRequest<TResult>) => InSubmit.Submitter<TValue, TResult> {
 
   const apiFetch: ApiFetch = context.get(ApiFetch);
 
-  return <Value, Result>(request: ApiRequest<Result>) => {
+  return <TValue, TResult>(request: ApiRequest<TResult>) => {
 
     const { init = {} } = request;
     const { method = 'POST', headers = {} } = init;
 
-    return (body: Value) => {
+    return (body: TValue) => {
 
-      const apiRequest: ApiRequest<Result> = {
+      const apiRequest: ApiRequest<TResult> = {
         ...request,
         init: {
           ...init,
@@ -48,10 +48,10 @@ function newApiSubmitter(
   };
 }
 
-export function apiSubmit<Result>(onFetch: OnEvent<[ApiResponse<Result>]>): Promise<Result> {
+export function apiSubmit<TResult>(onFetch: OnEvent<[ApiResponse<TResult>]>): Promise<TResult> {
   return new Promise((resolve, reject) => {
     onFetch.do(onceOn)(
-        (response: ApiResponse<Result>) => {
+        (response: ApiResponse<TResult>) => {
           if (response.ok) {
             resolve(response.body);
           } else {
