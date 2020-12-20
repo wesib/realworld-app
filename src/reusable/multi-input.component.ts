@@ -25,7 +25,7 @@ const trailingSpace = /\s$/;
  *
  * Does not allow duplicates. Does not limit a list of allowed values. Expects values to be space-separated.
  *
- * Raises [[MultiInputEvent]] on list update.
+ * Raises {@link MultiInputEvent} on list update.
  */
 @Component(['multi-input', Conduit__NS])
 @AttachShadow()
