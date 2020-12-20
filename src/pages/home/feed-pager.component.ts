@@ -1,4 +1,4 @@
-import { afterAll } from '@proc7ts/fun-events';
+import { afterAll, supplyAfter } from '@proc7ts/fun-events';
 import { HierarchyContext, Navigation } from '@wesib/generic';
 import { Component, ComponentContext } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
@@ -21,7 +21,7 @@ export class FeedPagerComponent {
         param: hierarchy.get(FeedRequestPageParam),
         page: navigation,
         list: hierarchy.get(FeedArticleList),
-      }).tillOff(context).to(
+      }).do(supplyAfter(context))(
           ({
             param: [paramRef],
             page: [page],

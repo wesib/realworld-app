@@ -22,10 +22,12 @@ export class EditPostBtnComponent {
     const navigation = _context.get(Navigation);
     const hierarchy = _context.get(HierarchyContext);
 
-    hierarchy.get(CurrentArticle)
-        .to(article => this.article = article)
-        .whenOff(() => this.article = noArticle);
-    this._context.on('click').to(() => {
+    hierarchy.get(CurrentArticle)(
+        article => this.article = article,
+    ).whenOff(
+        () => this.article = noArticle,
+    );
+    this._context.on('click')(() => {
       if (this.article.slug) {
         editArticle(this.article.slug);
       }

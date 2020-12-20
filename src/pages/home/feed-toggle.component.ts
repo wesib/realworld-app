@@ -1,4 +1,4 @@
-import { afterAll } from '@proc7ts/fun-events';
+import { afterAll, supplyAfter } from '@proc7ts/fun-events';
 import { noop } from '@proc7ts/primitives';
 import { ActivateNavLink, HandleNavLinks, Navigation } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
@@ -25,9 +25,9 @@ export class FeedToggleComponent {
 
     _context.whenConnected(() => {
       afterAll({
-        auth: authService.authentication(),
+        auth: authService.authentication,
         page: navigation,
-      }).tillOff(_context).to(
+      }).do(supplyAfter(_context))(
           ({
             auth: [{ token }],
             page: [page],

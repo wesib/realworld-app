@@ -25,7 +25,7 @@ const trailingSpace = /\s$/;
  *
  * Does not allow duplicates. Does not limit a list of allowed values. Expects values to be space-separated.
  *
- * Raises [[MultiInputEvent]] on list update.
+ * Raises {@link MultiInputEvent} on list update.
  */
 @Component(['multi-input', Conduit__NS])
 @AttachShadow()
@@ -302,7 +302,7 @@ class MultiInputControl extends AbstractInElement<readonly string[], MultiInputC
   protected listenForInput(
       update: (input: InElement.Input<readonly string[]>) => void,
   ): void {
-    this.events.on<MultiInputEvent>('conduit:input').to(event => {
+    this.events.on<MultiInputEvent>('conduit:input')(event => {
       update({ event, value: event.detail });
     });
   }

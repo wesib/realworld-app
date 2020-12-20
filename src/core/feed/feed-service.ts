@@ -1,5 +1,5 @@
 import { ContextRef, SingleContextKey } from '@proc7ts/context-values';
-import { EventReceiver, EventSupply, OnEvent } from '@proc7ts/fun-events';
+import { OnEvent } from '@proc7ts/fun-events';
 import { ApiResponse } from '../api';
 import { Article } from '../articles';
 import { FeedRequest } from './feed-request';
@@ -13,10 +13,9 @@ export const noArticles: ArticleList = { articles: [], articlesCount: 0 };
 
 export interface FeedService {
 
-  articles(request: FeedRequest): OnEvent<[ApiResponse<ArticleList>]>;
+  readonly tags: OnEvent<string[]>;
 
-  tags(): OnEvent<string[]>;
-  tags(receiver: EventReceiver<string[]>): EventSupply;
+  articles(request: FeedRequest): OnEvent<[ApiResponse<ArticleList>]>;
 
 }
 

@@ -1,5 +1,5 @@
 import { inSubmitButton } from '@frontmeans/input-aspects';
-import { afterAll } from '@proc7ts/fun-events';
+import { afterAll, consumeEvents, supplyAfter } from '@proc7ts/fun-events';
 import { Class } from '@proc7ts/primitives';
 import { ComponentNode, ElementPickMode, HierarchyContext } from '@wesib/generic';
 import { DefaultInAspects, InputToForm } from '@wesib/generic/input';
@@ -21,14 +21,15 @@ export function HandleConduitSubmitButton<T extends ComponentClass = Class>(
         context.whenConnected(() => {
           afterAll({
             form: hierarchy.get(InputToForm),
-            button: componentNode.select(select, pick).first(),
+            button: componentNode.select(select, pick).first,
             aspects: context.get(DefaultInAspects),
-          }).tillOff(context).consume(
-              ({
+          }).do(
+              supplyAfter(context),
+              consumeEvents(({
                 form: [{ control: form }],
                 button: [button],
                 aspects: [aspects],
-              }) => form && button && inSubmitButton(button.element, { form, aspects }),
+              }) => form && button && inSubmitButton(button.element, { form, aspects })),
           );
         });
       });

@@ -1,4 +1,4 @@
-import { afterAll } from '@proc7ts/fun-events';
+import { afterAll, supplyAfter } from '@proc7ts/fun-events';
 import { ActivateNavLink, ComponentNode, HandleNavLinks, Navigation, PageHashURLSupport } from '@wesib/generic';
 import { Component, ComponentContext } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
@@ -27,7 +27,7 @@ export class UserFeedToggleComponent {
       afterAll({
         page: navigation,
         links: context.get(ComponentNode).select('a', { all: true, deep: true }),
-      }).tillOff(context).to(
+      }).do(supplyAfter(context))(
           ({
             page: [page],
             links: [links],

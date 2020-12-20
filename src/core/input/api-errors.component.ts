@@ -1,6 +1,5 @@
 import { InValidation } from '@frontmeans/input-aspects';
-import { nextArgs, NextCall } from '@proc7ts/call-thru';
-import { nextAfterEvent, OnEventCallChain } from '@proc7ts/fun-events';
+import { AfterEvent, afterThe, digAfter_, mapAfter_ } from '@proc7ts/fun-events';
 import { HierarchyContext } from '@wesib/generic';
 import { InputFromControl } from '@wesib/generic/input';
 import { Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
@@ -19,25 +18,24 @@ export class ApiErrorsComponent {
   constructor(private readonly _context: ComponentContext) {
     _context.get(HierarchyContext)
         .get(InputFromControl)
-        .thru_(
-            ({ control }): NextCall<OnEventCallChain, [ApiResponse.Errors]> => {
+        .do(
+            digAfter_(({ control }): AfterEvent<[ApiResponse.Errors]> => {
               if (!control) {
-                return nextArgs(noApiErrors);
+                return afterThe(noApiErrors);
               }
-              return nextAfterEvent(
-                  control.aspect(InValidation).read().keepThru_(
-                      validity => validity.messages('api').reduce(
-                          (prev, message) => ({
-                            ...prev,
-                            ...message.api,
-                          }),
-                          noApiErrors,
-                      ),
-                  ),
+              return control.aspect(InValidation).read.do(
+                  mapAfter_(validity => validity.messages('api').reduce(
+                      (prev, message) => ({
+                        ...prev,
+                        ...message.api,
+                      }),
+                      noApiErrors,
+                  )),
               );
-            },
-        )
-        .to(errors => this.errors = errors);
+            }),
+        )(
+            errors => this.errors = errors,
+        );
   }
 
   @Render()

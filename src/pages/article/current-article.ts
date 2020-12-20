@@ -1,15 +1,6 @@
 import { SingleContextUpKey, SingleContextUpRef } from '@proc7ts/context-values/updatable';
-import {
-  EventReceiver,
-  EventSupplier,
-  EventSupply,
-  EventSupply__symbol,
-  eventSupplyOf,
-  OnEvent,
-  onSupplied,
-  trackValue,
-  ValueTracker,
-} from '@proc7ts/fun-events';
+import { EventSupplier, mapOn_, OnEvent, onSupplied, trackValue, ValueTracker } from '@proc7ts/fun-events';
+import { Supply } from '@proc7ts/primitives';
 import { Article } from '../../core/articles';
 
 export interface UpdatableArticle extends Article {
@@ -38,8 +29,8 @@ export class CurrentArticleTracker extends ValueTracker<CurrentArticle> {
 
   private readonly _it = trackValue<CurrentArticle>(noArticle);
 
-  get [EventSupply__symbol](): EventSupply {
-    return eventSupplyOf(this._it);
+  get supply(): Supply {
+    return this._it.supply;
   }
 
   get it(): CurrentArticle {
@@ -50,12 +41,8 @@ export class CurrentArticleTracker extends ValueTracker<CurrentArticle> {
     this._it.it = value;
   }
 
-  on(): OnEvent<[CurrentArticle, CurrentArticle]>;
-  on(receiver: EventReceiver<[CurrentArticle, CurrentArticle]>): EventSupply;
-  on(
-      receiver?: EventReceiver<[CurrentArticle, CurrentArticle]>,
-  ): OnEvent<[CurrentArticle, CurrentArticle]> | EventSupply {
-    return (this.on = this._it.on().F)(receiver);
+  get on(): OnEvent<[CurrentArticle, CurrentArticle]> {
+    return this._it.on;
   }
 
   set(article: Article | NoArticle): void {
@@ -63,7 +50,11 @@ export class CurrentArticleTracker extends ValueTracker<CurrentArticle> {
   }
 
   byArticles(source: EventSupplier<[Article | NoArticle]>): this {
-    return this.by(onSupplied(source).thru_(article => this.cast(article)));
+    return this.by(
+        onSupplied(source).do(
+            mapOn_(article => this.cast(article)),
+        ),
+    );
   }
 
   cast(article: Article | NoArticle): CurrentArticle {

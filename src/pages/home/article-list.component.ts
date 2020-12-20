@@ -23,9 +23,11 @@ export class ArticleListComponent {
 
     const hierarchy = _context.get(HierarchyContext);
 
-    hierarchy.get(FeedArticleList)
-        .to(list => this.articles = list)
-        .whenOff(() => this.articles = noArticles);
+    hierarchy.get(FeedArticleList)(
+        list => this.articles = list,
+    ).whenOff(
+        () => this.articles = noArticles,
+    );
   }
 
   @Render()

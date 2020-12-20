@@ -1,5 +1,5 @@
 import { ContextKey, ContextKey__symbol } from '@proc7ts/context-values';
-import { AfterEvent, EventReceiver, EventSupply, OnEvent } from '@proc7ts/fun-events';
+import { AfterEvent, OnEvent } from '@proc7ts/fun-events';
 import { ApiResponse } from '../api';
 import { AuthService__key } from './auth-service.key.impl';
 import { Authentication, AuthToken, AuthUser, NotAuthenticated } from './authentication';
@@ -29,17 +29,10 @@ export abstract class AuthService {
     return AuthService__key;
   }
 
-  abstract token(): AfterEvent<[AuthToken | NotAuthenticated]>;
-  abstract token(receiver: EventReceiver<[AuthToken | NotAuthenticated]>): EventSupply;
-
-  abstract authentication(): AfterEvent<[Authentication]>;
-  abstract authentication(receiver: EventReceiver<[Authentication]>): EventSupply;
-
-  abstract user(): AfterEvent<[AuthUser | NotAuthenticated]>;
-  abstract user(receiver: EventReceiver<[AuthUser | NotAuthenticated]>): EventSupply;
-
-  abstract requireUser(): AfterEvent<[AuthUser | NotAuthenticated]>;
-  abstract requireUser(receiver: EventReceiver<[AuthUser | NotAuthenticated]>): EventSupply;
+  abstract readonly token: AfterEvent<[AuthToken | NotAuthenticated]>;
+  abstract readonly authentication: AfterEvent<[Authentication]>;
+  abstract readonly user: AfterEvent<[AuthUser | NotAuthenticated]>;
+  abstract readonly requireUser: AfterEvent<[AuthUser | NotAuthenticated]>;
 
   abstract login(request: LoginRequest): OnEvent<[ApiResponse<AuthUser>]>;
 

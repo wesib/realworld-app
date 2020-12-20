@@ -30,10 +30,10 @@ export class FavoritePostBtnComponent {
     const hierarchy = _context.get(HierarchyContext);
     const articleService = _context.get(ArticleService);
 
-    hierarchy.get(CurrentArticle).to(article => {
+    hierarchy.get(CurrentArticle)(article => {
       this.article = article;
     });
-    _context.on('click').to(() => {
+    _context.on('click')(() => {
 
       const { article } = this;
 
@@ -45,7 +45,7 @@ export class FavoritePostBtnComponent {
           ...article,
           favorited: like,
         });
-        articleService.likeArticle(article.slug, like).to(
+        articleService.likeArticle(article.slug, like)(
             response => {
               if (this.article.slug) {
                 if (response.ok) {

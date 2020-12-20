@@ -1,6 +1,5 @@
 import { inGroup } from '@frontmeans/input-aspects';
-import { nextSkip } from '@proc7ts/call-thru';
-import { eventSupplyOf, nextOnEvent } from '@proc7ts/fun-events';
+import { digOn_, supplyOn } from '@proc7ts/fun-events';
 import { HierarchyContext } from '@wesib/generic';
 import { inputFromControl } from '@wesib/generic/input';
 import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
@@ -38,7 +37,7 @@ export class ArticleCommentsComponent {
     const commentService = _context.get(CommentService);
     const hierarchy = this._context.get(HierarchyContext);
 
-    this._context.on<CommentEvent>('conduit:comment').to(({ detail: { added, removed } }) => {
+    this._context.on<CommentEvent>('conduit:comment')(({ detail: { added, removed } }) => {
       if (added) {
         this.comments = [added, ...this.comments];
       } else {
@@ -48,17 +47,18 @@ export class ArticleCommentsComponent {
 
     let lastArticle: CurrentArticle = noArticle;
 
-    hierarchy.get(CurrentArticle).tillOff(_context).thru_(
-        article => {
+    hierarchy.get(CurrentArticle).do(
+        supplyOn(_context),
+        digOn_(article => {
           if (!article.slug || article.slug === lastArticle.slug) {
-            return nextSkip;
+            return;
           }
 
           lastArticle = article;
 
-          return nextOnEvent(commentService.articleComments(article.slug));
-        },
-    ).to(response => {
+          return commentService.articleComments(article.slug);
+        }),
+    )(response => {
       this.response = response;
       if (response.ok) {
         this.comments = response.body.comments;
@@ -67,7 +67,7 @@ export class ArticleCommentsComponent {
 
     const group = inGroup({});
 
-    eventSupplyOf(group).needs(_context);
+    group.supply.needs(_context);
     inputFromControl(_context, group);
   }
 

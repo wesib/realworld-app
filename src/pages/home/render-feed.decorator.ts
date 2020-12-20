@@ -1,5 +1,5 @@
 import { ContextKey, ContextKey__symbol, SingleContextKey } from '@proc7ts/context-values';
-import { eventSupplyOf, nextOnEvent, StatePath, trackValue } from '@proc7ts/fun-events';
+import { digOn_, mapAfter_, StatePath, trackValue } from '@proc7ts/fun-events';
 import { noop } from '@proc7ts/primitives';
 import { HierarchyContext } from '@wesib/generic';
 import {
@@ -38,29 +38,28 @@ class RenderFeedState {
       context: ComponentContext,
       path: StatePath,
   ) {
-    eventSupplyOf(context).cuts(this._request);
+    context.supply.cuts(this._request);
 
     const feedService = context.get(FeedService);
 
     this.response.on((newResponse, oldResponse) => context.updateState(path, newResponse, oldResponse));
     context.get(HierarchyContext).provide({
       a: FeedArticleList,
-      is: this.response.read().keepThru_(
-          response => response?.ok
+      is: this.response.read.do(
+          mapAfter_(response => response?.ok
               ? response.body
-              : { articles: [], articlesCount: 0 },
+              : { articles: [], articlesCount: 0 }),
       ),
     });
-    this._request.read()
-        .thru_(
-            request => {
-              this.response.it = undefined;
-              return nextOnEvent(feedService.articles(request));
-            },
-        ).to(
-            response => this.response.it = response,
-        );
-    context.on('conduit:article').to(
+    this._request.read.do(
+        digOn_(request => {
+          this.response.it = undefined;
+          return feedService.articles(request);
+        }),
+    )(
+        response => this.response.it = response,
+    );
+    context.on('conduit:article')(
         () => this._request.it = { ...this._request.it }, // Reload articles
     );
   }

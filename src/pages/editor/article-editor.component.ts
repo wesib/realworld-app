@@ -1,5 +1,5 @@
 import { InStatus, InSubmit, InSubmitError } from '@frontmeans/input-aspects';
-import { afterAll, afterSent, afterThe, eventSupplyOf, nextAfterEvent } from '@proc7ts/fun-events';
+import { afterAll, afterSent, afterThe, digAfter_, mapAfter_, supplyAfter } from '@proc7ts/fun-events';
 import { HierarchyContext, Navigation, PageHashURLParam } from '@wesib/generic';
 import { InputToForm, OnSubmit } from '@wesib/generic/input';
 import { Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
@@ -53,52 +53,49 @@ export class ArticleEditorComponent {
     const authService = _context.get(AuthService);
     const hierarchy = _context.get(HierarchyContext);
 
-    eventSupplyOf(_context).whenOff(() => {
+    _context.supply.whenOff(() => {
       this.loadStatus = undefined;
       this.article = noArticle;
     });
     _context.whenConnected(() => {
-      this._navigation.read().tillOff(_context).keepThru_(
-          page => decodeURIComponent(
+      this._navigation.read.do(
+          supplyAfter(_context),
+          mapAfter_(page => decodeURIComponent(
               page.get(PageHashURLParam).pathname.substring(1),
-          ),
-          slug => nextAfterEvent(
-              afterAll({
-                user: authService.requireUser(),
-                loaded: slug
-                    ? afterSent<[ApiResponse.Any<Article>?]>(
-                        this._articleService.article(slug),
-                        () => [],
-                    )
-                    : afterThe<[ApiResponse.Any<Article>]>({ ok: true }),
-                form: hierarchy.get(InputToForm),
-              }),
-          ),
-      ).to(
-          ({
-            user: [user],
-            loaded: [loaded],
-            form: [{ control: form }],
-          }) => {
-            if (!user.username) {
-              this.loadStatus = user.failure ? { ok: false, errors: user.failure.errors } : undefined;
-              return;
-            }
-            if (!loaded) {
-              this.loadStatus = undefined;
-              return;
-            }
-            if (!loaded.ok) {
-              this.loadStatus = { ok: false, errors: loaded.errors };
-              return;
-            }
-            this.loadStatus = loaded;
-            this.article = loaded.body ?? noArticle;
-            if (form) {
-              form.it = loaded.body ?? emptyArticleRequest();
-            }
-          },
-      );
+          )),
+          digAfter_(slug => afterAll({
+            user: authService.requireUser,
+            loaded: slug
+                ? afterSent<[ApiResponse.Any<Article>?]>(
+                    this._articleService.article(slug),
+                    () => [],
+                )
+                : afterThe<[ApiResponse.Any<Article>]>({ ok: true }),
+            form: hierarchy.get(InputToForm),
+          })),
+      )(({
+        user: [user],
+        loaded: [loaded],
+        form: [{ control: form }],
+      }) => {
+        if (!user.username) {
+          this.loadStatus = user.failure ? { ok: false, errors: user.failure.errors } : undefined;
+          return;
+        }
+        if (!loaded) {
+          this.loadStatus = undefined;
+          return;
+        }
+        if (!loaded.ok) {
+          this.loadStatus = { ok: false, errors: loaded.errors };
+          return;
+        }
+        this.loadStatus = loaded;
+        this.article = loaded.body ?? noArticle;
+        if (form) {
+          form.it = loaded.body ?? emptyArticleRequest();
+        }
+      });
     });
   }
 

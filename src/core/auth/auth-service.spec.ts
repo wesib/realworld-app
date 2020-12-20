@@ -1,4 +1,4 @@
-import { EventEmitter, OnEvent } from '@proc7ts/fun-events';
+import { EventEmitter, onceAfter, OnEvent } from '@proc7ts/fun-events';
 import { noop } from '@proc7ts/primitives';
 import { bootstrapComponents, BootstrapContext, Feature } from '@wesib/wesib';
 import { ApiFetch, ApiRequest, ApiResponse } from '../api';
@@ -14,7 +14,7 @@ describe('AuthService', () => {
 
   beforeEach(() => {
     apiResponse = new EventEmitter();
-    mockApiFetch = jest.fn(_request => apiResponse.on());
+    mockApiFetch = jest.fn(_request => apiResponse.on);
   });
   afterEach(() => {
     localStorage.removeItem('wesib-conduit:auth');
@@ -26,7 +26,7 @@ describe('AuthService', () => {
 
       let actualToken: AuthToken | NotAuthenticated | undefined;
 
-      authService.token().once(token => actualToken = token);
+      authService.token.do(onceAfter)(token => actualToken = token);
       expect(actualToken).toBe(notAuthenticated);
     });
     it('is obtained from local storage', async () => {
@@ -37,7 +37,7 @@ describe('AuthService', () => {
 
       let actualToken: AuthToken | NotAuthenticated | undefined;
 
-      authService.token().once(token => actualToken = token);
+      authService.token.do(onceAfter)(token => actualToken = token);
       expect(actualToken).toEqual({ token: expectedToken });
     });
     it('is updated on local storage update', async () => {
@@ -59,7 +59,7 @@ describe('AuthService', () => {
 
       let actualUser: AuthUser | NotAuthenticated | undefined;
 
-      authService.user().once(user => actualUser = user);
+      authService.user.do(onceAfter)(user => actualUser = user);
       expect(actualUser).toBe(notAuthenticated);
     });
     it('is requested by token', async () => {
@@ -92,8 +92,8 @@ describe('AuthService', () => {
       authService.user(noop);
 
       respondWithUser();
-      authService.user().once(noop);
-      authService.user().once(noop);
+      authService.user.do(onceAfter)(noop);
+      authService.user.do(onceAfter)(noop);
 
       expect(mockApiFetch).toHaveBeenCalledTimes(1);
     });
@@ -124,7 +124,7 @@ describe('AuthService', () => {
     class TestFeature {
     }
 
-    const bsContext = await bootstrapComponents(TestFeature).whenReady();
+    const bsContext = await bootstrapComponents(TestFeature).whenReady;
 
     authService = bsContext.get(AuthService);
 

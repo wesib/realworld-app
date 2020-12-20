@@ -65,8 +65,9 @@ export function RenderLoader<T extends ComponentClass>(
               loadedClassName = css__naming.name(loaded, defContext.get(DefaultNamespaceAliaser));
               if (renderSpec.on) {
                 defContext.whenComponent(context => {
-                  RenderDef.trigger(context, renderSpec)
-                      .to(() => context.updateState(path, 'new', 'old'));
+                  RenderDef.trigger(context, renderSpec)(
+                      () => context.updateState(path, 'new', 'old'),
+                  );
                 });
               }
             },

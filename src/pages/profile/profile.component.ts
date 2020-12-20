@@ -1,4 +1,4 @@
-import { trackValue } from '@proc7ts/fun-events';
+import { consumeEvents, mapAfter_, mapOn_, supplyOn, trackValue } from '@proc7ts/fun-events';
 import { HierarchyContext, Navigation } from '@wesib/generic';
 import { Component, ComponentContext } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
@@ -34,24 +34,22 @@ export class ProfileComponent {
     const navigation = context.get(Navigation);
     const hierarchy = context.get(HierarchyContext);
     const profile = currentUserProfileBy(
-        this._response.read().keepThru_(
-            response => response && response.ok ? response.body : noUserProfile,
+        this._response.read.do(
+            mapAfter_(response => response && response.ok ? response.body : noUserProfile),
         ),
     );
 
     hierarchy.provide({ a: CurrentUserProfile, is: profile });
     context.whenConnected(() => {
-      navigation.read()
-          .thru_(
-              page => {
+      navigation.read.do(
+          mapOn_(page => {
 
-                const param = page.get(PageUserProfileParam);
+            const param = page.get(PageUserProfileParam);
 
-                return param.author || param.favorited;
-              },
-          )
-          .tillOff(context)
-          .consume(username => {
+            return param.author || param.favorited;
+          }),
+          supplyOn(context),
+          consumeEvents(username => {
             if (!username) {
               this.response = { ok: false, errors: notAuthenticatedError() };
               return;
@@ -59,8 +57,12 @@ export class ProfileComponent {
             if (this.response && this.response.ok && this.response.body.username === username) {
               return; // User didn't change
             }
-            return userService.userProfile(username).to(response => this.response = response);
-          });
+
+            return userService.userProfile(username)(
+                response => this.response = response,
+            );
+          }),
+      );
     });
   }
 

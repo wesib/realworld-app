@@ -1,6 +1,6 @@
 import { InStatus, InSubmit, InSubmitError } from '@frontmeans/input-aspects';
 import { css__naming, QualifiedName } from '@frontmeans/namespace-aliaser';
-import { AfterEvent } from '@proc7ts/fun-events';
+import { AfterEvent, onceAfter, supplyOn } from '@proc7ts/fun-events';
 import { HierarchyContext } from '@wesib/generic';
 import { InputToForm, NoInputToForm, OnSubmit } from '@wesib/generic/input';
 import {
@@ -58,7 +58,7 @@ export class SettingsComponent {
   constructor(private readonly _context: ComponentContext) {
     this._authService = _context.get(AuthService);
 
-    this._authService.loadUser().tillOff(_context).to(
+    this._authService.loadUser().do(supplyOn(_context))(
         response => {
           this.loadStatus = response;
           if (response && response.ok) {
@@ -114,7 +114,7 @@ export class SettingsComponent {
     const hierarchy = this._context.get(HierarchyContext);
     const form: AfterEvent<[InputToForm<UpdateSettingsRequest> | NoInputToForm]> = hierarchy.get(InputToForm);
 
-    form.once(f => {
+    form.do(onceAfter)(f => {
       if (f.control) {
         f.control.it = {
           username,
