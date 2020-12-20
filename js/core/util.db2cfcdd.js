@@ -1,0 +1,1 @@
+import{e,E as s}from"../wesib/wesib.acbfb4f5.js";import{a as i}from"../wesib/generic.5b4ac940.js";function o(o,r){const a=e.of(o);a.get(i).inside(r),a.get(s).renderNow()}export{o as r};//# sourceMappingURL=util.db2cfcdd.js.map

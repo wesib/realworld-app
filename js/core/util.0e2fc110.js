@@ -1,1 +1,0 @@
-import"../proc7ts/fun-events.751f4123.js";import{e,E as s}from"../wesib/wesib.fd49a6cd.js";import{a as o}from"../wesib/generic.1df87fc1.js";function r(r,i){const t=e.of(r);t.get(o).inside(i),t.get(s).renderNow()}export{r};//# sourceMappingURL=util.0e2fc110.js.map
