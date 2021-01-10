@@ -34,7 +34,7 @@
     "@proc7ts/fun-events": "^10.0.1",
     "@proc7ts/primitives": "^1.6.1",
     "@proc7ts/push-iterator": "^2.5.0",
-    "@proc7ts/workbench": "^1.0.0-dev.0",
+    "@proc7ts/workbench": "^1.0.0",
     "@rollup/plugin-alias": "^3.1.1",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.1",
