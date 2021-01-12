@@ -1,7 +1,7 @@
 import { HierarchyContext } from '@wesib/generic';
-import { ComponentContext, ElementRenderCtl } from '@wesib/wesib';
+import { ComponentContext, ComponentContextHolder, ElementRenderCtl } from '@wesib/wesib';
 
-export function renderNow(element: Element, enclosing: ComponentContext): void {
+export function renderNow(element: Element & ComponentContextHolder, enclosing: ComponentContext): void {
 
   const context = ComponentContext.of(element);
 
