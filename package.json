@@ -29,7 +29,7 @@
     "@hatsy/router": "^2.0.4",
     "@hatsy/serve-static": "^2.0.3",
     "@proc7ts/call-thru": "^4.3.1",
-    "@proc7ts/context-values": "^5.1.0",
+    "@proc7ts/context-values": "^5.2.0",
     "@proc7ts/delta-set": "^1.4.2",
     "@proc7ts/fun-events": "^10.1.0",
     "@proc7ts/primitives": "^1.6.1",
