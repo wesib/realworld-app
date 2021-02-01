@@ -32,7 +32,7 @@
     "@proc7ts/context-values": "^5.2.0",
     "@proc7ts/delta-set": "^1.4.2",
     "@proc7ts/fun-events": "^10.1.0",
-    "@proc7ts/primitives": "^1.6.1",
+    "@proc7ts/primitives": "^1.7.0",
     "@proc7ts/push-iterator": "^2.5.0",
     "@proc7ts/workbench": "^1.0.0",
     "@rollup/plugin-alias": "^3.1.2",
