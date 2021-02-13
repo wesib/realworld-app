@@ -1,5 +1,5 @@
 import { ContextKey, ContextKey__symbol, SingleContextKey } from '@proc7ts/context-values';
-import { digOn_, EventEmitter, mapAfter_, StatePath, trackValue } from '@proc7ts/fun-events';
+import { mapAfter_, StatePath, trackValue } from '@proc7ts/fun-events';
 import { noop } from '@proc7ts/primitives';
 import { HierarchyContext } from '@wesib/generic';
 import {
@@ -51,22 +51,12 @@ class RenderFeedState {
               : { articles: [], articlesCount: 0 }),
       ),
     });
-    this._request.read.do(
-        digOn_(request => {
-          this.response.it = undefined;
-
-          const emitter = new EventEmitter<[ApiResponse<ArticleList>]>();
-
-          context.supply.cuts(emitter);
-          feedService.articles(request)(
-              response => emitter.send(response),
-          ).needs(context);
-
-          return emitter.on;
-        }),
-    )(
-        response => this.response.it = response,
-    );
+    this._request.read(request => {
+      this.response.it = undefined;
+      feedService.articles(request)(
+          response => this.response.it = response,
+      ).needs(context);
+    });
     context.on('conduit:article')(
         () => this._request.it = { ...this._request.it }, // Reload articles
     );
