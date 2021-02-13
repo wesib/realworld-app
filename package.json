@@ -1,6 +1,6 @@
 {
   "name": "@wesib/realworld-app",
-  "version": "1.0.0-beta.28",
+  "version": "1.0.0-beta.30",
   "description": "Wesib: RealWorld example application",
   "repository": {
     "type": "git",
@@ -29,7 +29,7 @@
     "@hatsy/router": "^2.0.4",
     "@hatsy/serve-static": "^2.0.3",
     "@proc7ts/call-thru": "^4.3.1",
-    "@proc7ts/context-values": "^5.2.0",
+    "@proc7ts/context-values": "^6.0.0",
     "@proc7ts/delta-set": "^1.4.2",
     "@proc7ts/fun-events": "^10.2.0",
     "@proc7ts/primitives": "^1.8.0",
@@ -46,8 +46,8 @@
     "@types/node": "^12.19.16",
     "@typescript-eslint/eslint-plugin": "^4.15.0",
     "@typescript-eslint/parser": "^4.15.0",
-    "@wesib/generic": "^1.0.0-beta.28",
-    "@wesib/wesib": "^1.0.0-beta.28",
+    "@wesib/generic": "^1.0.0-beta.30",
+    "@wesib/wesib": "^1.0.0-beta.30",
     "bootstrap": "^4.6.0",
     "dompurify": "^2.2.6",
     "eslint": "^7.19.0",

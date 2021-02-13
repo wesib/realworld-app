@@ -65,7 +65,7 @@ export class ArticlePreviewComponent {
         .whenOff(
             () => this.user = notAuthenticated,
         );
-    hierarchy.provide({ a: CurrentArticle, is: this._article });
+    hierarchy.provide({ a: CurrentArticle, is: this._article.read });
   }
 
   get article(): Article | NoArticle {

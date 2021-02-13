@@ -59,8 +59,8 @@ export class ArticleComponent {
         ),
     );
 
-    hierarchy.provide({ a: CurrentArticle, is: article });
-    hierarchy.provide({ a: CurrentUserProfile, is: author });
+    hierarchy.provide({ a: CurrentArticle, is: article.read });
+    hierarchy.provide({ a: CurrentUserProfile, is: author.read });
     _context.whenConnected(() => {
       navigation.read.do(
           supplyAfter(_context),

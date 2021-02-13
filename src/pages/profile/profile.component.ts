@@ -39,7 +39,7 @@ export class ProfileComponent {
         ),
     );
 
-    hierarchy.provide({ a: CurrentUserProfile, is: profile });
+    hierarchy.provide({ a: CurrentUserProfile, is: profile.read });
     context.whenConnected(() => {
       navigation.read.do(
           mapOn_(page => {

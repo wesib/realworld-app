@@ -1,5 +1,5 @@
 import { ContextKey, ContextKey__symbol, SingleContextKey } from '@proc7ts/context-values';
-import { digOn_, mapAfter_, StatePath, trackValue } from '@proc7ts/fun-events';
+import { digOn_, EventEmitter, mapAfter_, StatePath, trackValue } from '@proc7ts/fun-events';
 import { noop } from '@proc7ts/primitives';
 import { HierarchyContext } from '@wesib/generic';
 import {
@@ -54,7 +54,15 @@ class RenderFeedState {
     this._request.read.do(
         digOn_(request => {
           this.response.it = undefined;
-          return feedService.articles(request);
+
+          const emitter = new EventEmitter<[ApiResponse<ArticleList>]>();
+
+          context.supply.cuts(emitter);
+          feedService.articles(request)(
+              response => emitter.send(response),
+          ).needs(context);
+
+          return emitter.on;
         }),
     )(
         response => this.response.it = response,
