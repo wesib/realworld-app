@@ -20,7 +20,7 @@
   "devDependencies": {
     "@frontmeans/dom-events": "^1.0.1",
     "@frontmeans/httongue": "^2.2.0",
-    "@frontmeans/input-aspects": "^4.1.0",
+    "@frontmeans/input-aspects": "^4.1.1",
     "@frontmeans/namespace-aliaser": "^2.3.0",
     "@frontmeans/render-scheduler": "^1.5.0",
     "@hatsy/hatsy": "^2.1.0",
