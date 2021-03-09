@@ -46,7 +46,7 @@ export class NewArticleCommentComponent {
     },
     name: '',
   })
-  readonly submitButton: Field<void>
+  readonly submitButton: Field<void>;
 
   constructor(private readonly _context: ComponentContext) {
     this._commentService = _context.get(CommentService);
@@ -71,7 +71,7 @@ export class NewArticleCommentComponent {
         opts => inGroup({ text: '' }, opts),
         opts => inFormElement(element.querySelector('form')!, opts),
     );
-    this.submitButton = submitButton(element.querySelector('button')!)
+    this.submitButton = submitButton(element.querySelector('button')!);
   }
 
   @Render()
