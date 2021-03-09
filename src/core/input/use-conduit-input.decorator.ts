@@ -4,7 +4,7 @@ import { Class } from '@proc7ts/primitives';
 import { HierarchyContext } from '@wesib/generic';
 import { InputToForm, UseInputElement, UseInputElementDef } from '@wesib/generic/input';
 import { ComponentClass, ComponentDecorator } from '@wesib/wesib';
-import { bootstrapCssError } from './bootstrap-css-error';
+import { bootstrapCssError } from '../forms';
 
 export function UseConduitInput<T extends ComponentClass = Class>(
     def: UseInputElementDef<InstanceType<T>>,

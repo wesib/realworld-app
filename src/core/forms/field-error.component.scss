@@ -1,0 +1,9 @@
+// Validation status
+conduit-field-error {
+  @extend .form-text;
+  @extend .text-danger;
+  @extend .d-none;
+  &.is-invalid{
+    @extend .d-block;
+  }
+}

@@ -3,7 +3,7 @@ import { AfterEvent, mapAfter, mapAfter_ } from '@proc7ts/fun-events';
 import { ConvertInput } from '@wesib/generic/input';
 import { Attributes, Component, trackAttribute } from '@wesib/wesib';
 import { Conduit__NS } from '../conduit.ns';
-import { bootstrapCssError } from './bootstrap-css-error';
+import { bootstrapCssError } from '../forms';
 
 @Component(
     ['in-error', Conduit__NS],
