@@ -36,12 +36,12 @@
 
           <div class="col-md-8 offset-md-2">
             <conduit-article-comments>
-              <conduit-api-errors></conduit-api-errors>
+              <conduit-submit-errors></conduit-submit-errors>
               <conduit-new-article-comment>
                 <form>
                   <conduit-article-comment-text>
                     <textarea class="form-control" placeholder="Write a comment..." rows="3"></textarea>
-                    <conduit-in-error code="missing">Comment is empty</conduit-in-error>
+                    <conduit-field-error code="missing">Comment is empty</conduit-field-error>
                   </conduit-article-comment-text>
                   <div class="card-footer">
                     <img class="comment-author-img" />

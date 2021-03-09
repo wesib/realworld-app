@@ -1,20 +1,20 @@
 import { inText, InValidation, requirePresent } from '@frontmeans/input-aspects';
-import { SetInputName } from '@wesib/generic/input';
-import { Component } from '@wesib/wesib';
+import { Field, SharedField } from '@wesib/generic/forms';
+import { Component, ComponentContext } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
-import { UseConduitInput } from '../../core/input';
 
-@Component(
-    ['article-comment-text', Conduit__NS],
-    UseConduitInput({
-      select: 'textarea',
-      makeControl({ node, aspects }) {
-        return inText(node.element, { aspects })
-            .setup(InValidation, validation => validation.by(requirePresent()));
-      },
-    }),
-    SetInputName('text'),
-)
+@Component(['article-comment-text', Conduit__NS])
 export class ArticleCommentTextComponent {
+
+  @SharedField()
+  readonly text: Field<string>;
+
+  constructor(context: ComponentContext) {
+
+    const element: Element = context.element;
+
+    this.text = Field.by(opts => inText(element.querySelector('textarea')!, opts)
+        .setup(InValidation, validation => validation.by(requirePresent())));
+  }
 
 }
