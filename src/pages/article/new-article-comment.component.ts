@@ -1,12 +1,13 @@
 import { inFormElement, inGroup, InStatus, InSubmit, InSubmitError } from '@frontmeans/input-aspects';
 import { supplyAfter } from '@proc7ts/fun-events';
 import { HierarchyContext } from '@wesib/generic';
-import { Form, OnSubmit, SharedForm } from '@wesib/generic/forms';
+import { Field, Form, FormShare, OnSubmit, SharedField, SharedForm } from '@wesib/generic/forms';
 import { Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
 import { apiSubmit } from '../../core/api';
 import { AuthService, AuthUser, notAuthenticated, NotAuthenticated } from '../../core/auth';
 import { CommentService, CommentsSupport } from '../../core/comments';
+import { submitButton } from '../../core/forms';
 import { ArticleCommentTextComponent } from './article-comment-text.component';
 import { CommentEvent } from './comment-event';
 import { CurrentArticle, noArticle } from './current-article';
@@ -38,6 +39,15 @@ export class NewArticleCommentComponent {
   @SharedForm()
   readonly form: Form<NewComment>;
 
+  @SharedField({
+    form: {
+      share: FormShare,
+      local: true,
+    },
+    name: '',
+  })
+  readonly submitButton: Field<void>
+
   constructor(private readonly _context: ComponentContext) {
     this._commentService = _context.get(CommentService);
 
@@ -61,6 +71,7 @@ export class NewArticleCommentComponent {
         opts => inGroup({ text: '' }, opts),
         opts => inFormElement(element.querySelector('form')!, opts),
     );
+    this.submitButton = submitButton(element.querySelector('button')!)
   }
 
   @Render()
