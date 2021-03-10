@@ -1,18 +1,22 @@
 import { inText, InValidation, requirePresent } from '@frontmeans/input-aspects';
-import { SetInputName } from '@wesib/generic/input';
-import { Component } from '@wesib/wesib';
+import { Field, SharedField } from '@wesib/generic/forms';
+import { Component, ComponentContext } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
-import { UseConduitInput } from '../../core/input';
 
-@Component(
-    ['user-name', Conduit__NS],
-    UseConduitInput({
-      makeControl({ node, aspects }) {
-        return inText(node.element, { aspects })
-            .setup(InValidation, validation => validation.by(requirePresent()));
-      },
-    }),
-    SetInputName('username'),
-)
+@Component(['user-name', Conduit__NS])
 export class UserNameComponent {
+
+  @SharedField()
+  readonly username: Field<string>;
+
+  constructor(context: ComponentContext) {
+
+    const element: Element = context.element;
+
+    this.username = Field.by(
+        opts => inText(element.querySelector('input')!, opts)
+            .setup(InValidation, validation => validation.by(requirePresent())),
+    );
+  }
+
 }

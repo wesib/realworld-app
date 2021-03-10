@@ -1,11 +1,11 @@
-import { InStatus, InSubmit, InSubmitError } from '@frontmeans/input-aspects';
+import { inFormElement, inGroup, InStatus, InSubmit, InSubmitError } from '@frontmeans/input-aspects';
 import { HandleNavLinks, Navigation } from '@wesib/generic';
-import { InputToForm, OnSubmit } from '@wesib/generic/input';
+import { Field, Form, FormShare, OnSubmit, SharedField, SharedForm } from '@wesib/generic/forms';
 import { Component, ComponentContext } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
 import { apiSubmit } from '../../core/api';
 import { AuthService, RegisterRequest } from '../../core/auth';
-import { ConduitInputSupport, FillConduitForm } from '../../core/input';
+import { ConduitFormsSupport, submitButton } from '../../core/forms';
 import { UserEmailComponent } from '../settings/user-email.component';
 import { UserNameComponent } from '../settings/user-name.component';
 import { UserPasswordComponent } from '../settings/user-password.component';
@@ -15,20 +15,13 @@ import { UserPasswordComponent } from '../settings/user-password.component';
     {
       feature: {
         needs: [
-          ConduitInputSupport,
+          ConduitFormsSupport,
           UserEmailComponent,
           UserNameComponent,
           UserPasswordComponent,
         ],
       },
     },
-    FillConduitForm<RegisterRequest>({
-      emptyModel: {
-        username: '',
-        email: '',
-        password: '',
-      },
-    }),
     HandleNavLinks(),
 )
 export class RegisterComponent {
@@ -36,13 +29,40 @@ export class RegisterComponent {
   private readonly _authService: AuthService;
   private readonly _navigation: Navigation;
 
+  @SharedForm()
+  readonly form: Form<RegisterRequest>;
+
+  @SharedField({
+    form: {
+      share: FormShare,
+      local: true,
+    },
+    name: '',
+  })
+  readonly submitButton: Field<void>;
+
   constructor(context: ComponentContext) {
     this._authService = context.get(AuthService);
     this._navigation = context.get(Navigation);
+
+    const element: Element = context.element;
+
+    this.form = Form.by(
+        opts => inGroup(
+            {
+              username: '',
+              email: '',
+              password: '',
+            },
+            opts,
+        ),
+        opts => inFormElement(element.querySelector('form')!, opts),
+    );
+    this.submitButton = submitButton(element.querySelector('button')!);
   }
 
   @OnSubmit()
-  submit({ control }: InputToForm<RegisterRequest>): void {
+  submit({ control }: Form.Whole<RegisterRequest>): void {
     control.aspect(InStatus).markEdited();
     control.aspect(InSubmit)
         .submit(request => apiSubmit(this._authService.register(request)))

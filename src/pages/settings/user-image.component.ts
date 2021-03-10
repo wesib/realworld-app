@@ -1,17 +1,19 @@
 import { inText } from '@frontmeans/input-aspects';
-import { SetInputName } from '@wesib/generic/input';
-import { Component } from '@wesib/wesib';
+import { Field, SharedField } from '@wesib/generic/forms';
+import { Component, ComponentContext } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
-import { UseConduitInput } from '../../core/input';
 
-@Component(
-    ['user-image', Conduit__NS],
-    UseConduitInput({
-      makeControl({ node, aspects }) {
-        return inText(node.element, { aspects });
-      },
-    }),
-    SetInputName('image'),
-)
+@Component(['user-image', Conduit__NS])
 export class UserImageComponent {
+
+  @SharedField()
+  readonly image: Field<string>;
+
+  constructor(context: ComponentContext) {
+
+    const element: Element = context.element;
+
+    this.image = Field.by(opts => inText(element.querySelector('input')!, opts));
+  }
+
 }
