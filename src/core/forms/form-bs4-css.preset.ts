@@ -1,8 +1,8 @@
 import { InCssClasses, InRole } from '@frontmeans/input-aspects';
 import { Field, FormCssPreset } from '@wesib/generic/forms';
-import { bootstrapCssError } from './bootstrap-css-error';
+import { bs4CssError } from './bs4-css-error';
 
-export class FormBootstrapCssPreset extends FormCssPreset {
+export class FormBs4CssPreset extends FormCssPreset {
 
   constructor() {
     super({ error: false });
@@ -12,7 +12,7 @@ export class FormBootstrapCssPreset extends FormCssPreset {
     super.setupField(builder);
     builder.control.setup(
         InRole,
-        role => role.when('default', control => control.aspect(InCssClasses).add(bootstrapCssError())),
+        role => role.when('default', control => control.aspect(InCssClasses).add(bs4CssError())),
     );
   }
 

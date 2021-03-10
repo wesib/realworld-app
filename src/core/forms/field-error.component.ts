@@ -3,7 +3,7 @@ import { AfterEvent, mapAfter_, trackValue, translateAfter_ } from '@proc7ts/fun
 import { AdjacentField, Field, FieldShare, SharedField } from '@wesib/generic/forms';
 import { Attribute, Component, ComponentContext } from '@wesib/wesib';
 import { Conduit__NS } from '../conduit.ns';
-import { bootstrapCssError } from './bootstrap-css-error';
+import { bs4CssError } from './bs4-css-error';
 
 class FieldErrorShare extends FieldShare {
 
@@ -41,7 +41,7 @@ export class FieldErrorComponent {
           control: builder.adjusted.control
               .convert<void>(InStyledElement.to(context.element))
               .setup(InCssClasses, css => css.add(inCssInfo()))
-              .setup(InCssClasses, css => css.add(bootstrapCssError({ when }))),
+              .setup(InCssClasses, css => css.add(bs4CssError({ when }))),
         })),
     ));
   }

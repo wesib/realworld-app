@@ -3,7 +3,7 @@ import { AfterEvent, mapAfter, mapAfter_ } from '@proc7ts/fun-events';
 import { ConvertInput } from '@wesib/generic/input';
 import { Attributes, Component, trackAttribute } from '@wesib/wesib';
 import { Conduit__NS } from '../conduit.ns';
-import { bootstrapCssError } from '../forms';
+import { bs4CssError } from '../forms';
 
 @Component(
     ['in-error', Conduit__NS],
@@ -24,7 +24,7 @@ import { bootstrapCssError } from '../forms';
                   InCssClasses,
                   cssClasses => {
                     cssClasses.add(inCssInfo());
-                    cssClasses.add(bootstrapCssError({ when }));
+                    cssClasses.add(bs4CssError({ when }));
                   },
               )),
           );

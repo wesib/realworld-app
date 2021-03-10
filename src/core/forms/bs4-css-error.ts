@@ -1,7 +1,7 @@
 import { InCssClasses, inCssError, InStatus, InValidation } from '@frontmeans/input-aspects';
 import { afterAll, afterThe, digAfter } from '@proc7ts/fun-events';
 
-export function bootstrapCssError(
+export function bs4CssError(
     {
       mark = 'is-invalid',
       when,

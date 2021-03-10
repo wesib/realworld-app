@@ -1,13 +1,13 @@
 import { FormModePreset } from '@wesib/generic/forms';
 import { Feature } from '@wesib/wesib';
 import { FieldErrorComponent } from './field-error.component';
-import { FormBootstrapCssPreset } from './form-bootstrap-css.preset';
+import { FormBs4CssPreset } from './form-bs4-css.preset';
 import { SubmitErrorsComponent } from './submit-errors.component';
 
 @Feature({
   needs: [
     FieldErrorComponent,
-    FormBootstrapCssPreset,
+    FormBs4CssPreset,
     FormModePreset,
     SubmitErrorsComponent,
   ],
