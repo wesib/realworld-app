@@ -1,5 +1,5 @@
 import { InValidation } from '@frontmeans/input-aspects';
-import { AfterEvent, afterThe, digAfter_, mapAfter_ } from '@proc7ts/fun-events';
+import { AfterEvent, afterThe, digAfter_, EventKeeper, mapAfter_ } from '@proc7ts/fun-events';
 import { Share__symbol } from '@wesib/generic';
 import { Form, FormShare } from '@wesib/generic/forms';
 import { Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
@@ -19,9 +19,7 @@ export class SubmitErrorsComponent {
     FormShare[Share__symbol]
         .valueFor(_context, { local: 'too' })
         .do(
-            digAfter_((form?, _sharer?) => form
-                ? form.readControls
-                : afterThe()),
+            digAfter_((form?, _sharer?): EventKeeper<[Form.Controls<any>?]> => form || afterThe()),
             digAfter_((controls?: Form.Controls<any>): AfterEvent<[ApiResponse.Errors]> => controls
                 ? controls.control.aspect(InValidation).read.do(
                     mapAfter_(validity => validity.messages('api').reduce(

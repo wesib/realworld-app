@@ -59,7 +59,7 @@ export class LoginComponent {
   }
 
   @OnSubmit()
-  submit({ control }: Form.Whole<LoginRequest>): void {
+  submit({ control }: Form.Controls<LoginRequest>): void {
     control.aspect(InStatus).markEdited();
     control.aspect(InSubmit)
         .submit(request => apiSubmit(this._authService.login(request)))

@@ -62,7 +62,7 @@ export class RegisterComponent {
   }
 
   @OnSubmit()
-  submit({ control }: Form.Whole<RegisterRequest>): void {
+  submit({ control }: Form.Controls<RegisterRequest>): void {
     control.aspect(InStatus).markEdited();
     control.aspect(InSubmit)
         .submit(request => apiSubmit(this._authService.register(request)))

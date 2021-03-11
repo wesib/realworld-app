@@ -90,7 +90,7 @@ export class NewArticleCommentComponent {
   }
 
   @OnSubmit()
-  submit({ control }: Form.Whole<NewComment>): void {
+  submit({ control }: Form.Controls<NewComment>): void {
 
     const { article } = this;
 

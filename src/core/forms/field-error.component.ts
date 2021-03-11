@@ -1,6 +1,6 @@
 import { InCssClasses, inCssInfo, InStyledElement } from '@frontmeans/input-aspects';
 import { AfterEvent, mapAfter_, trackValue, translateAfter_ } from '@proc7ts/fun-events';
-import { AdjacentField, Field, FieldShare, SharedField } from '@wesib/generic/forms';
+import { adjacentToField, Field, FieldShare, SharedField } from '@wesib/generic/forms';
 import { Attribute, Component, ComponentContext } from '@wesib/wesib';
 import { Conduit__NS } from '../conduit.ns';
 import { bs4CssError } from './bs4-css-error';
@@ -36,7 +36,7 @@ export class FieldErrorComponent {
             translateAfter_((send, code) => code ? send(...code.trim().split(/\s+/)) : send()),
         );
 
-    this.indicator = AdjacentField.toField<void>(builder => when.do(
+    this.indicator = adjacentToField<void>(builder => when.do(
         mapAfter_((...when) => ({
           control: builder.adjusted.control
               .convert<void>(InStyledElement.to(context.element))

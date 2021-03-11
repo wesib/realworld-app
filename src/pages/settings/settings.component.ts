@@ -88,7 +88,7 @@ export class SettingsComponent {
   }
 
   @OnSubmit()
-  submit({ control }: Form.Whole<UpdateSettingsRequest>): void {
+  submit({ control }: Form.Controls<UpdateSettingsRequest>): void {
     this.updated = false;
     control.aspect(InStatus).markEdited();
     control.aspect(InSubmit)
