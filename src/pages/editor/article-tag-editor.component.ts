@@ -1,9 +1,16 @@
 import { supplyOn } from '@proc7ts/fun-events';
-import { SetInputName } from '@wesib/generic/input';
-import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
+import { Field, SharedField } from '@wesib/generic/forms';
+import {
+  BootstrapContext,
+  BootstrapWindow,
+  Component,
+  ComponentContext,
+  ElementRenderer,
+  Render,
+  StateProperty,
+} from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
 import { FeedService, FeedSupport } from '../../core/feed';
-import { UseConduitInput } from '../../core/input';
 import { inMultiInput, MultiInputComponent } from '../../reusable';
 
 @Component(
@@ -16,18 +23,14 @@ import { inMultiInput, MultiInputComponent } from '../../reusable';
         ],
       },
     },
-    UseConduitInput({
-      select: 'conduit-multi-input',
-      makeControl({ node: { element } }) {
-        return inMultiInput(element);
-      },
-    }),
-    SetInputName('tagList'),
 )
 export class ArticleTagEditorComponent {
 
   @StateProperty()
   private tags: string[] = [];
+
+  @SharedField()
+  tagList?: Field<readonly string[]>;
 
   constructor(private readonly _context: ComponentContext) {
     _context.get(FeedService).tags.do(supplyOn(_context))(
@@ -35,6 +38,14 @@ export class ArticleTagEditorComponent {
     ).whenOff(
         () => this.tags = [],
     );
+
+    const bsContext = _context.get(BootstrapContext);
+
+    _context.whenSettled(({ element }: { element: Element }) => {
+      bsContext.whenDefined(MultiInputComponent)(({ elementDef: { tagName } }) => {
+        this.tagList = Field.by(opts => inMultiInput(element.querySelector(tagName!)!, opts));
+      }).needs(_context);
+    });
   }
 
   @Render()
