@@ -1,20 +1,21 @@
 import { inText, InValidation, requirePresent } from '@frontmeans/input-aspects';
-import { SetInputName } from '@wesib/generic/input';
-import { Component } from '@wesib/wesib';
+import { Field, SharedField } from '@wesib/generic/forms';
+import { Component, ComponentContext } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
-import { UseConduitInput } from '../../core/input';
 
-@Component(
-    ['article-body', Conduit__NS],
-    UseConduitInput({
-      select: 'textarea',
-      makeControl({ node: { element }, aspects }) {
-        return inText(element, { aspects })
-            .setup(InValidation, validation => validation.by(requirePresent()));
-      },
-    }),
-    SetInputName('body'),
-)
+@Component(['article-body', Conduit__NS])
 export class ArticleBodyComponent {
+
+  @SharedField()
+  body?: Field<string>;
+
+  constructor(context: ComponentContext) {
+    context.whenSettled(({ element }: { element: Element }) => {
+      this.body = Field.by(
+          opts => inText(element.querySelector('textarea')!, opts)
+              .setup(InValidation, validation => validation.by(requirePresent())),
+      );
+    });
+  }
 
 }

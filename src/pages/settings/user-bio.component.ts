@@ -1,18 +1,18 @@
 import { inText } from '@frontmeans/input-aspects';
-import { SetInputName } from '@wesib/generic/input';
-import { Component } from '@wesib/wesib';
+import { Field, SharedField } from '@wesib/generic/forms';
+import { Component, ComponentContext } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
-import { UseConduitInput } from '../../core/input';
 
-@Component(
-    ['user-bio', Conduit__NS],
-    UseConduitInput({
-      select: 'textarea',
-      makeControl({ node, aspects }) {
-        return inText(node.element, { aspects });
-      },
-    }),
-    SetInputName('bio'),
-)
+@Component(['user-bio', Conduit__NS])
 export class UserBioComponent {
+
+  @SharedField()
+  bio?: Field<string>;
+
+  constructor(context: ComponentContext) {
+    context.whenSettled(({ element }: { element: Element }) => {
+      this.bio = Field.by(opts => inText(element.querySelector('textarea')!, opts));
+    });
+  }
+
 }

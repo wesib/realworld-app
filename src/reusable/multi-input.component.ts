@@ -31,7 +31,8 @@ const trailingSpace = /\s$/;
 @AttachShadow()
 export class MultiInputComponent {
 
-  private readonly _values = new DeltaSet<string>();
+  private readonly _set = new DeltaSet<string>();
+  private _list: readonly string[] | null = null;
   private _input?: HTMLInputElement;
   private _datalist?: HTMLDataListElement;
 
@@ -68,13 +69,14 @@ export class MultiInputComponent {
   }
 
   get values(): readonly string[] {
-    return Array.from(this._values);
+    return this._list || (this._list = [...this._set]);
   }
 
   @DomProperty()
   set values(values: readonly string[]) {
-    this._values.clear();
-    this._values.delta(values || []);
+    this._list = values;
+    this._set.clear();
+    this._set.delta(values || []);
   }
 
   get readonly(): boolean {
@@ -165,7 +167,7 @@ export class MultiInputComponent {
     };
 
     return () => {
-      this._values.redelta({
+      this._set.redelta({
         add: value => {
           if (!valueItem(value)) {
 
@@ -214,7 +216,8 @@ export class MultiInputComponent {
       return;
     }
 
-    this._values.add(value);
+    this._set.add(value);
+    this._list = null;
     this.input.value = '';
     this._sendEvent();
   }
@@ -222,7 +225,8 @@ export class MultiInputComponent {
   // Called when the × icon is tapped/clicked or
   // by _handleKeydown() when Backspace is entered.
   private _delete(value: string): void {
-    this._values.delete(value);
+    this._set.delete(value);
+    this._list = null;
     this._sendEvent();
   }
 
@@ -294,7 +298,9 @@ class MultiInputControl extends AbstractInElement<readonly string[], MultiInputC
         {
           aspects,
           get: () => element.values,
-          set: (values: readonly string[]) => element.values = values,
+          set: (values: readonly string[]) => {
+            element.values = values;
+          },
         },
     );
   }

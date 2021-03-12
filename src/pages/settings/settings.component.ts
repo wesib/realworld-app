@@ -1,8 +1,7 @@
-import { InStatus, InSubmit, InSubmitError } from '@frontmeans/input-aspects';
+import { inFormElement, inGroup, InStatus, InSubmit, InSubmitError } from '@frontmeans/input-aspects';
 import { css__naming, QualifiedName } from '@frontmeans/namespace-aliaser';
-import { AfterEvent, onceAfter, supplyOn } from '@proc7ts/fun-events';
-import { HierarchyContext } from '@wesib/generic';
-import { InputToForm, NoInputToForm, OnSubmit } from '@wesib/generic/input';
+import { supplyOn } from '@proc7ts/fun-events';
+import { Field, Form, FormShare, OnSubmit, SharedField, SharedForm } from '@wesib/generic/forms';
 import {
   Component,
   ComponentContext,
@@ -14,7 +13,7 @@ import {
 import { Conduit__NS } from '../../core';
 import { apiSubmit } from '../../core/api';
 import { AuthService, AuthUser, UpdateSettingsRequest } from '../../core/auth';
-import { ConduitInputSupport, FillConduitForm } from '../../core/input';
+import { ConduitFormsSupport, submitButton } from '../../core/forms';
 import { LoadStatus, RenderLoader } from '../../core/loader';
 import { ChangePasswordComponent } from './change-password.component';
 import { UserBioComponent } from './user-bio.component';
@@ -30,7 +29,7 @@ const updatedClassName: QualifiedName = ['updated', Conduit__NS];
       feature: {
         needs: [
           ChangePasswordComponent,
-          ConduitInputSupport,
+          ConduitFormsSupport,
           UserBioComponent,
           UserEmailComponent,
           UserImageComponent,
@@ -38,12 +37,6 @@ const updatedClassName: QualifiedName = ['updated', Conduit__NS];
         ],
       },
     },
-    FillConduitForm<UpdateSettingsRequest>({
-      emptyModel: {
-        email: '',
-        username: '',
-      },
-    }),
 )
 export class SettingsComponent {
 
@@ -55,9 +48,20 @@ export class SettingsComponent {
   @RenderLoader({ comment: 'settings' })
   loadStatus?: LoadStatus;
 
+  @SharedForm()
+  form?: Form<UpdateSettingsRequest>;
+
+  @SharedField({
+    form: {
+      share: FormShare,
+      local: true,
+    },
+    name: '',
+  })
+  submitButton?: Field<void>;
+
   constructor(private readonly _context: ComponentContext) {
     this._authService = _context.get(AuthService);
-
     this._authService.loadUser().do(supplyOn(_context))(
         response => {
           this.loadStatus = response;
@@ -66,10 +70,24 @@ export class SettingsComponent {
           }
         },
     );
+
+    _context.whenSettled(({ element }: { element: Element }) => {
+      this.form = Form.by(
+          opts => inGroup(
+              {
+                email: '',
+                username: '',
+              },
+              opts,
+          ),
+          opts => inFormElement(element.querySelector('form')!, opts),
+      );
+      this.submitButton = submitButton(element.querySelector('button')!);
+    });
   }
 
   @OnSubmit()
-  submit({ control }: InputToForm<UpdateSettingsRequest>): void {
+  submit({ control }: Form.Controls<UpdateSettingsRequest>): void {
     this.updated = false;
     control.aspect(InStatus).markEdited();
     control.aspect(InSubmit)
@@ -111,19 +129,16 @@ export class SettingsComponent {
       }: AuthUser,
   ): void {
 
-    const hierarchy = this._context.get(HierarchyContext);
-    const form: AfterEvent<[InputToForm<UpdateSettingsRequest> | NoInputToForm]> = hierarchy.get(InputToForm);
+    const control = this?.form?.control;
 
-    form.do(onceAfter)(f => {
-      if (f.control) {
-        f.control.it = {
-          username,
-          email,
-          bio,
-          image,
-        };
-      }
-    });
+    if (control) {
+      control.it = {
+        username,
+        email,
+        bio,
+        image,
+      };
+    }
   }
 
 }

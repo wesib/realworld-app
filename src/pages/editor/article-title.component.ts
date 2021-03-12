@@ -1,19 +1,21 @@
 import { inText, InValidation, requirePresent } from '@frontmeans/input-aspects';
-import { SetInputName } from '@wesib/generic/input';
-import { Component } from '@wesib/wesib';
+import { Field, SharedField } from '@wesib/generic/forms';
+import { Component, ComponentContext } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
-import { UseConduitInput } from '../../core/input';
 
-@Component(
-    ['article-title', Conduit__NS],
-    UseConduitInput({
-      makeControl({ node: { element }, aspects }) {
-        return inText(element, { aspects })
-            .setup(InValidation, validation => validation.by(requirePresent()));
-      },
-    }),
-    SetInputName('title'),
-)
+@Component(['article-title', Conduit__NS])
 export class ArticleTitleComponent {
+
+  @SharedField()
+  title?: Field<string>;
+
+  constructor(context: ComponentContext) {
+    context.whenSettled(({ element }: { element: Element }) => {
+      this.title = Field.by(
+          opts => inText(element.querySelector('input')!, opts)
+              .setup(InValidation, validation => validation.by(requirePresent())),
+      );
+    });
+  }
 
 }

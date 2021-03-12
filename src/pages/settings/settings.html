@@ -15,7 +15,7 @@
             <h1 class="text-center">Your Settings</h1>
 
             <div class="updated-alert" role="alert">Settings updated</div>
-            <conduit-api-errors></conduit-api-errors>
+            <conduit-submit-errors></conduit-submit-errors>
 
             <form novalidate>
               <conduit-user-image>
@@ -31,7 +31,7 @@
                     type="text"
                     placeholder="Your Name"
                     autocomplete="nickname">
-                <conduit-in-error code="missing">Your name is required</conduit-in-error>
+                <conduit-field-error code="missing">Your name is required</conduit-field-error>
               </conduit-user-name>
               <conduit-user-bio>
                 <textarea
@@ -46,7 +46,7 @@
                     type="text"
                     placeholder="Email"
                     autocomplete="email"/>
-                <conduit-in-error code="missing">Email is required</conduit-in-error>
+                <conduit-field-error code="missing">Email is required</conduit-field-error>
               </conduit-user-email>
               <conduit-change-password>
                 <input

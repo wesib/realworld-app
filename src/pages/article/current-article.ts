@@ -1,6 +1,6 @@
 import { SingleContextUpKey, SingleContextUpRef } from '@proc7ts/context-values/updatable';
 import { EventSupplier, mapOn_, OnEvent, onSupplied, trackValue, ValueTracker } from '@proc7ts/fun-events';
-import { Supply } from '@proc7ts/primitives';
+import { Supply } from '@proc7ts/supply';
 import { Article } from '../../core/articles';
 
 export interface UpdatableArticle extends Article {

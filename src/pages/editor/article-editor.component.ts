@@ -1,14 +1,14 @@
-import { InStatus, InSubmit, InSubmitError } from '@frontmeans/input-aspects';
+import { inFormElement, inGroup, InStatus, InSubmit, InSubmitError } from '@frontmeans/input-aspects';
 import { afterAll, afterSent, afterThe, digAfter_, mapAfter_, supplyAfter } from '@proc7ts/fun-events';
-import { HierarchyContext, Navigation, PageHashURLParam } from '@wesib/generic';
-import { InputToForm, OnSubmit } from '@wesib/generic/input';
+import { Navigation, PageHashURLParam } from '@wesib/generic';
+import { Field, Form, FormShare, OnSubmit, SharedField, SharedForm } from '@wesib/generic/forms';
 import { Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
 import { ApiResponse, apiSubmit } from '../../core/api';
 import { Article, ArticleService, ArticlesSupport, CreateArticleRequest } from '../../core/articles';
 import { AuthService } from '../../core/auth';
 import { FeedSupport } from '../../core/feed';
-import { ConduitInputSupport, FillConduitForm } from '../../core/input';
+import { ConduitFormsSupport, submitButton } from '../../core/forms';
 import { LoadStatus, RenderLoader } from '../../core/loader';
 import { noArticle, NoArticle } from '../article/current-article';
 import { ArticleBodyComponent } from './article-body.component';
@@ -26,14 +26,11 @@ import { ArticleTitleComponent } from './article-title.component';
           ArticleTagEditorComponent,
           ArticleTitleComponent,
           ArticlesSupport,
-          ConduitInputSupport,
+          ConduitFormsSupport,
           FeedSupport,
         ],
       },
     },
-    FillConduitForm<CreateArticleRequest>({
-      emptyModel: emptyArticleRequest(),
-    }),
 )
 export class ArticleEditorComponent {
 
@@ -46,16 +43,34 @@ export class ArticleEditorComponent {
   @StateProperty()
   article: Article | NoArticle = noArticle;
 
+  @SharedForm()
+  form?: Form<CreateArticleRequest>;
+
+  @SharedField({
+    form: {
+      share: FormShare,
+      local: true,
+    },
+    name: '',
+  })
+  submitButton?: Field<void>;
+
   constructor(private readonly _context: ComponentContext) {
     this._navigation = _context.get(Navigation);
     this._articleService = _context.get(ArticleService);
 
     const authService = _context.get(AuthService);
-    const hierarchy = _context.get(HierarchyContext);
 
     _context.supply.whenOff(() => {
       this.loadStatus = undefined;
       this.article = noArticle;
+    });
+    _context.whenSettled(({ element }: { element: Element }) => {
+      this.form = Form.by(
+          opts => inGroup(emptyArticleRequest(), opts),
+          opts => inFormElement(element.querySelector('form')!, opts),
+      );
+      this.submitButton = submitButton(element.querySelector('button')!);
     });
     _context.whenConnected(() => {
       this._navigation.read.do(
@@ -71,12 +86,10 @@ export class ArticleEditorComponent {
                     () => [],
                 )
                 : afterThe<[ApiResponse.Any<Article>]>({ ok: true }),
-            form: hierarchy.get(InputToForm),
           })),
       )(({
         user: [user],
         loaded: [loaded],
-        form: [{ control: form }],
       }) => {
         if (!user.username) {
           this.loadStatus = user.failure ? { ok: false, errors: user.failure.errors } : undefined;
@@ -92,10 +105,13 @@ export class ArticleEditorComponent {
         }
         this.loadStatus = loaded;
         this.article = loaded.body ?? noArticle;
+
+        const form = this.form?.control;
+
         if (form) {
           form.it = loaded.body ?? emptyArticleRequest();
         }
-      });
+      }).needs(_context);
     });
   }
 
@@ -111,7 +127,7 @@ export class ArticleEditorComponent {
   }
 
   @OnSubmit()
-  submit({ control }: InputToForm<CreateArticleRequest>): void {
+  submit({ control }: Form.Controls<CreateArticleRequest>): void {
     control.aspect(InStatus).markEdited();
     control.aspect(InSubmit)
         .submit(

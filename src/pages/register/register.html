@@ -17,7 +17,7 @@
               <a href="login/">Have an account?</a>
             </p>
 
-            <conduit-api-errors></conduit-api-errors>
+            <conduit-submit-errors></conduit-submit-errors>
 
             <form>
               <conduit-user-name>
@@ -26,7 +26,7 @@
                     type="text"
                     placeholder="Your Name"
                     autocomplete="nickname">
-                <conduit-in-error code="missing">Your name is required</conduit-in-error>
+                <conduit-field-error code="missing">Your name is required</conduit-field-error>
               </conduit-user-name>
               <conduit-user-email>
                 <input
@@ -34,7 +34,7 @@
                     type="text"
                     placeholder="Email"
                     autocomplete="email">
-                <conduit-in-error code="missing">Email is required</conduit-in-error>
+                <conduit-field-error code="missing">Email is required</conduit-field-error>
               </conduit-user-email>
               <conduit-user-password>
                 <input
@@ -42,7 +42,7 @@
                     type="password"
                     placeholder="Password"
                     autocomplete="new-password">
-                <conduit-in-error code="missing">Password is required</conduit-in-error>
+                <conduit-field-error code="missing">Password is required</conduit-field-error>
               </conduit-user-password>
               <button class="btn btn-lg btn-primary float-right">
                 Sign up

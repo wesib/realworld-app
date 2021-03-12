@@ -1,12 +1,12 @@
-import { inGroup } from '@frontmeans/input-aspects';
+import { inFormElement, inGroup } from '@frontmeans/input-aspects';
 import { digOn_, supplyOn } from '@proc7ts/fun-events';
 import { HierarchyContext } from '@wesib/generic';
-import { inputFromControl } from '@wesib/generic/input';
+import { Form, SharedForm } from '@wesib/generic/forms';
 import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
 import { ApiResponse } from '../../core/api';
 import { Comment, CommentList, CommentService, CommentsSupport } from '../../core/comments';
-import { ConduitInputSupport } from '../../core/input';
+import { ConduitFormsSupport } from '../../core/forms';
 import { RenderLoader } from '../../core/loader';
 import { ArticleCommentComponent, ArticleCommentEl } from './article-comment.component';
 import { CommentEvent } from './comment-event';
@@ -19,7 +19,7 @@ import { CurrentArticle, noArticle } from './current-article';
         needs: [
           ArticleCommentComponent,
           CommentsSupport,
-          ConduitInputSupport,
+          ConduitFormsSupport,
         ],
       },
     },
@@ -31,6 +31,9 @@ export class ArticleCommentsComponent {
 
   @StateProperty()
   comments: Comment[] = [];
+
+  @SharedForm()
+  form: Form;
 
   constructor(private readonly _context: ComponentContext) {
 
@@ -65,10 +68,12 @@ export class ArticleCommentsComponent {
       }
     });
 
-    const group = inGroup({});
+    const element: HTMLElement = _context.element;
 
-    group.supply.needs(_context);
-    inputFromControl(_context, group);
+    this.form = Form.by(
+        opts => inGroup({}, opts),
+        opts => inFormElement(element, opts),
+    );
   }
 
   @Render()

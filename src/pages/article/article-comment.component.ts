@@ -2,8 +2,8 @@ import { DomEventDispatcher, stopDomEvents } from '@frontmeans/dom-events';
 import { escapeHTML } from '@frontmeans/httongue';
 import { InSubmit, inSubmitButton, InSubmitError } from '@frontmeans/input-aspects';
 import { supplyAfter } from '@proc7ts/fun-events';
-import { HierarchyContext } from '@wesib/generic';
-import { InputFromControl, NoInputFromControl } from '@wesib/generic/input';
+import { HierarchyContext, Share__symbol } from '@wesib/generic';
+import { Form, FormShare } from '@wesib/generic/forms';
 import { BootstrapWindow, Component, ComponentContext, DomProperty, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
 import { apiSubmit } from '../../core/api';
@@ -29,7 +29,7 @@ export class ArticleCommentComponent {
   @StateProperty()
   user: AuthUser | NotAuthenticated = notAuthenticated;
 
-  form: InputFromControl | NoInputFromControl = {};
+  form?: Form;
 
   constructor(private readonly _context: ComponentContext) {
 
@@ -50,13 +50,9 @@ export class ArticleCommentComponent {
         .whenOff(
             () => this.article = noArticle,
         );
-    hierarchy.get(InputFromControl)
-        .do(supplyAfter(_context))(
-            form => this.form = form,
-        )
-        .whenOff(
-            () => this.form = {},
-        );
+    FormShare[Share__symbol].valueFor(_context)(
+        (form?, _sharer?) => this.form = form,
+    );
   }
 
   @RenderHTML({ comment: 'COMMENT' })
@@ -93,7 +89,7 @@ export class ArticleCommentComponent {
 <a href="${authorLink}" class="comment-author">${escapeHTML(author.username)}</a>
 <span class="date-posted">${date}</span>`;
 
-    const { control: form } = this.form;
+    const form = this.form?.control;
     const { slug } = this.article;
 
     if (this.user.username === author.username && form && slug) {
