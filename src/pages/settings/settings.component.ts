@@ -49,7 +49,7 @@ export class SettingsComponent {
   loadStatus?: LoadStatus;
 
   @SharedForm()
-  readonly form: Form<UpdateSettingsRequest>;
+  form?: Form<UpdateSettingsRequest>;
 
   @SharedField({
     form: {
@@ -58,25 +58,10 @@ export class SettingsComponent {
     },
     name: '',
   })
-  readonly submitButton: Field<void>;
+  submitButton?: Field<void>;
 
   constructor(private readonly _context: ComponentContext) {
     this._authService = _context.get(AuthService);
-
-    const element: Element = _context.element;
-
-    this.form = Form.by(
-        opts => inGroup(
-            {
-              email: '',
-              username: '',
-            },
-            opts,
-        ),
-        opts => inFormElement(element.querySelector('form')!, opts),
-    );
-    this.submitButton = submitButton(element.querySelector('button')!);
-
     this._authService.loadUser().do(supplyOn(_context))(
         response => {
           this.loadStatus = response;
@@ -85,6 +70,20 @@ export class SettingsComponent {
           }
         },
     );
+
+    _context.whenSettled(({ element }: { element: Element }) => {
+      this.form = Form.by(
+          opts => inGroup(
+              {
+                email: '',
+                username: '',
+              },
+              opts,
+          ),
+          opts => inFormElement(element.querySelector('form')!, opts),
+      );
+      this.submitButton = submitButton(element.querySelector('button')!);
+    });
   }
 
   @OnSubmit()
@@ -130,7 +129,7 @@ export class SettingsComponent {
       }: AuthUser,
   ): void {
 
-    const { control } = this.form;
+    const control = this?.form?.control;
 
     if (control) {
       control.it = {

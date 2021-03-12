@@ -7,14 +7,13 @@ import { Conduit__NS } from '../../core';
 export class ArticleCommentTextComponent {
 
   @SharedField()
-  readonly text: Field<string>;
+  text?: Field<string>;
 
   constructor(context: ComponentContext) {
-
-    const element: Element = context.element;
-
-    this.text = Field.by(opts => inText(element.querySelector('textarea')!, opts)
-        .setup(InValidation, validation => validation.by(requirePresent())));
+    context.whenSettled(({ element }: { element: Element }) => {
+      this.text = Field.by(opts => inText(element.querySelector('textarea')!, opts)
+          .setup(InValidation, validation => validation.by(requirePresent())));
+    });
   }
 
 }

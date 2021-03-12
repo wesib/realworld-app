@@ -37,7 +37,7 @@ export class NewArticleCommentComponent {
   user: AuthUser | NotAuthenticated = notAuthenticated;
 
   @SharedForm()
-  readonly form: Form<NewComment>;
+  form?: Form<NewComment>;
 
   @SharedField({
     form: {
@@ -46,7 +46,7 @@ export class NewArticleCommentComponent {
     },
     name: '',
   })
-  readonly submitButton: Field<void>;
+  submitButton?: Field<void>;
 
   constructor(private readonly _context: ComponentContext) {
     this._commentService = _context.get(CommentService);
@@ -65,13 +65,13 @@ export class NewArticleCommentComponent {
         () => this.article = noArticle,
     );
 
-    const element: Element = _context.element;
-
-    this.form = Form.by(
-        opts => inGroup({ text: '' }, opts),
-        opts => inFormElement(element.querySelector('form')!, opts),
-    );
-    this.submitButton = submitButton(element.querySelector('button')!);
+    _context.whenSettled(({ element }: { element: Element }) => {
+      this.form = Form.by(
+          opts => inGroup({ text: '' }, opts),
+          opts => inFormElement(element.querySelector('form')!, opts),
+      );
+      this.submitButton = submitButton(element.querySelector('button')!);
+    });
   }
 
   @Render()

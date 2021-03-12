@@ -7,13 +7,12 @@ import { Conduit__NS } from '../../core';
 export class UserBioComponent {
 
   @SharedField()
-  readonly bio: Field<string>;
+  bio?: Field<string>;
 
   constructor(context: ComponentContext) {
-
-    const element: Element = context.element;
-
-    this.bio = Field.by(opts => inText(element.querySelector('textarea')!, opts));
+    context.whenSettled(({ element }: { element: Element }) => {
+      this.bio = Field.by(opts => inText(element.querySelector('textarea')!, opts));
+    });
   }
 
 }

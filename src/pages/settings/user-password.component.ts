@@ -7,16 +7,15 @@ import { Conduit__NS } from '../../core';
 export class UserPasswordComponent {
 
   @SharedField()
-  readonly password: Field<string>;
+  password?: Field<string>;
 
   constructor(context: ComponentContext) {
-
-    const element: Element = context.element;
-
-    this.password = Field.by(
-        opts => inText(element.querySelector('input')!, opts)
-            .setup(InValidation, validation => validation.by(requirePresent())),
-    );
+    context.whenSettled(({ element }: { element: Element }) => {
+      this.password = Field.by(
+          opts => inText(element.querySelector('input')!, opts)
+              .setup(InValidation, validation => validation.by(requirePresent())),
+      );
+    });
   }
 
 }

@@ -7,13 +7,12 @@ import { Conduit__NS } from '../../core';
 export class UserImageComponent {
 
   @SharedField()
-  readonly image: Field<string>;
+  image?: Field<string>;
 
   constructor(context: ComponentContext) {
-
-    const element: Element = context.element;
-
-    this.image = Field.by(opts => inText(element.querySelector('input')!, opts));
+    context.whenSettled(({ element }: { element: Element }) => {
+      this.image = Field.by(opts => inText(element.querySelector('input')!, opts));
+    });
   }
 
 }

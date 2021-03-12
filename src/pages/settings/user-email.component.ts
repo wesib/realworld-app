@@ -7,16 +7,15 @@ import { Conduit__NS } from '../../core';
 export class UserEmailComponent {
 
   @SharedField()
-  readonly email: Field<string>;
+  email?: Field<string>;
 
   constructor(context: ComponentContext) {
-
-    const element: Element = context.element;
-
-    this.email = Field.by(
-        opts => inText(element.querySelector('input')!, opts)
-            .setup(InValidation, validation => validation.by(requirePresent())),
-    );
+    context.whenSettled(({ element }: { element: Element }) => {
+      this.email = Field.by(
+          opts => inText(element.querySelector('input')!, opts)
+              .setup(InValidation, validation => validation.by(requirePresent())),
+      );
+    });
   }
 
 }

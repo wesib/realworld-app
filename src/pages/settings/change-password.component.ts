@@ -8,35 +8,34 @@ import { Conduit__NS } from '../../core';
 export class ChangePasswordComponent {
 
   @SharedField()
-  readonly password: Field<string | undefined>;
+  password?: Field<string | undefined>;
 
   constructor(context: ComponentContext) {
+    context.whenSettled(({ element }: { element: Element }) => {
+      this.password = Field.by(
+          ({ aspects }: { aspects?: InConverter.Aspect<any, any> }) => {
 
-    const element: Element = context.element;
-
-    this.password = Field.by(
-        ({ aspects }: { aspects?: InConverter.Aspect<any, any> }) => {
-
-          const input = element.querySelector('input')!;
-          const text = inText(input, { aspects });
-          const control = text.convert<string | undefined>(
-              {
-                get(value) {
-                  return value || '';
+            const input = element.querySelector('input')!;
+            const text = inText(input, { aspects });
+            const control = text.convert<string | undefined>(
+                {
+                  get(value) {
+                    return value || '';
+                  },
+                  set(value) {
+                    return value || undefined;
+                  },
                 },
-                set(value) {
-                  return value || undefined;
-                },
-              },
-              InStyledElement.to(input),
-              ...arrayOfElements(aspects),
-          );
+                InStyledElement.to(input),
+                ...arrayOfElements(aspects),
+            );
 
-          text.aspect(InMode).derive(control.aspect(InMode));
+            text.aspect(InMode).derive(control.aspect(InMode));
 
-          return control;
-        },
-    );
+            return control;
+          },
+      );
+    });
   }
 
 }

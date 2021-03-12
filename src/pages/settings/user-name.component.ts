@@ -7,16 +7,15 @@ import { Conduit__NS } from '../../core';
 export class UserNameComponent {
 
   @SharedField()
-  readonly username: Field<string>;
+  username?: Field<string>;
 
   constructor(context: ComponentContext) {
-
-    const element: Element = context.element;
-
-    this.username = Field.by(
-        opts => inText(element.querySelector('input')!, opts)
-            .setup(InValidation, validation => validation.by(requirePresent())),
-    );
+    context.whenSettled(({ element }: { element: Element }) => {
+      this.username = Field.by(
+          opts => inText(element.querySelector('input')!, opts)
+              .setup(InValidation, validation => validation.by(requirePresent())),
+      );
+    });
   }
 
 }

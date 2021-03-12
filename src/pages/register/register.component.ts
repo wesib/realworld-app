@@ -30,7 +30,7 @@ export class RegisterComponent {
   private readonly _navigation: Navigation;
 
   @SharedForm()
-  readonly form: Form<RegisterRequest>;
+  form?: Form<RegisterRequest>;
 
   @SharedField({
     form: {
@@ -39,26 +39,26 @@ export class RegisterComponent {
     },
     name: '',
   })
-  readonly submitButton: Field<void>;
+  submitButton?: Field<void>;
 
   constructor(context: ComponentContext) {
     this._authService = context.get(AuthService);
     this._navigation = context.get(Navigation);
 
-    const element: Element = context.element;
-
-    this.form = Form.by(
-        opts => inGroup(
-            {
-              username: '',
-              email: '',
-              password: '',
-            },
-            opts,
-        ),
-        opts => inFormElement(element.querySelector('form')!, opts),
-    );
-    this.submitButton = submitButton(element.querySelector('button')!);
+    context.whenSettled(({ element }: { element: Element }) => {
+      this.form = Form.by(
+          opts => inGroup(
+              {
+                username: '',
+                email: '',
+                password: '',
+              },
+              opts,
+          ),
+          opts => inFormElement(element.querySelector('form')!, opts),
+      );
+      this.submitButton = submitButton(element.querySelector('button')!);
+    });
   }
 
   @OnSubmit()

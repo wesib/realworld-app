@@ -29,7 +29,7 @@ export class ArticleCommentComponent {
   @StateProperty()
   user: AuthUser | NotAuthenticated = notAuthenticated;
 
-  form: Form | undefined;
+  form?: Form;
 
   constructor(private readonly _context: ComponentContext) {
 
