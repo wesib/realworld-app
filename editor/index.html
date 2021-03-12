@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
   <title>Conduit: Article</title>
-  <meta name="wesib-app-rev" content="1eudfp9s2">
+  <meta name="wesib-app-rev" content="1f0j15t0c">
   <base href=".."/>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -51,18 +51,18 @@
 
           <div class="col-md-10 offset-md-1 col-12">
             <form novalidate>
-              <conduit-api-errors></conduit-api-errors>
+              <conduit-submit-errors></conduit-submit-errors>
               <conduit-article-title>
                 <input class="form-control form-control-lg" type="text" placeholder="Post Title"/>
-                <conduit-in-error code="missing">Title is required</conduit-in-error>
+                <conduit-field-error code="missing">Title is required</conduit-field-error>
               </conduit-article-title>
               <conduit-article-description>
                 <input class="form-control" type="text" placeholder="What's this article about?"/>
-                <conduit-in-error code="missing">Description is required</conduit-in-error>
+                <conduit-field-error code="missing">Description is required</conduit-field-error>
               </conduit-article-description>
               <conduit-article-body>
                 <textarea class="form-control" rows="8" placeholder="Write your post (in markdown)"></textarea>
-                <conduit-in-error code="missing">Empty post contents</conduit-in-error>
+                <conduit-field-error code="missing">Empty post contents</conduit-field-error>
               </conduit-article-body>
               <conduit-article-tag-editor>
                 <conduit-multi-input>
@@ -89,5 +89,5 @@
     </span>
   </div>
 </conduit-footer>
-<script src="editor/main.2022d35e.js" type="module"></script></body>
+<script src="editor/main.49756dbc.js" type="module"></script></body>
 </html>

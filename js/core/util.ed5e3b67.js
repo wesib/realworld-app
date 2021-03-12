@@ -1,1 +1,0 @@
-import{a as e}from"../wesib/generic.2dcf3479.js";import{m as r,E as s}from"../wesib/wesib.8c9ee002.js";import"../proc7ts/workbench.03f3f31a.js";function o(o,i){r.of(o).whenReady((r=>{r.get(e).inside(i),r.get(s).renderNow()}))}export{o as r};//# sourceMappingURL=util.ed5e3b67.js.map

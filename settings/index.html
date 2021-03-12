@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
   <title>Conduit: Settings</title>
-  <meta name="wesib-app-rev" content="1eudfp9s2">
+  <meta name="wesib-app-rev" content="1f0j15t0c">
   <base href=".."/>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -53,7 +53,7 @@
             <h1 class="text-center">Your Settings</h1>
 
             <div class="updated-alert" role="alert">Settings updated</div>
-            <conduit-api-errors></conduit-api-errors>
+            <conduit-submit-errors></conduit-submit-errors>
 
             <form novalidate>
               <conduit-user-image>
@@ -69,7 +69,7 @@
                     type="text"
                     placeholder="Your Name"
                     autocomplete="nickname">
-                <conduit-in-error code="missing">Your name is required</conduit-in-error>
+                <conduit-field-error code="missing">Your name is required</conduit-field-error>
               </conduit-user-name>
               <conduit-user-bio>
                 <textarea
@@ -84,7 +84,7 @@
                     type="text"
                     placeholder="Email"
                     autocomplete="email"/>
-                <conduit-in-error code="missing">Email is required</conduit-in-error>
+                <conduit-field-error code="missing">Email is required</conduit-field-error>
               </conduit-user-email>
               <conduit-change-password>
                 <input
@@ -112,5 +112,5 @@
     </span>
   </div>
 </conduit-footer>
-<script src="settings/main.bf088f2b.js" type="module"></script></body>
+<script src="settings/main.e8a8abcc.js" type="module"></script></body>
 </html>

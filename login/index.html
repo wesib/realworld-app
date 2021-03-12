@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
   <title>Conduit: Sign In</title>
-  <meta name="wesib-app-rev" content="1eudfp9s2">
+  <meta name="wesib-app-rev" content="1f0j15t0c">
   <base href=".."/>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -55,7 +55,7 @@
               <a href="register/">Don't have an account?</a>
             </p>
 
-            <conduit-api-errors></conduit-api-errors>
+            <conduit-submit-errors></conduit-submit-errors>
 
             <form novalidate>
               <conduit-user-email>
@@ -64,7 +64,7 @@
                     type="text"
                     placeholder="Email"
                     autocomplete="email"/>
-                <conduit-in-error code="missing">Email is required</conduit-in-error>
+                <conduit-field-error code="missing">Email is required</conduit-field-error>
               </conduit-user-email>
               <conduit-user-password>
                 <input
@@ -72,7 +72,7 @@
                     type="password"
                     placeholder="Password"
                     autocomplete="current-password"/>
-                <conduit-in-error code="missing">Password is required</conduit-in-error>
+                <conduit-field-error code="missing">Password is required</conduit-field-error>
               </conduit-user-password>
               <button class="btn btn-lg btn-primary float-right">
                 Sign in
@@ -93,5 +93,5 @@
     </span>
   </div>
 </conduit-footer>
-<script src="login/main.ed39b64e.js" type="module"></script></body>
+<script src="login/main.ad85c332.js" type="module"></script></body>
 </html>
