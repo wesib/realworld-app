@@ -1,7 +1,7 @@
-import { HierarchyContext } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
 import { CurrentUserProfile, noUserProfile } from './current-user-profile';
+import { CurrentUserShare } from './current-user.share';
 import { FollowAuthorBtnComponent } from './follow-author-btn.component';
 
 @Component(
@@ -18,10 +18,7 @@ export class UserInfoComponent {
   private profile: CurrentUserProfile = noUserProfile;
 
   constructor(private readonly _context: ComponentContext) {
-
-    const hierarchy = _context.get(HierarchyContext);
-
-    hierarchy.get(CurrentUserProfile)(
+    CurrentUserShare.userFor(_context)(
         profile => this.profile = profile,
     );
   }

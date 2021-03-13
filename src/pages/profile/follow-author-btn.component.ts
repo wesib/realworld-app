@@ -1,9 +1,9 @@
 import { escapeHTML } from '@frontmeans/httongue';
-import { HierarchyContext } from '@wesib/generic';
 import { Component, ComponentContext, ContentRoot, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
 import { UserService, UserSupport } from '../../core/users';
 import { CurrentUserProfile, noUserProfile } from './current-user-profile';
+import { CurrentUserShare } from './current-user.share';
 
 @Component(
     ['follow-author-btn', Conduit__NS],
@@ -20,10 +20,9 @@ export class FollowAuthorBtnComponent {
 
   constructor(private readonly _context: ComponentContext) {
 
-    const hierarchy = _context.get(HierarchyContext);
     const userService = _context.get(UserService);
 
-    hierarchy.get(CurrentUserProfile)(profile => {
+    CurrentUserShare.userFor(_context)(profile => {
       this.author = profile;
     });
     _context.on('click')(() => {

@@ -1,6 +1,6 @@
 import { stopDomEvents } from '@frontmeans/dom-events';
-import { consumeEvents, mapAfter_, supplyAfter, trackValue } from '@proc7ts/fun-events';
-import { HandleNavLinks, HierarchyContext, Navigation, PageHashURLParam } from '@wesib/generic';
+import { AfterEvent, consumeEvents, mapAfter_, supplyAfter, trackValue } from '@proc7ts/fun-events';
+import { HandleNavLinks, HierarchyContext, Navigation, PageHashURLParam, Shared } from '@wesib/generic';
 import {
   BootstrapWindow,
   Component,
@@ -15,6 +15,7 @@ import { ApiResponse } from '../../core/api';
 import { Article, ArticleService } from '../../core/articles';
 import { RenderLoader } from '../../core/loader';
 import { CurrentUserProfile, currentUserProfileBy, noUserProfile } from '../profile/current-user-profile';
+import { CurrentUserShare } from '../profile/current-user.share';
 import { FollowAuthorBtnComponent } from '../profile/follow-author-btn.component';
 import { ArticleActionsComponent } from './article-actions.component';
 import { ArticleCommentsComponent } from './article-comments.component';
@@ -43,6 +44,9 @@ export class ArticleComponent {
 
   private readonly _response = trackValue<ApiResponse<Article>>();
 
+  @Shared(CurrentUserShare)
+  readonly author: AfterEvent<[CurrentUserProfile]>;
+
   constructor(private readonly _context: ComponentContext) {
 
     const articleService = _context.get(ArticleService);
@@ -59,8 +63,9 @@ export class ArticleComponent {
         ),
     );
 
+    this.author = author.read;
+
     hierarchy.provide({ a: CurrentArticle, is: article.read });
-    hierarchy.provide({ a: CurrentUserProfile, is: author.read });
     _context.whenConnected(() => {
       navigation.read.do(
           supplyAfter(_context),
