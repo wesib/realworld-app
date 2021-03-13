@@ -1,5 +1,5 @@
 import { ContextKey, ContextKey__symbol, SingleContextKey } from '@proc7ts/context-values';
-import { mapAfter_, StatePath, trackValue } from '@proc7ts/fun-events';
+import { consumeEvents, mapAfter_, StatePath, trackValue } from '@proc7ts/fun-events';
 import { noop } from '@proc7ts/primitives';
 import { Shared } from '@wesib/generic';
 import {
@@ -44,15 +44,22 @@ class RenderFeedState {
         newResponse,
         oldResponse,
     ) => context.updateState(path, newResponse, oldResponse));
-    this._request.read(request => {
-      this.response.it = undefined;
-      feedService.articles(request)(
-          response => this.response.it = response,
-      ).needs(context);
+
+    context.on('conduit:article')(() => {
+      this._request.it = { ...this._request.it }; // Reload articles
     });
-    context.on('conduit:article')(
-        () => this._request.it = { ...this._request.it }, // Reload articles
-    );
+
+    context.whenConnected(() => {
+      this._request.read.do(
+          consumeEvents(request => {
+            this.response.it = undefined;
+
+            return feedService.articles(request)(
+                response => this.response.it = response,
+            ).needs(context);
+          }),
+      );
+    });
   }
 
   get request(): FeedRequest {
