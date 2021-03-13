@@ -1,6 +1,7 @@
 import { afterSupplied, mapOn_, OnEvent, onEventBy, trackValueBy, translateOn_ } from '@proc7ts/fun-events';
 import { asis } from '@proc7ts/primitives';
 import { BootstrapContext } from '@wesib/wesib';
+import { noArticle } from '../../pages/article/current-article';
 import { ApiFetch, ApiRequest, ApiResponse } from '../api';
 import { Article } from '../articles';
 import { FeedId, FeedRequest, feedRequestSearchParams } from './feed-request';
@@ -96,7 +97,7 @@ export class FeedService$ implements FeedService {
               list,
               count,
               bySlug(slug) {
-                return bySlug.get(slug);
+                return bySlug.get(slug) || noArticle;
               },
             },
           };

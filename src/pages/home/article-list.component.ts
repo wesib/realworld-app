@@ -1,9 +1,8 @@
 import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
 import { ArticleList, noArticles } from '../../core/feed';
-import { renderNow } from '../../core/util';
 import { ArticleListShare } from './article-list.share';
-import { ArticlePreviewComponent, ArticlePreviewEl } from './article-preview.component';
+import { ArticlePreviewComponent } from './article-preview.component';
 
 @Component(
     ['article-list', Conduit__NS],
@@ -44,10 +43,9 @@ export class ArticleListComponent {
 
       this.articles.list.forEach(article => {
 
-        const previewElt = fragment.appendChild(document.createElement('conduit-article-preview') as ArticlePreviewEl);
+        const previewElt = fragment.appendChild(document.createElement('conduit-article-preview'));
 
-        previewElt.feedArticle = article;
-        renderNow(previewElt, this._context);
+        previewElt.setAttribute('slug', article.slug);
       });
 
       range.insertNode(fragment);
