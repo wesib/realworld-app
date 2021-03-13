@@ -1,10 +1,10 @@
 import { afterAll, supplyAfter } from '@proc7ts/fun-events';
-import { HierarchyContext, Navigation } from '@wesib/generic';
+import { Navigation } from '@wesib/generic';
 import { Component, ComponentContext } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
 import { PagingInfo, RenderPager } from '../../reusable';
 import { ArticleListShare } from './article-list.share';
-import { FeedRequestPageParam } from './feed-request-page-param';
+import { FeedRequestShare } from './feed-request.share';
 
 @Component(['feed-pager', Conduit__NS])
 export class FeedPagerComponent {
@@ -13,12 +13,11 @@ export class FeedPagerComponent {
 
   constructor(context: ComponentContext) {
 
-    const hierarchy = context.get(HierarchyContext);
     const navigation = context.get(Navigation);
 
     context.whenConnected(() => {
       afterAll({
-        param: hierarchy.get(FeedRequestPageParam),
+        param: FeedRequestShare.pageFeedParamFor(context),
         page: navigation,
         list: ArticleListShare.articlesFor(context),
       }).do(supplyAfter(context))(

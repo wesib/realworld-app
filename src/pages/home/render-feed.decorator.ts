@@ -1,7 +1,7 @@
 import { ContextKey, ContextKey__symbol, SingleContextKey } from '@proc7ts/context-values';
 import { mapAfter_, StatePath, trackValue } from '@proc7ts/fun-events';
 import { noop } from '@proc7ts/primitives';
-import { HierarchyContext, Shared } from '@wesib/generic';
+import { Shared } from '@wesib/generic';
 import {
   BootstrapWindow,
   ComponentClass,
@@ -20,7 +20,8 @@ import { LoadStatus, RenderLoader } from '../../core/loader';
 import { ArticleListComponent } from './article-list.component';
 import { ArticleListShare } from './article-list.share';
 import { FeedPagerComponent } from './feed-pager.component';
-import { FeedRequestPageParam } from './feed-request-page-param';
+import { FeedRequestShare } from './feed-request.share';
+import { PageFeedParam } from './page-feed-param';
 
 const RenderFeedState__key = (/*#__PURE__*/ new SingleContextKey<RenderFeedState>('render-feed-state'));
 const RenderFeedState__symbol = (/*#__PURE__*/ Symbol('render-feed-state'));
@@ -95,15 +96,11 @@ export function RenderFeed<T extends ComponentClass>(
                 a: RenderFeedState,
                 by: (context: ComponentContext) => new RenderFeedState(context, path),
               });
-              if (requestParam) {
-                defContext.whenComponent(context => {
-                  context.get(HierarchyContext).provide({ a: FeedRequestPageParam, is: requestParam });
-                });
-              }
             },
           },
           RenderLoader({ render, comment: `FEED(${String(key)})` }).By(renderLoader, key),
           Render(render).As(renderFeed, key),
+          ...(requestParam ? [Shared(FeedRequestShare).As(requestParam, key)] : []),
           Shared(ArticleListShare).By(
               component => ComponentContext
                   .of(component)
@@ -141,6 +138,6 @@ export function RenderFeed<T extends ComponentClass>(
 }
 
 export interface RenderFeedDef {
-  readonly requestParam?: FeedRequestPageParam;
+  readonly requestParam?: PageFeedParam;
   readonly render?: RenderDef.Options;
 }

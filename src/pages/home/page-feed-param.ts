@@ -43,4 +43,6 @@ class PageFeedParam$ extends PageParam<FeedRequest, FeedRequest> {
 
 }
 
-export const PageFeedParam: PageParam.WithDefaults<FeedRequest, FeedRequest> = new PageFeedParam$();
+export type PageFeedParam = PageParam.WithDefaults<FeedRequest, FeedRequest>;
+
+export const PageFeedParam: PageFeedParam = (/*#__PURE__*/ new PageFeedParam$());
