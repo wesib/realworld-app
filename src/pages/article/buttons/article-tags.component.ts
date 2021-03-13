@@ -1,8 +1,8 @@
-import { HandleNavLinks, HierarchyContext } from '@wesib/generic';
+import { HandleNavLinks } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../../core';
 import { RenderHTML } from '../../../reusable';
-import { CurrentArticle } from '../current-article';
+import { CurrentArticleShare } from '../current-article.share';
 
 const noTags: readonly string[] = [];
 
@@ -16,14 +16,11 @@ export class ArticleTagsComponent {
   tags: readonly string[] = noTags;
 
   constructor(private readonly _context: ComponentContext) {
-
-    const hierarchy = _context.get(HierarchyContext);
-
-    hierarchy.get(CurrentArticle)(
-        article => this.tags = article.slug ? article.tagList : noTags,
-    ).whenOff(
-        () => this.tags = [],
-    );
+    CurrentArticleShare.articleFor(_context)(article => {
+      this.tags = article.slug ? article.tagList : noTags;
+    }).whenOff(() => {
+      this.tags = noTags;
+    });
   }
 
   @RenderHTML()

@@ -1,5 +1,5 @@
-import { supplyAfter } from '@proc7ts/fun-events';
-import { HandleNavLinks, HierarchyContext } from '@wesib/generic';
+import { AfterEvent, supplyAfter } from '@proc7ts/fun-events';
+import { HandleNavLinks, Shared } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, DomProperty, isElement, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
 import { Article } from '../../core/articles';
@@ -8,6 +8,7 @@ import { renderNow } from '../../core/util';
 import { RenderHTML } from '../../reusable';
 import { ArticleButtonsSupport } from '../article/buttons';
 import { CurrentArticle, CurrentArticleTracker, NoArticle } from '../article/current-article';
+import { CurrentArticleShare } from '../article/current-article.share';
 
 export interface ArticlePreviewEl extends HTMLElement {
   feedArticle?: Article;
@@ -53,10 +54,13 @@ export class ArticlePreviewComponent {
   @StateProperty()
   user: AuthUser | NotAuthenticated = notAuthenticated;
 
+  @Shared(CurrentArticleShare)
+  readonly currentArticle: AfterEvent<[CurrentArticle]>;
+
   constructor(private readonly _context: ComponentContext) {
+    this.currentArticle = this._article.read;
 
     const authService = _context.get(AuthService);
-    const hierarchy = _context.get(HierarchyContext);
 
     authService.user
         .do(supplyAfter(_context))(
@@ -65,7 +69,6 @@ export class ArticlePreviewComponent {
         .whenOff(
             () => this.user = notAuthenticated,
         );
-    hierarchy.provide({ a: CurrentArticle, is: this._article.read });
   }
 
   get article(): Article | NoArticle {

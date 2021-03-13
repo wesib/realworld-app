@@ -1,6 +1,6 @@
 import { stopDomEvents } from '@frontmeans/dom-events';
 import { AfterEvent, consumeEvents, mapAfter_, supplyAfter, trackValue } from '@proc7ts/fun-events';
-import { HandleNavLinks, HierarchyContext, Navigation, PageHashURLParam, Shared } from '@wesib/generic';
+import { HandleNavLinks, Navigation, PageHashURLParam, Shared } from '@wesib/generic';
 import {
   BootstrapWindow,
   Component,
@@ -22,6 +22,7 @@ import { ArticleCommentsComponent } from './article-comments.component';
 import { ArticleContentComponent } from './article-content.component';
 import { ArticleButtonsSupport } from './buttons';
 import { CurrentArticle, CurrentArticleTracker, noArticle } from './current-article';
+import { CurrentArticleShare } from './current-article.share';
 import { NewArticleCommentComponent } from './new-article-comment.component';
 
 @Component(
@@ -47,11 +48,13 @@ export class ArticleComponent {
   @Shared(CurrentUserShare)
   readonly author: AfterEvent<[CurrentUserProfile]>;
 
+  @Shared(CurrentArticleShare)
+  readonly article: AfterEvent<[CurrentArticle]>;
+
   constructor(private readonly _context: ComponentContext) {
 
     const articleService = _context.get(ArticleService);
     const navigation = _context.get(Navigation);
-    const hierarchy = this._context.get(HierarchyContext);
     const article = new CurrentArticleTracker().byArticles(
         this._response.read.do(
             mapAfter_(response => response && response.ok ? response.body : noArticle),
@@ -64,8 +67,8 @@ export class ArticleComponent {
     );
 
     this.author = author.read;
+    this.article = article.read;
 
-    hierarchy.provide({ a: CurrentArticle, is: article.read });
     _context.whenConnected(() => {
       navigation.read.do(
           supplyAfter(_context),

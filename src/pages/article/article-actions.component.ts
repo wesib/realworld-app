@@ -1,5 +1,3 @@
-import { supplyAfter } from '@proc7ts/fun-events';
-import { HierarchyContext } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
 import { AuthService, AuthUser, notAuthenticated, NotAuthenticated } from '../../core/auth';
@@ -8,6 +6,7 @@ import { ArticleButtonsSupport } from './buttons';
 import { DeletePostBtnComponent } from './buttons/delete-post-btn.component';
 import { EditPostBtnComponent } from './buttons/edit-post-btn.component';
 import { CurrentArticle, noArticle } from './current-article';
+import { CurrentArticleShare } from './current-article.share';
 
 @Component(
     ['article-actions', Conduit__NS],
@@ -32,22 +31,15 @@ export class ArticleActionsComponent {
   constructor(private readonly _context: ComponentContext) {
 
     const authService = _context.get(AuthService);
-    const hierarchy = _context.get(HierarchyContext);
 
-    authService.user
-        .do(supplyAfter(_context))(
-            user => this.user = user,
-        )
-        .whenOff(
-            () => this.user = notAuthenticated,
-        );
-    hierarchy.get(CurrentArticle)
-        .do(supplyAfter(_context))(
-            article => this.article = article,
-        )
-        .whenOff(
-            () => this.article = noArticle,
-        );
+    authService.user(user => {
+      this.user = user;
+    }).needs(_context).whenOff(() => {
+      this.user = notAuthenticated;
+    });
+    CurrentArticleShare.articleFor(_context)(article => {
+      this.article = article;
+    });
   }
 
   @RenderHTML()

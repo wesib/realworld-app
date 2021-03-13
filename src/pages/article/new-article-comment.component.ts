@@ -1,6 +1,5 @@
 import { inFormElement, inGroup, InStatus, InSubmit, InSubmitError } from '@frontmeans/input-aspects';
 import { supplyAfter } from '@proc7ts/fun-events';
-import { HierarchyContext } from '@wesib/generic';
 import { Field, Form, FormShare, OnSubmit, SharedField, SharedForm } from '@wesib/generic/forms';
 import { Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
@@ -11,6 +10,7 @@ import { submitButton } from '../../core/forms';
 import { ArticleCommentTextComponent } from './article-comment-text.component';
 import { CommentEvent } from './comment-event';
 import { CurrentArticle, noArticle } from './current-article';
+import { CurrentArticleShare } from './current-article.share';
 
 interface NewComment {
   text: string;
@@ -52,18 +52,17 @@ export class NewArticleCommentComponent {
     this._commentService = _context.get(CommentService);
 
     const authService = _context.get(AuthService);
-    const hierarchy = _context.get(HierarchyContext);
 
-    authService.user.do(supplyAfter(_context))(
-        user => this.user = user,
-    ).whenOff(
-        () => this.user = notAuthenticated,
-    );
-    hierarchy.get(CurrentArticle)(
-        article => this.article = article,
-    ).whenOff(
-        () => this.article = noArticle,
-    );
+    authService.user.do(supplyAfter(_context))(user => {
+      this.user = user;
+    }).whenOff(() => {
+      this.user = notAuthenticated;
+    });
+    CurrentArticleShare.articleFor(_context)(article => {
+      this.article = article;
+    }).whenOff(() => {
+      this.article = noArticle;
+    });
 
     _context.whenSettled(({ element }: { element: Element }) => {
       this.form = Form.by(

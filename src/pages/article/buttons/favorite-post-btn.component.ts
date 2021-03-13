@@ -1,4 +1,3 @@
-import { HierarchyContext } from '@wesib/generic';
 import {
   BootstrapWindow,
   Component,
@@ -11,6 +10,7 @@ import {
 import { Conduit__NS } from '../../../core';
 import { ArticleService, ArticlesSupport } from '../../../core/articles';
 import { CurrentArticle, noArticle } from '../current-article';
+import { CurrentArticleShare } from '../current-article.share';
 
 @Component(
     ['favorite-post-btn', Conduit__NS],
@@ -27,11 +27,12 @@ export class FavoritePostBtnComponent {
 
   constructor(private readonly _context: ComponentContext) {
 
-    const hierarchy = _context.get(HierarchyContext);
     const articleService = _context.get(ArticleService);
 
-    hierarchy.get(CurrentArticle)(article => {
+    CurrentArticleShare.articleFor(_context)(article => {
       this.article = article;
+    }).whenOff(() => {
+      this.article = noArticle;
     });
     _context.on('click')(() => {
 
