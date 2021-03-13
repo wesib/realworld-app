@@ -1,4 +1,3 @@
-import { SingleContextUpKey, SingleContextUpRef } from '@proc7ts/context-values/updatable';
 import { EventSupplier, mapOn_, OnEvent, onSupplied, trackValue, ValueTracker } from '@proc7ts/fun-events';
 import { Supply } from '@proc7ts/supply';
 import { Article } from '../../core/articles';
@@ -16,14 +15,6 @@ export type CurrentArticle =
     | NoArticle;
 
 export const noArticle: NoArticle = {};
-export const CurrentArticle: SingleContextUpRef<CurrentArticle> = (
-    /*#__PURE__*/ new SingleContextUpKey<CurrentArticle>(
-        'current-article',
-        {
-          byDefault: () => noArticle,
-        },
-    )
-);
 
 export class CurrentArticleTracker extends ValueTracker<CurrentArticle> {
 

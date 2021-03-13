@@ -1,6 +1,6 @@
 import { stopDomEvents } from '@frontmeans/dom-events';
-import { consumeEvents, mapAfter_, supplyAfter, trackValue } from '@proc7ts/fun-events';
-import { HandleNavLinks, HierarchyContext, Navigation, PageHashURLParam } from '@wesib/generic';
+import { AfterEvent, consumeEvents, mapAfter_, supplyAfter, trackValue } from '@proc7ts/fun-events';
+import { HandleNavLinks, Navigation, PageHashURLParam, Shared } from '@wesib/generic';
 import {
   BootstrapWindow,
   Component,
@@ -15,12 +15,14 @@ import { ApiResponse } from '../../core/api';
 import { Article, ArticleService } from '../../core/articles';
 import { RenderLoader } from '../../core/loader';
 import { CurrentUserProfile, currentUserProfileBy, noUserProfile } from '../profile/current-user-profile';
+import { CurrentUserShare } from '../profile/current-user.share';
 import { FollowAuthorBtnComponent } from '../profile/follow-author-btn.component';
 import { ArticleActionsComponent } from './article-actions.component';
 import { ArticleCommentsComponent } from './article-comments.component';
 import { ArticleContentComponent } from './article-content.component';
 import { ArticleButtonsSupport } from './buttons';
 import { CurrentArticle, CurrentArticleTracker, noArticle } from './current-article';
+import { CurrentArticleShare } from './current-article.share';
 import { NewArticleCommentComponent } from './new-article-comment.component';
 
 @Component(
@@ -43,11 +45,16 @@ export class ArticleComponent {
 
   private readonly _response = trackValue<ApiResponse<Article>>();
 
+  @Shared(CurrentUserShare)
+  readonly author: AfterEvent<[CurrentUserProfile]>;
+
+  @Shared(CurrentArticleShare)
+  readonly article: AfterEvent<[CurrentArticle]>;
+
   constructor(private readonly _context: ComponentContext) {
 
     const articleService = _context.get(ArticleService);
     const navigation = _context.get(Navigation);
-    const hierarchy = this._context.get(HierarchyContext);
     const article = new CurrentArticleTracker().byArticles(
         this._response.read.do(
             mapAfter_(response => response && response.ok ? response.body : noArticle),
@@ -59,8 +66,9 @@ export class ArticleComponent {
         ),
     );
 
-    hierarchy.provide({ a: CurrentArticle, is: article.read });
-    hierarchy.provide({ a: CurrentUserProfile, is: author.read });
+    this.author = author.read;
+    this.article = article.read;
+
     _context.whenConnected(() => {
       navigation.read.do(
           supplyAfter(_context),

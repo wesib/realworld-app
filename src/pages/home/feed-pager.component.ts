@@ -1,10 +1,10 @@
 import { afterAll, supplyAfter } from '@proc7ts/fun-events';
-import { HierarchyContext, Navigation } from '@wesib/generic';
+import { Navigation } from '@wesib/generic';
 import { Component, ComponentContext } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
 import { PagingInfo, RenderPager } from '../../reusable';
-import { FeedArticleList } from './feed-article-list';
-import { FeedRequestPageParam } from './feed-request-page-param';
+import { ArticleListShare } from './article-list.share';
+import { FeedRequestShare } from './feed-request.share';
 
 @Component(['feed-pager', Conduit__NS])
 export class FeedPagerComponent {
@@ -13,26 +13,25 @@ export class FeedPagerComponent {
 
   constructor(context: ComponentContext) {
 
-    const hierarchy = context.get(HierarchyContext);
     const navigation = context.get(Navigation);
 
     context.whenConnected(() => {
       afterAll({
-        param: hierarchy.get(FeedRequestPageParam),
+        param: FeedRequestShare.pageFeedParamFor(context),
         page: navigation,
-        list: hierarchy.get(FeedArticleList),
+        list: ArticleListShare.articlesFor(context),
       }).do(supplyAfter(context))(
           ({
             param: [paramRef],
             page: [page],
-            list: [{ articlesCount }],
+            list: [{ count }],
           }) => {
 
             const param = page.get(paramRef);
             const { limit = 20, offset = 0 } = param;
 
             this.feedPaging = {
-              totalPages: Math.ceil(articlesCount / limit),
+              totalPages: Math.ceil(count / limit),
               currentPage: Math.floor(offset / limit),
               pageHref(page: number): string {
                 return navigation.with(

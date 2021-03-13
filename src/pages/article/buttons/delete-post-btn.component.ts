@@ -1,11 +1,11 @@
 import { stopDomEvents } from '@frontmeans/dom-events';
 import { onceOn } from '@proc7ts/fun-events';
-import { HierarchyContext } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../../core';
 import { ArticleService, ArticlesSupport } from '../../../core/articles';
 import { RenderHTML } from '../../../reusable';
 import { CurrentArticle, noArticle } from '../current-article';
+import { CurrentArticleShare } from '../current-article.share';
 import { ArticleEvent } from './article-event';
 
 @Component(
@@ -24,13 +24,12 @@ export class DeletePostBtnComponent {
   constructor(private readonly _context: ComponentContext) {
 
     const articleService = _context.get(ArticleService);
-    const hierarchy = _context.get(HierarchyContext);
 
-    hierarchy.get(CurrentArticle)(
-        article => this.article = article,
-    ).whenOff(
-        () => this.article = noArticle,
-    );
+    CurrentArticleShare.articleFor(_context)(article => {
+      this.article = article;
+    }).whenOff(() => {
+      this.article = noArticle;
+    });
     _context.on('click').do(stopDomEvents)(() => {
       if (this.article.slug) {
         deleteArticle(this.article.slug);

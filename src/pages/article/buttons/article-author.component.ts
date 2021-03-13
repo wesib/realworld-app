@@ -1,9 +1,10 @@
-import { HandleNavLinks, HierarchyContext, Navigation, PageHashURLSupport } from '@wesib/generic';
+import { HandleNavLinks, Navigation, PageHashURLSupport } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../../core';
 import { formatDate } from '../../../reusable';
 import { PageUserProfileParam } from '../../profile/page-user-profile-param';
-import { CurrentArticle } from '../current-article';
+import { CurrentArticle, noArticle } from '../current-article';
+import { CurrentArticleShare } from '../current-article.share';
 
 @Component(
     ['article-author', Conduit__NS],
@@ -17,15 +18,14 @@ import { CurrentArticle } from '../current-article';
 export class ArticleAuthorComponent {
 
   @StateProperty()
-  private article: CurrentArticle = {};
+  private article: CurrentArticle = noArticle;
 
   constructor(private readonly _context: ComponentContext) {
-
-    const hierarchy = _context.get(HierarchyContext);
-
-    hierarchy.get(CurrentArticle)(
-        article => this.article = article,
-    );
+    CurrentArticleShare.articleFor(_context)(article => {
+      this.article = article;
+    }).whenOff(() => {
+      this.article = noArticle;
+    });
   }
 
   @Render()

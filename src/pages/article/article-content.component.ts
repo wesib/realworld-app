@@ -1,10 +1,8 @@
-import { supplyAfter } from '@proc7ts/fun-events';
-import { HierarchyContext } from '@wesib/generic';
 import { Component, ComponentContext, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
 import { ArticleService } from '../../core/articles';
 import { RenderHTML } from '../../reusable';
-import { CurrentArticle } from './current-article';
+import { CurrentArticleShare } from './current-article.share';
 
 @Component(['article-content', Conduit__NS])
 export class ArticleContentComponent {
@@ -12,22 +10,21 @@ export class ArticleContentComponent {
   @StateProperty()
   content?: Node;
 
-  constructor(private readonly _context: ComponentContext) {
+  constructor(context: ComponentContext) {
 
-    const articleService = _context.get(ArticleService);
-    const hierarchy = this._context.get(HierarchyContext);
+    const articleService = context.get(ArticleService);
 
-    _context.supply.whenOff(() => this.content = undefined);
-    hierarchy.get(CurrentArticle).do(supplyAfter(_context))(article => {
+    context.supply.whenOff(() => this.content = undefined);
+    CurrentArticleShare.articleFor(context)(article => {
       if (article.slug) {
         articleService.htmlContents(article)
             .then(content => {
-              if (_context.connected) {
+              if (context.connected) {
                 this.content = content;
               }
             })
             .catch(error => {
-              if (_context.connected) {
+              if (context.connected) {
                 this.content = undefined;
                 console.error('Failed to parse article', error);
               }
@@ -35,6 +32,8 @@ export class ArticleContentComponent {
       } else {
         this.content = undefined;
       }
+    }).whenOff(() => {
+      this.content = undefined;
     });
   }
 

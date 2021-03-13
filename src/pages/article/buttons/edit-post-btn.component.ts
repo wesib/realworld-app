@@ -1,8 +1,9 @@
-import { HierarchyContext, Navigation, PageHashURLParam, PageHashURLSupport } from '@wesib/generic';
+import { Navigation, PageHashURLParam, PageHashURLSupport } from '@wesib/generic';
 import { BootstrapWindow, Component, ComponentContext, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../../core';
 import { RenderHTML } from '../../../reusable';
 import { CurrentArticle, noArticle } from '../current-article';
+import { CurrentArticleShare } from '../current-article.share';
 
 @Component(
     ['edit-post-btn', Conduit__NS],
@@ -20,13 +21,12 @@ export class EditPostBtnComponent {
   constructor(private readonly _context: ComponentContext) {
 
     const navigation = _context.get(Navigation);
-    const hierarchy = _context.get(HierarchyContext);
 
-    hierarchy.get(CurrentArticle)(
-        article => this.article = article,
-    ).whenOff(
-        () => this.article = noArticle,
-    );
+    CurrentArticleShare.articleFor(_context)(article => {
+      this.article = article;
+    }).whenOff(() => {
+      this.article = noArticle;
+    });
     this._context.on('click')(() => {
       if (this.article.slug) {
         editArticle(this.article.slug);

@@ -1,7 +1,7 @@
 import { ContextKey, ContextKey__symbol, SingleContextKey } from '@proc7ts/context-values';
-import { mapAfter_, StatePath, trackValue } from '@proc7ts/fun-events';
+import { consumeEvents, mapAfter_, StatePath, trackValue } from '@proc7ts/fun-events';
 import { noop } from '@proc7ts/primitives';
-import { HierarchyContext } from '@wesib/generic';
+import { Shared } from '@wesib/generic';
 import {
   BootstrapWindow,
   ComponentClass,
@@ -15,12 +15,13 @@ import {
   RenderPath__root,
 } from '@wesib/wesib';
 import { ApiResponse } from '../../core/api';
-import { ArticleList, FeedRequest, feedRequestsEqual, FeedService, FeedSupport } from '../../core/feed';
+import { ArticleList, FeedRequest, feedRequestsEqual, FeedService, FeedSupport, noArticles } from '../../core/feed';
 import { LoadStatus, RenderLoader } from '../../core/loader';
 import { ArticleListComponent } from './article-list.component';
-import { FeedArticleList } from './feed-article-list';
+import { ArticleListShare } from './article-list.share';
 import { FeedPagerComponent } from './feed-pager.component';
-import { FeedRequestPageParam } from './feed-request-page-param';
+import { FeedRequestShare } from './feed-request.share';
+import { PageFeedParam } from './page-feed-param';
 
 const RenderFeedState__key = (/*#__PURE__*/ new SingleContextKey<RenderFeedState>('render-feed-state'));
 const RenderFeedState__symbol = (/*#__PURE__*/ Symbol('render-feed-state'));
@@ -34,32 +35,30 @@ class RenderFeedState {
   readonly response = trackValue<ApiResponse<ArticleList>>();
   private readonly _request = trackValue<FeedRequest>({});
 
-  constructor(
-      context: ComponentContext,
-      path: StatePath,
-  ) {
+  constructor(context: ComponentContext, path: StatePath) {
     context.supply.cuts(this._request);
 
     const feedService = context.get(FeedService);
 
-    this.response.on((newResponse, oldResponse) => context.updateState(path, newResponse, oldResponse));
-    context.get(HierarchyContext).provide({
-      a: FeedArticleList,
-      is: this.response.read.do(
-          mapAfter_(response => response?.ok
-              ? response.body
-              : { articles: [], articlesCount: 0 }),
-      ),
+    this.response.on((newResponse, oldResponse) => {
+      context.updateState(path, newResponse, oldResponse);
     });
-    this._request.read(request => {
-      this.response.it = undefined;
-      feedService.articles(request)(
-          response => this.response.it = response,
-      ).needs(context);
+
+    context.on('conduit:article')(() => {
+      this._request.it = { ...this._request.it }; // Reload articles
     });
-    context.on('conduit:article')(
-        () => this._request.it = { ...this._request.it }, // Reload articles
-    );
+
+    context.whenConnected(() => {
+      this._request.read.do(
+          consumeEvents(request => {
+            this.response.it = undefined;
+
+            return feedService.articles(request)(
+                response => this.response.it = response,
+            ).needs(context);
+          }),
+      );
+    });
   }
 
   get request(): FeedRequest {
@@ -103,15 +102,22 @@ export function RenderFeed<T extends ComponentClass>(
                 a: RenderFeedState,
                 by: (context: ComponentContext) => new RenderFeedState(context, path),
               });
-              if (requestParam) {
-                defContext.whenComponent(context => {
-                  context.get(HierarchyContext).provide({ a: FeedRequestPageParam, is: requestParam });
-                });
-              }
             },
           },
           RenderLoader({ render, comment: `FEED(${String(key)})` }).By(renderLoader, key),
           Render(render).As(renderFeed, key),
+          ...(requestParam ? [Shared(FeedRequestShare).As(requestParam, key)] : []),
+          Shared(ArticleListShare).By(
+              component => ComponentContext
+                  .of(component)
+                  .get(RenderFeedState)
+                  .response
+                  .read
+                  .do(
+                      mapAfter_(response => response?.ok ? response.body : noArticles),
+                  ),
+              key,
+          ),
       ),
       get,
       set(component, value) {
@@ -139,6 +145,6 @@ export function RenderFeed<T extends ComponentClass>(
 }
 
 export interface RenderFeedDef {
-  readonly requestParam?: FeedRequestPageParam;
+  readonly requestParam?: PageFeedParam;
   readonly render?: RenderDef.Options;
 }

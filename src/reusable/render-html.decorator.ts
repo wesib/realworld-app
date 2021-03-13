@@ -30,7 +30,7 @@ export function RenderHTML<T extends ComponentClass>(
 
       const context = ComponentContext.of(this);
       const { document } = context.get(BootstrapWindow);
-      const { contentRoot }: { contentRoot: Node } = context;
+      const { contentRoot } = context;
       const start = contentRoot.appendChild(document.createComment(`[${comment}[`));
       const end = contentRoot.appendChild(document.createComment(`]${comment}]`));
       const range = document.createRange();

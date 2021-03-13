@@ -1,8 +1,7 @@
 import { DomEventDispatcher, stopDomEvents } from '@frontmeans/dom-events';
 import { escapeHTML } from '@frontmeans/httongue';
 import { InSubmit, inSubmitButton, InSubmitError } from '@frontmeans/input-aspects';
-import { supplyAfter } from '@proc7ts/fun-events';
-import { HierarchyContext, Share__symbol } from '@wesib/generic';
+import { Share__symbol } from '@wesib/generic';
 import { Form, FormShare } from '@wesib/generic/forms';
 import { BootstrapWindow, Component, ComponentContext, DomProperty, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
@@ -12,6 +11,7 @@ import { Comment, CommentService } from '../../core/comments';
 import { formatDate, RenderHTML } from '../../reusable';
 import { CommentEvent } from './comment-event';
 import { CurrentArticle, noArticle } from './current-article';
+import { CurrentArticleShare } from './current-article.share';
 
 export interface ArticleCommentEl extends HTMLElement {
   articleComment?: Comment;
@@ -34,25 +34,18 @@ export class ArticleCommentComponent {
   constructor(private readonly _context: ComponentContext) {
 
     const authService = _context.get(AuthService);
-    const hierarchy = _context.get(HierarchyContext);
 
-    authService.user
-        .do(supplyAfter(_context))(
-            user => this.user = user,
-        )
-        .whenOff(
-            () => this.user = notAuthenticated,
-        );
-    hierarchy.get(CurrentArticle)
-        .do(supplyAfter(_context))(
-            article => this.article = article,
-        )
-        .whenOff(
-            () => this.article = noArticle,
-        );
-    FormShare[Share__symbol].valueFor(_context)(
-        (form?, _sharer?) => this.form = form,
-    );
+    authService.user(user => {
+      this.user = user;
+    }).needs(_context).whenOff(() => {
+      this.user = notAuthenticated;
+    });
+    CurrentArticleShare.articleFor(_context)(article => {
+      this.article = article;
+    });
+    FormShare[Share__symbol].valueFor(_context)((form?, _sharer?) => {
+      this.form = form;
+    });
   }
 
   @RenderHTML({ comment: 'COMMENT' })

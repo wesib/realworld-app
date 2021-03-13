@@ -1,6 +1,5 @@
 import { inFormElement, inGroup } from '@frontmeans/input-aspects';
-import { digOn_, supplyOn } from '@proc7ts/fun-events';
-import { HierarchyContext } from '@wesib/generic';
+import { digOn_ } from '@proc7ts/fun-events';
 import { Form, SharedForm } from '@wesib/generic/forms';
 import { BootstrapWindow, Component, ComponentContext, ElementRenderer, Render, StateProperty } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
@@ -11,6 +10,7 @@ import { RenderLoader } from '../../core/loader';
 import { ArticleCommentComponent, ArticleCommentEl } from './article-comment.component';
 import { CommentEvent } from './comment-event';
 import { CurrentArticle, noArticle } from './current-article';
+import { CurrentArticleShare } from './current-article.share';
 
 @Component(
     ['article-comments', Conduit__NS],
@@ -38,7 +38,6 @@ export class ArticleCommentsComponent {
   constructor(private readonly _context: ComponentContext) {
 
     const commentService = _context.get(CommentService);
-    const hierarchy = this._context.get(HierarchyContext);
 
     this._context.on<CommentEvent>('conduit:comment')(({ detail: { added, removed } }) => {
       if (added) {
@@ -50,8 +49,7 @@ export class ArticleCommentsComponent {
 
     let lastArticle: CurrentArticle = noArticle;
 
-    hierarchy.get(CurrentArticle).do(
-        supplyOn(_context),
+    CurrentArticleShare.articleFor(_context).do(
         digOn_(article => {
           if (!article.slug || article.slug === lastArticle.slug) {
             return;

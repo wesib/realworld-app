@@ -1,17 +1,22 @@
-import { supplyAfter } from '@proc7ts/fun-events';
-import { HandleNavLinks, HierarchyContext } from '@wesib/generic';
-import { BootstrapWindow, Component, ComponentContext, DomProperty, isElement, StateProperty } from '@wesib/wesib';
+import { afterAll, AfterEvent, mapAfter_, supplyAfter, trackValue } from '@proc7ts/fun-events';
+import { HandleNavLinks, Shared } from '@wesib/generic';
+import {
+  Attribute,
+  BootstrapWindow,
+  Component,
+  ComponentContext,
+  isElement,
+  StateProperty,
+  statePropertyPathTo,
+} from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
 import { Article } from '../../core/articles';
 import { AuthService, AuthUser, notAuthenticated, NotAuthenticated } from '../../core/auth';
-import { renderNow } from '../../core/util';
 import { RenderHTML } from '../../reusable';
 import { ArticleButtonsSupport } from '../article/buttons';
-import { CurrentArticle, CurrentArticleTracker, NoArticle } from '../article/current-article';
-
-export interface ArticlePreviewEl extends HTMLElement {
-  feedArticle?: Article;
-}
+import { CurrentArticle, CurrentArticleTracker, noArticle, NoArticle } from '../article/current-article';
+import { CurrentArticleShare } from '../article/current-article.share';
+import { ArticleListShare } from './article-list.share';
 
 @Component(
     ['article-preview', Conduit__NS],
@@ -48,33 +53,52 @@ export interface ArticlePreviewEl extends HTMLElement {
 )
 export class ArticlePreviewComponent {
 
+  private readonly _slug = trackValue<string>();
   private readonly _article = new CurrentArticleTracker();
 
   @StateProperty()
   user: AuthUser | NotAuthenticated = notAuthenticated;
 
+  @Shared(CurrentArticleShare)
+  readonly currentArticle: AfterEvent<[CurrentArticle]>;
+
   constructor(private readonly _context: ComponentContext) {
+    this._article.byArticles(afterAll({
+      list: ArticleListShare.articlesFor(_context),
+      slug: this._slug,
+    }).do(
+        mapAfter_(({ list: [list], slug: [slug] }) => slug ? list.bySlug(slug) : noArticle),
+    ));
+    this._article.on((newArticle, oldArticle) => {
+      _context.updateState(
+          statePropertyPathTo('article'),
+          newArticle,
+          oldArticle,
+      );
+    });
+
+    this.currentArticle = this._article.read;
 
     const authService = _context.get(AuthService);
-    const hierarchy = _context.get(HierarchyContext);
 
-    authService.user
-        .do(supplyAfter(_context))(
-            user => this.user = user,
-        )
-        .whenOff(
-            () => this.user = notAuthenticated,
-        );
-    hierarchy.provide({ a: CurrentArticle, is: this._article.read });
+    authService.user.do(supplyAfter(_context))(user => {
+      this.user = user;
+    }).whenOff(() => {
+      this.user = notAuthenticated;
+    });
+  }
+
+  get slug(): string | undefined {
+    return this._slug.it;
+  }
+
+  @Attribute({ updateState: false })
+  set slug(value: string | undefined) {
+    this._slug.it = value;
   }
 
   get article(): Article | NoArticle {
     return this._article.it;
-  }
-
-  @DomProperty({ propertyKey: 'feedArticle' })
-  set article(value: Article | NoArticle) {
-    this._article.set(value);
   }
 
   @RenderHTML()
@@ -90,26 +114,22 @@ export class ArticlePreviewComponent {
 
     meta.className = 'post-meta';
 
-    const authorElt = meta.appendChild(document.createElement('conduit-article-author'));
+    meta.appendChild(document.createElement('conduit-article-author'));
 
-    renderNow(authorElt, this._context);
     if (this.user.username === author.username) {
 
       const editBtn = meta.appendChild(document.createElement('conduit-edit-post-btn'));
 
       editBtn.tabIndex = 0;
-      renderNow(editBtn, this._context);
 
       const deleteBtn = meta.appendChild(document.createElement('conduit-delete-post-btn'));
 
       deleteBtn.tabIndex = 0;
-      renderNow(deleteBtn, this._context);
     } else {
 
       const favoriteBtn = meta.appendChild(document.createElement('conduit-favorite-post-btn'));
 
       favoriteBtn.tabIndex = 0;
-      renderNow(favoriteBtn, this._context);
     }
 
     const previewLink = fragment.appendChild(document.createElement('a'));
@@ -129,9 +149,7 @@ export class ArticlePreviewComponent {
 
     readMore.innerText = 'Read more...';
 
-    const tagsEl = previewLink.appendChild(document.createElement('conduit-article-tags'));
-
-    renderNow(tagsEl, this._context);
+    previewLink.appendChild(document.createElement('conduit-article-tags'));
 
     return fragment;
   }

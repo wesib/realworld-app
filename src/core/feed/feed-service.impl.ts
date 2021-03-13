@@ -1,7 +1,9 @@
 import { afterSupplied, mapOn_, OnEvent, onEventBy, trackValueBy, translateOn_ } from '@proc7ts/fun-events';
 import { asis } from '@proc7ts/primitives';
 import { BootstrapContext } from '@wesib/wesib';
+import { noArticle } from '../../pages/article/current-article';
 import { ApiFetch, ApiRequest, ApiResponse } from '../api';
+import { Article } from '../articles';
 import { FeedId, FeedRequest, feedRequestSearchParams } from './feed-request';
 import { ArticleList, FeedService } from './feed-service';
 
@@ -67,7 +69,7 @@ export class FeedService$ implements FeedService {
 
     const { path, auth } = feedSources[request.feed || '/global-feed'];
 
-    const apiRequest: ApiRequest<ArticleList> = {
+    const apiRequest: ApiRequest<FeedArticles> = {
       path: `${path}?${feedRequestSearchParams(request)}`,
       init: {
         method: 'GET',
@@ -79,7 +81,33 @@ export class FeedService$ implements FeedService {
       respondAs: asis,
     };
 
-    return this._apiFetch(apiRequest);
+    return this._apiFetch(apiRequest).do(
+        mapOn_(response => {
+          if (!response.ok) {
+            return response;
+          }
+
+          const { articles: list, articlesCount: count } = response.body;
+          const bySlug = new Map<string, Article>(list.map(article => [article.slug, article]));
+
+          return {
+            ok: true,
+            response: response.response,
+            body: {
+              list,
+              count,
+              bySlug(slug) {
+                return bySlug.get(slug) || noArticle;
+              },
+            },
+          };
+        }),
+    );
   }
 
+}
+
+interface FeedArticles {
+  readonly articles: readonly Article[];
+  readonly articlesCount: number;
 }
