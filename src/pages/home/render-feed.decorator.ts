@@ -40,10 +40,9 @@ class RenderFeedState {
 
     const feedService = context.get(FeedService);
 
-    this.response.on((
-        newResponse,
-        oldResponse,
-    ) => context.updateState(path, newResponse, oldResponse));
+    this.response.on((newResponse, oldResponse) => {
+      context.updateState(path, newResponse, oldResponse);
+    });
 
     context.on('conduit:article')(() => {
       this._request.it = { ...this._request.it }; // Reload articles
@@ -117,6 +116,7 @@ export function RenderFeed<T extends ComponentClass>(
                   .do(
                       mapAfter_(response => response?.ok ? response.body : noArticles),
                   ),
+              key,
           ),
       ),
       get,
