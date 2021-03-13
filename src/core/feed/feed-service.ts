@@ -5,11 +5,18 @@ import { Article } from '../articles';
 import { FeedRequest } from './feed-request';
 
 export interface ArticleList {
-  readonly articles: readonly Article[];
-  readonly articlesCount: number;
+  readonly list: readonly Article[];
+  readonly count: number;
+  bySlug(slug: string): Article | undefined;
 }
 
-export const noArticles: ArticleList = { articles: [], articlesCount: 0 };
+export const noArticles: ArticleList = {
+  list: [],
+  count: 0,
+  bySlug(_slug: string): undefined {
+    return;
+  },
+};
 
 export interface FeedService {
 

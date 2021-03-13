@@ -3,7 +3,7 @@ import { HierarchyContext, Navigation } from '@wesib/generic';
 import { Component, ComponentContext } from '@wesib/wesib';
 import { Conduit__NS } from '../../core';
 import { PagingInfo, RenderPager } from '../../reusable';
-import { FeedArticleList } from './feed-article-list';
+import { ArticleListShare } from './article-list.share';
 import { FeedRequestPageParam } from './feed-request-page-param';
 
 @Component(['feed-pager', Conduit__NS])
@@ -20,19 +20,19 @@ export class FeedPagerComponent {
       afterAll({
         param: hierarchy.get(FeedRequestPageParam),
         page: navigation,
-        list: hierarchy.get(FeedArticleList),
+        list: ArticleListShare.articlesFor(context),
       }).do(supplyAfter(context))(
           ({
             param: [paramRef],
             page: [page],
-            list: [{ articlesCount }],
+            list: [{ count }],
           }) => {
 
             const param = page.get(paramRef);
             const { limit = 20, offset = 0 } = param;
 
             this.feedPaging = {
-              totalPages: Math.ceil(articlesCount / limit),
+              totalPages: Math.ceil(count / limit),
               currentPage: Math.floor(offset / limit),
               pageHref(page: number): string {
                 return navigation.with(

@@ -7,7 +7,7 @@ import { CurrentArticle, noArticle } from './current-article';
 export class CurrentArticleShare extends Share<CurrentArticle> {
 
   private constructor() {
-    super('current-user-profile');
+    super('current-article');
   }
 
   static readonly [Share__symbol]: CurrentArticleShare = new CurrentArticleShare();
@@ -22,7 +22,7 @@ export class CurrentArticleShare extends Share<CurrentArticle> {
 
   articleFor(consumer: ComponentContext): AfterEvent<[CurrentArticle]> {
     return this.valueFor(consumer).do(
-        mapAfter_((user?, _sharer?) => user || noArticle),
+        mapAfter_((article?, _sharer?) => article || noArticle),
     );
   }
 
